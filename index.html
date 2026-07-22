@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="nav-event-title">TP RUN 2026 - ระบบรับสมัครงานวิ่งออนไลน์</title>
+    <title id="nav-page-title">TP-RUN 2026 - ระบบรับสมัครงานวิ่งออนไลน์</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -42,12 +42,15 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!-- QRCode Generator -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <!-- HTML5 QR Code Scanner (Camera) -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <style>
-        body { font-family: 'Prompt', sans-serif; }
-        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.4); }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); }
-        .hero-gradient { background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 50%, #faf5ff 100%); }
+        body { font-family: 'Prompt', sans-serif; background-color: #f8fafc; }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05); }
         .text-gradient { background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         /* Custom Scrollbar for tables */
@@ -56,35 +59,37 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
         /* Graphic Event Background Styles */
         .bg-grid-pattern {
             background-size: 60px 60px;
             background-image: 
-                linear-gradient(to right, rgba(79, 70, 229, 0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(79, 70, 229, 0.04) 1px, transparent 1px);
+                linear-gradient(to right, rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(79, 70, 229, 0.03) 1px, transparent 1px);
         }
         .speed-lines {
             background: repeating-linear-gradient(
                 -45deg,
                 transparent,
-                transparent 15px,
-                rgba(99, 102, 241, 0.015) 15px,
-                rgba(99, 102, 241, 0.015) 30px
+                transparent 20px,
+                rgba(99, 102, 241, 0.01) 20px,
+                rgba(99, 102, 241, 0.01) 40px
             );
         }
+
+        /* html5-qrcode scanner custom styles */
+        #reader { width: 100%; border: none !important; border-radius: 1rem; overflow: hidden; }
+        #reader__dashboard_section_csr span { font-family: 'Prompt', sans-serif !important; }
+        #reader__dashboard_section_swaplink { display: none !important; }
+        #reader button { background-color: #4f46e5 !important; color: white !important; border: none !important; padding: 8px 16px !important; border-radius: 8px !important; font-family: 'Prompt', sans-serif !important; cursor: pointer; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-indigo-200 selection:text-indigo-900">
+<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between selection:bg-indigo-200 selection:text-indigo-900 text-[15px] sm:text-base leading-relaxed">
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, collection, addDoc, updateDoc, deleteDoc, setDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyA5Pj56OZ_dE55tUTw_kKMMwr73bM6lq34",
             authDomain: "tprun-15f6b.firebaseapp.com",
@@ -95,19 +100,23 @@
             measurementId: "G-ZPPNMFTBY7"
         };
 
-        // Master Version Key
-        window.appId = 'run_event_v10_pro'; 
+        window.appId = 'run_event_v11_pro'; // Master Version Key
         let app, db, auth;
         
-        // Export Firestore tools for global access
         window.fsTools = { collection, query, where, getDocs };
 
         window.eventConfig = {
             eventName: "TP-RUN มินิมาราธอน 2026",
+            heroTitle: "TP-RUN 2026",
+            heroSubtitle: "วิ่งด้วยใจ ไปให้ถึงเส้นชัย",
+            heroDesc: "ร่วมเป็นส่วนหนึ่งในมหกรรมวิ่งมาราธอนสุดยิ่งใหญ่แห่งปี พร้อมรับเสื้อที่ระลึก เหรียญรางวัล และ E-Certificate หลังเข้าเส้นชัย",
             registerOpen: true,
             popupNotice: "ยินดีต้อนรับสู่งานวิ่ง TP-RUN 2026\nระบบเปิดรับสมัครอย่างเป็นทางการแล้ว!",
             contactUrl: "https://www.facebook.com", 
-            bankLogoUrl: "https://kasikornbank.com/SiteCollectionDocuments/about/img/logo/logo.png", // Default KBank Logo
+            bankLogoUrl: "https://kasikornbank.com/SiteCollectionDocuments/about/img/logo/logo.png",
+            bankName: "ธนาคารกสิกรไทย",
+            bankAccName: "ชมรมวิ่ง TP-RUN",
+            bankAccNo: "123-4-56789-0",
             scheduleRows: [
                 { date: "1 ส.ค. - 30 ก.ย. 2026", time: "ตลอด 24 ชม.", detail: "เปิดรับสมัครออนไลน์ (Online Registration)" },
                 { date: "15 ต.ค. 2026", time: "10:00 - 18:00 น.", detail: "รับเสื้อและ BIB (Expo Day & Pack Collection)" },
@@ -115,8 +124,7 @@
                 { date: "16 ต.ค. 2026", time: "05:30 น.", detail: "ปล่อยตัวระยะ 10KM (Mini Marathon Start)" },
                 { date: "16 ต.ค. 2026", time: "06:00 น.", detail: "ปล่อยตัวระยะ 5KM (Fun Run Start)" }
             ],
-            accountInfo: "ธนาคารกสิกรไทย\nเลขที่บัญชี: 123-4-56789-0\nชื่อบัญชี: ชมรมวิ่ง TP-RUN",
-            shirtImg: "https://placehold.co/600x400/4f46e5/ffffff?text=TP-RUN+Shirt+Design",
+            shirtImg: "https://placehold.co/800x600/4f46e5/ffffff?text=TP-RUN+Shirt+Design",
             distances: [
                 { name: "5KM Fun Run", price: 500, bibPrefix: "F" },
                 { name: "10KM Mini Marathon", price: 700, bibPrefix: "M" },
@@ -132,7 +140,12 @@
                 { size: "L", chest: "40", length: "29" },
                 { size: "XL", chest: "42", length: "30" },
                 { size: "2XL", chest: "44", length: "31" }
-            ]
+            ],
+            // EmailJS Config
+            enableEmail: false,
+            emailjsServiceId: "",
+            emailjsTemplateId: "",
+            emailjsPublicKey: ""
         };
 
         window.runnersList = [];
@@ -154,9 +167,8 @@
 
         function initFirebaseListeners() {
             if (!db) return;
-            const configRef = doc(db, 'artifacts', window.appId, 'config', 'main');
+            const configRef = doc(db, 'artifacts', window.appId, 'appData', 'config');
             
-            // Cache recovery mechanism
             const cachedConfig = localStorage.getItem('tprun_config_' + window.appId);
             if (cachedConfig) {
                 try { window.eventConfig = { ...window.eventConfig, ...JSON.parse(cachedConfig) }; } catch(e){}
@@ -172,8 +184,7 @@
             }, (error) => {
                 console.error("Config sync error:", error);
                 if (error.code === 'permission-denied') {
-                    console.warn("🚨 Firebase Permission Denied.");
-                    showMsg('ฐานข้อมูลถูกล็อค (Permission Denied)', 'โปรดไปที่ Firebase Console -> Firestore Database -> Rules\nเปลี่ยนให้เป็น allow read, write: if true;', 'error');
+                    showMsg('ฐานข้อมูลถูกล็อค (Permission Denied)', 'โปรดไปที่ Firebase Console -> Firestore Database -> Rules\nแก้เป็น allow read, write: if true;', 'error');
                 }
                 applyConfigToUI(); 
             });
@@ -190,20 +201,22 @@
                 if(typeof window.renderAdminRunnersTable === 'function') window.renderAdminRunnersTable();
             }, (error) => {
                 console.error("Runners sync error:", error);
-                if (error.code === 'permission-denied') {
-                    showMsg('คำเตือน', 'การเข้าถึงถูกปฏิเสธ กรุณาตรวจสอบ Firebase Rules', 'error');
-                } else {
-                    showMsg('คำเตือน', 'โควต้าฐานข้อมูลเต็ม หรือไม่สามารถดึงรายชื่อได้', 'error');
-                }
+                if (error.code === 'permission-denied') showMsg('คำเตือน', 'การเข้าถึงถูกปฏิเสธ กรุณาตรวจสอบ Firebase Rules', 'error');
             });
         };
 
         window.applyConfigToUI = function() {
             const safeSetText = (id, text) => { document.querySelectorAll(id).forEach(el => { if(el) el.innerText = text; }); };
             
-            safeSetText('#nav-event-title', window.eventConfig.eventName || "Marathon Event");
-            safeSetText('#hero-event-name', window.eventConfig.eventName || "TP-RUN");
+            // Header & Navbar
+            safeSetText('#nav-page-title', (window.eventConfig.eventName || "TP-RUN") + " - ระบบรับสมัคร");
+            safeSetText('#nav-event-name', window.eventConfig.eventName || "TP-RUN");
             
+            // Dynamic Home Section
+            safeSetText('#hero-title', window.eventConfig.heroTitle || "TP-RUN");
+            safeSetText('#hero-subtitle', window.eventConfig.heroSubtitle || "กิจกรรมงานวิ่ง");
+            safeSetText('#hero-desc', window.eventConfig.heroDesc || "ร่วมกิจกรรมเพื่อสุขภาพ");
+
             const contactBtn = document.getElementById('hero-contact-btn');
             if(contactBtn) {
                 if(window.eventConfig.contactUrl) {
@@ -219,23 +232,25 @@
             if (schedContainer) {
                 if (window.eventConfig.scheduleRows && window.eventConfig.scheduleRows.length > 0) {
                     let html = `<table class="w-full text-left border-collapse">
-                        <thead><tr class="bg-indigo-600 text-white text-sm"><th class="p-4 border-b-2 border-indigo-700 w-1/4">วันที่ (Date)</th><th class="p-4 border-b-2 border-indigo-700 w-1/5">เวลา (Time)</th><th class="p-4 border-b-2 border-indigo-700">กิจกรรม (Activity)</th></tr></thead>
-                        <tbody class="text-sm text-slate-700 divide-y divide-slate-200">`;
-                    window.eventConfig.scheduleRows.forEach((r, idx) => {
-                        html += `<tr class="${idx % 2 === 0 ? 'bg-slate-50' : 'bg-white'} hover:bg-indigo-50 transition">
-                            <td class="p-4 font-semibold text-slate-900">${r.date}</td><td class="p-4 text-indigo-600 font-bold">${r.time}</td><td class="p-4 font-medium">${r.detail}</td>
+                        <thead><tr class="bg-slate-100 text-slate-600 text-sm"><th class="p-4 border-b border-slate-200 font-bold w-1/4">วันที่ (Date)</th><th class="p-4 border-b border-slate-200 font-bold w-1/5">เวลา (Time)</th><th class="p-4 border-b border-slate-200 font-bold">กิจกรรม (Activity)</th></tr></thead>
+                        <tbody class="text-sm text-slate-700 divide-y divide-slate-100">`;
+                    window.eventConfig.scheduleRows.forEach((r) => {
+                        html += `<tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 font-semibold text-slate-900">${r.date}</td><td class="p-4 text-indigo-600 font-bold">${r.time}</td><td class="p-4">${r.detail}</td>
                         </tr>`;
                     });
                     html += `</tbody></table>`;
                     schedContainer.innerHTML = html;
                 } else {
-                    schedContainer.innerHTML = `<div class="p-6 text-center text-slate-500 font-medium">รอประกาศกำหนดการ (TBA)</div>`;
+                    schedContainer.innerHTML = `<div class="p-8 text-center text-slate-500 font-medium">รอประกาศกำหนดการ (TBA)</div>`;
                 }
             }
             
-            // Bank Info & Logo
-            const bankEl = document.getElementById('bank-info-box');
-            if (bankEl) bankEl.innerText = window.eventConfig.accountInfo || "-";
+            // Bank Info Banner
+            safeSetText('#display-bank-name', window.eventConfig.bankName || "-");
+            safeSetText('#display-bank-accname', window.eventConfig.bankAccName || "-");
+            safeSetText('#display-bank-accno', window.eventConfig.bankAccNo || "-");
+            
             const bankLogoEl = document.getElementById('display-bank-logo');
             if(bankLogoEl) {
                 if(window.eventConfig.bankLogoUrl) {
@@ -250,15 +265,15 @@
             const shirtImgEl = document.getElementById('shirt-img-preview');
             if (shirtImgEl && window.eventConfig.shirtImg) {
                 shirtImgEl.src = window.eventConfig.shirtImg;
-                shirtImgEl.onerror = () => { shirtImgEl.src = 'https://placehold.co/600x400/4f46e5/ffffff?text=Image+Not+Found'; };
+                shirtImgEl.onerror = () => { shirtImgEl.src = 'https://placehold.co/800x600/4f46e5/ffffff?text=Image+Not+Found'; };
             }
 
             // Size Chart Table
             const sizeContainer = document.getElementById('size-chart-container');
             if (sizeContainer && window.eventConfig.sizeChartRows) {
-                let html = `<table class="w-full text-center border-collapse"><thead><tr class="bg-indigo-600 text-white text-sm"><th class="p-4 border-b-2 border-indigo-700">ไซส์ (Size)</th><th class="p-4 border-b-2 border-indigo-700">รอบอก (Chest - นิ้ว)</th><th class="p-4 border-b-2 border-indigo-700">ความยาว (Length - นิ้ว)</th></tr></thead><tbody class="text-sm text-slate-700 divide-y divide-slate-200">`;
-                window.eventConfig.sizeChartRows.forEach((r, idx) => {
-                    html += `<tr class="${idx % 2 === 0 ? 'bg-slate-50' : 'bg-white'} hover:bg-indigo-50 transition"><td class="p-4 font-bold text-indigo-700">${r.size}</td><td class="p-4">${r.chest}</td><td class="p-4">${r.length}</td></tr>`;
+                let html = `<table class="w-full text-center border-collapse"><thead><tr class="bg-slate-100 text-slate-600 text-sm"><th class="p-4 border-b border-slate-200 font-bold">ไซส์ (Size)</th><th class="p-4 border-b border-slate-200 font-bold">รอบอก (Chest - นิ้ว)</th><th class="p-4 border-b border-slate-200 font-bold">ความยาว (Length - นิ้ว)</th></tr></thead><tbody class="text-sm text-slate-700 divide-y divide-slate-100">`;
+                window.eventConfig.sizeChartRows.forEach((r) => {
+                    html += `<tr class="hover:bg-slate-50 transition"><td class="p-4 font-bold text-indigo-700">${r.size}</td><td class="p-4">${r.chest}</td><td class="p-4">${r.length}</td></tr>`;
                 });
                 html += `</tbody></table>`;
                 sizeContainer.innerHTML = html;
@@ -296,23 +311,23 @@
         };
     </script>
 
-    <header class="glass-panel sticky top-0 z-40 shadow-sm border-b border-slate-200/60">
+    <header class="glass-panel sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
             <div class="flex items-center gap-4 cursor-pointer group" onclick="switchTab('home')">
                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg shadow-indigo-200 group-hover:scale-105 transition-transform duration-300">
                     <i class="ph-bold ph-person-run"></i>
                 </div>
                 <div>
-                    <h1 id="nav-event-title" class="font-extrabold text-lg sm:text-xl text-slate-900 tracking-tight">TP-RUN 2026</h1>
-                    <p class="text-xs text-indigo-600 font-semibold tracking-wide uppercase">Official Registration</p>
+                    <h1 id="nav-event-name" class="font-extrabold text-lg sm:text-xl text-slate-900 tracking-tight">TP-RUN</h1>
+                    <p class="text-xs text-indigo-600 font-bold tracking-wider uppercase">Official Registration</p>
                 </div>
             </div>
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+            <nav class="hidden md:flex items-center gap-8 text-[15px] font-semibold text-slate-600">
                 <button onclick="switchTab('home')" class="hover:text-indigo-600 transition">หน้าแรก (Home)</button>
                 <button onclick="switchTab('register')" class="hover:text-indigo-600 transition">สมัครวิ่ง (Register)</button>
                 <button onclick="switchTab('status')" class="hover:text-indigo-600 transition">ตรวจสอบสถานะ (Status)</button>
                 <button onclick="switchTab('schedule')" class="hover:text-indigo-600 transition">กำหนดการ (Schedule)</button>
-                <button onclick="openAdminAuth()" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl shadow-md transition flex items-center gap-2">
+                <button onclick="openAdminAuth()" class="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl shadow-md transition flex items-center gap-2">
                     <i class="ph-bold ph-lock-key"></i> เจ้าหน้าที่
                 </button>
             </nav>
@@ -321,8 +336,9 @@
                 <button onclick="toggleMobileMenu()" class="p-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl shadow-sm"><i class="ph-bold ph-list text-xl"></i></button>
             </div>
         </div>
+        
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-4 space-y-2 shadow-lg absolute w-full left-0 z-40">
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-4 py-4 space-y-2 shadow-xl absolute w-full left-0 z-40">
             <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left font-semibold text-slate-700 py-3 px-4 rounded-xl hover:bg-slate-50">หน้าแรก</button>
             <button onclick="switchTab('register'); toggleMobileMenu();" class="block w-full text-left font-semibold text-slate-700 py-3 px-4 rounded-xl hover:bg-slate-50">สมัครวิ่ง</button>
             <button onclick="switchTab('status'); toggleMobileMenu();" class="block w-full text-left font-semibold text-slate-700 py-3 px-4 rounded-xl hover:bg-slate-50">ตรวจสอบสถานะ</button>
@@ -363,7 +379,7 @@
             <form onsubmit="verifyAdminPassword(event)">
                 <div class="mb-4">
                     <label class="block text-xs font-semibold text-slate-600 mb-2">รหัสผ่าน (Password: tprun2026)</label>
-                    <input type="password" id="admin-password-input" placeholder="Enter Password" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-slate-50 focus:bg-white transition">
+                    <input type="password" id="admin-password-input" placeholder="Enter Password" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-slate-50 focus:bg-white transition">
                 </div>
                 <button type="submit" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-sm transition shadow-lg">เข้าสู่ระบบ (Login)</button>
             </form>
@@ -388,32 +404,18 @@
         
         <!-- Modern Graphic Running Theme Background -->
         <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-slate-50">
-            <!-- Grid Pattern -->
             <div class="absolute inset-0 bg-grid-pattern"></div>
-            
-            <!-- Speed Lines -->
             <div class="absolute inset-0 speed-lines"></div>
-            
             <!-- Dynamic Glowing Orbs -->
-            <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-indigo-500/20 rounded-full mix-blend-multiply filter blur-[100px] animate-blob"></div>
-            <div class="absolute top-[20%] right-[-15%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-purple-500/20 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
-            <div class="absolute bottom-[-20%] left-[10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-rose-400/20 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-4000"></div>
+            <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-indigo-500/10 rounded-full mix-blend-multiply filter blur-[100px] animate-blob"></div>
+            <div class="absolute top-[20%] right-[-15%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-purple-500/10 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
+            <div class="absolute bottom-[-20%] left-[10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-rose-400/10 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-4000"></div>
             
-            <!-- Graphic Elements -->
-            <div class="absolute top-[20%] left-[5%] opacity-[0.03] animate-pulse-slow">
-                <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>
-            </div>
-            <div class="absolute bottom-[10%] right-[5%] opacity-[0.03] animate-pulse-slow" style="animation-delay: 2s;">
-                <svg width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>
-            </div>
-            
-            <!-- Typography Watermarks -->
             <div class="absolute top-[35%] left-[-5%] -rotate-90 opacity-[0.02] font-black text-[8rem] sm:text-[12rem] tracking-tighter whitespace-nowrap text-indigo-900 select-none">MARATHON</div>
             <div class="absolute bottom-[5%] right-[-5%] opacity-[0.02] font-black text-[10rem] sm:text-[14rem] tracking-tighter whitespace-nowrap text-purple-900 select-none">RUN 2026</div>
         </div>
 
-        <!-- Section 1: HOME -->
-        <section id="section-home" class="main-section relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto min-h-[calc(100vh-100px)] flex flex-col items-center justify-center text-center">
+        <section id="section-home" class="main-section relative z-10 py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto min-h-[calc(100vh-100px)] flex flex-col items-center justify-center text-center">
             
             <div class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full glass-card text-indigo-700 text-sm font-bold uppercase tracking-widest mb-10 shadow-sm border border-indigo-100">
                 <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-600"></span></span>
@@ -421,108 +423,108 @@
             </div>
             
             <h1 class="text-6xl sm:text-7xl md:text-8xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
-                <span id="hero-event-name" class="block text-indigo-600 mb-2 drop-shadow-sm">TP-RUN 2026</span>
-                วิ่งด้วยใจ <br class="hidden sm:block">
-                <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-rose-500 text-gradient pb-2">ไปให้ถึงเส้นชัย</span>
+                <span id="hero-title" class="block text-indigo-600 mb-2 drop-shadow-sm">TP-RUN 2026</span>
+                <span id="hero-subtitle" class="bg-gradient-to-r from-indigo-600 via-purple-600 to-rose-500 text-gradient pb-2 block">วิ่งด้วยใจ ไปให้ถึงเส้นชัย</span>
             </h1>
             
-            <p class="text-slate-600 text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto font-medium mb-12">
+            <p id="hero-desc" class="text-slate-600 text-lg sm:text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto font-medium mb-16 px-4">
                 ร่วมเป็นส่วนหนึ่งในมหกรรมวิ่งมาราธอนสุดยิ่งใหญ่แห่งปี พร้อมรับเสื้อที่ระลึก เหรียญรางวัล และ E-Certificate หลังเข้าเส้นชัย
             </p>
             
-            <div class="flex flex-col sm:flex-row gap-5 justify-center w-full max-w-3xl mx-auto mb-16 relative z-20">
-                <button onclick="switchTab('register')" class="group relative px-10 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black rounded-[2.5rem] shadow-2xl shadow-indigo-500/40 transition-all transform hover:-translate-y-2 flex items-center justify-center gap-3 text-2xl w-full sm:w-auto overflow-hidden border border-white/20">
+            <div class="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-3xl mx-auto mb-20 relative z-20">
+                <button onclick="switchTab('register')" class="group relative px-12 py-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-black rounded-[2.5rem] shadow-2xl shadow-indigo-500/30 transition-all transform hover:-translate-y-2 flex items-center justify-center gap-3 text-2xl w-full sm:w-auto overflow-hidden border border-white/20">
                     <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                     <i class="ph-bold ph-person-run relative z-10 text-3xl animate-bounce"></i> 
                     <span class="relative z-10 tracking-wide">สมัครวิ่งทันที</span>
                 </button>
-                <button onclick="switchTab('status')" class="px-10 py-6 bg-white hover:bg-slate-50 text-slate-800 font-extrabold rounded-[2.5rem] border-2 border-slate-200 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 text-xl w-full sm:w-auto">
+                <button onclick="switchTab('status')" class="px-10 py-6 bg-white hover:bg-slate-50 text-slate-800 font-extrabold rounded-[2.5rem] border border-slate-200 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 text-xl w-full sm:w-auto">
                     <i class="ph-bold ph-magnifying-glass text-2xl text-indigo-600"></i> เช็คสถานะ
                 </button>
-                <button id="hero-contact-btn" class="hidden px-6 py-6 bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 font-bold rounded-[2.5rem] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 text-xl w-full sm:w-auto">
-                    <i class="ph-fill ph-facebook-logo text-4xl"></i>
+                <button id="hero-contact-btn" class="hidden px-8 py-6 bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 font-bold rounded-[2.5rem] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 text-xl w-full sm:w-auto">
+                    <i class="ph-fill ph-facebook-logo text-3xl"></i> ติดต่อเพจ
                 </button>
             </div>
 
-            <!-- Highlight Features -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 w-full max-w-4xl mx-auto">
-                <div class="glass-card p-6 rounded-3xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300 shadow-lg border-indigo-50/50">
-                    <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4"><i class="ph-fill ph-map-pin text-4xl text-indigo-600"></i></div>
-                    <span class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">สถานที่จัดงาน</span>
+            <!-- Highlight Features Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl mx-auto">
+                <div class="glass-card p-8 rounded-3xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mb-5"><i class="ph-fill ph-map-pin text-4xl text-indigo-600"></i></div>
+                    <span class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-2">สถานที่จัดงาน</span>
                     <span class="text-xl font-black text-slate-900">สวนสาธารณะ</span>
                 </div>
-                <div class="glass-card p-6 rounded-3xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300 shadow-lg border-indigo-50/50">
-                    <div class="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center mb-4"><i class="ph-fill ph-sneaker text-4xl text-purple-600"></i></div>
-                    <span class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">ระยะทางที่เปิดรับ</span>
+                <div class="glass-card p-8 rounded-3xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300 border-indigo-100">
+                    <div class="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center mb-5"><i class="ph-fill ph-sneaker text-4xl text-purple-600"></i></div>
+                    <span class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-2">ระยะทางที่เปิดรับ</span>
                     <span class="text-xl font-black text-slate-900">5K | 10K | 21K</span>
                 </div>
-                <div class="glass-card p-6 rounded-3xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300 shadow-lg border-indigo-50/50">
-                    <div class="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mb-4"><i class="ph-fill ph-t-shirt text-4xl text-rose-500"></i></div>
-                    <span class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">ของที่ระลึกนักวิ่ง</span>
+                <div class="glass-card p-8 rounded-3xl flex flex-col items-center justify-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mb-5"><i class="ph-fill ph-t-shirt text-4xl text-rose-500"></i></div>
+                    <span class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-2">ของที่ระลึกนักวิ่ง</span>
                     <span class="text-xl font-black text-slate-900">เสื้อ & เหรียญ</span>
                 </div>
             </div>
         </section>
 
-        <section id="section-register" class="main-section hidden relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <section id="section-register" class="main-section hidden relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
             
-            <div id="reg-closed-wrapper" class="hidden text-center py-20 px-6 bg-white/90 backdrop-blur-md rounded-[2rem] border border-slate-200 shadow-xl">
+            <div id="reg-closed-wrapper" class="hidden text-center py-24 px-6 glass-card rounded-[2.5rem]">
                 <div class="w-24 h-24 bg-rose-50 text-rose-500 rounded-full mx-auto flex items-center justify-center text-5xl mb-6"><i class="ph-fill ph-lock-key"></i></div>
-                <h2 class="text-3xl font-extrabold text-slate-900 mb-2">ปิดรับสมัครแล้ว</h2>
-                <p class="text-slate-500">ขออภัย ขณะนี้ระบบปิดรับสมัครแล้ว ขอบคุณที่ให้ความสนใจ</p>
-                <button onclick="switchTab('status')" class="mt-8 px-8 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition">ตรวจสอบสถานะการสมัคร</button>
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-3">ปิดรับสมัครแล้ว</h2>
+                <p class="text-slate-500 text-lg">ขออภัย ขณะนี้ระบบปิดรับสมัครแล้ว ขอบคุณที่ให้ความสนใจ</p>
+                <button onclick="switchTab('status')" class="mt-8 px-10 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-slate-800 transition">ตรวจสอบสถานะการสมัคร</button>
             </div>
 
-            <div id="reg-form-wrapper" class="glass-card p-8 sm:p-12 rounded-[2.5rem]">
-                <div class="text-center space-y-3 mb-10">
-                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">แบบฟอร์มสมัครวิ่ง</h2>
-                    <p class="text-slate-500 text-sm font-medium">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อสิทธิประโยชน์ของท่าน (Please fill in all fields)</p>
+            <div id="reg-form-wrapper" class="glass-card p-8 sm:p-14 rounded-[2.5rem]">
+                <div class="text-center space-y-3 mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">แบบฟอร์มสมัครวิ่ง</h2>
+                    <p class="text-slate-500 font-medium">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อสิทธิประโยชน์ของท่าน</p>
                 </div>
 
-                <form id="registration-form" onsubmit="submitRegistration(event)" class="space-y-8">
+                <form id="registration-form" onsubmit="submitRegistration(event)" class="space-y-10">
                     <!-- Personal Info -->
-                    <div class="space-y-5">
-                        <h4 class="font-bold text-lg text-indigo-700 flex items-center gap-2 border-b border-slate-200/50 pb-2"><i class="ph-bold ph-identification-card"></i> ข้อมูลส่วนตัว (Personal Info)</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            <div><label class="block text-xs font-bold text-slate-700 mb-1.5">หมายเลขบัตรประชาชน / พาสปอร์ต *</label><input type="text" id="reg-idcard" minlength="7" maxlength="13" required placeholder="ID Card 13 digits or Passport" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"></div>
-                            <div><label class="block text-xs font-bold text-slate-700 mb-1.5">ชื่อ - นามสกุล (Full Name) *</label><input type="text" id="reg-fullname" required placeholder="ชื่อ นามสกุลจริง" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"></div>
-                            <div><label class="block text-xs font-bold text-slate-700 mb-1.5">วันเดือนปีเกิด (Birth Date) *</label><input type="date" id="reg-birthdate" required onchange="calculateAge()" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"></div>
+                    <div class="space-y-6">
+                        <h4 class="font-bold text-xl text-indigo-700 flex items-center gap-2 border-b border-slate-100 pb-3"><i class="ph-bold ph-identification-card"></i> ข้อมูลส่วนตัว</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div><label class="block text-sm font-bold text-slate-700 mb-2">หมายเลขบัตรประชาชน / พาสปอร์ต *</label><input type="text" id="reg-idcard" minlength="7" maxlength="13" required placeholder="เลขบัตร 13 หลัก" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
+                            <div><label class="block text-sm font-bold text-slate-700 mb-2">ชื่อ - นามสกุล (Full Name) *</label><input type="text" id="reg-fullname" required placeholder="ชื่อ นามสกุลจริง" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
+                            <div><label class="block text-sm font-bold text-slate-700 mb-2">อีเมล (Email) *</label><input type="email" id="reg-email" required placeholder="example@email.com" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
+                            <div><label class="block text-sm font-bold text-slate-700 mb-2">วันเดือนปีเกิด (Birth Date) *</label><input type="date" id="reg-birthdate" required onchange="calculateAge()" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
                             <div class="grid grid-cols-2 gap-4">
-                                <div><label class="block text-xs font-bold text-slate-700 mb-1.5">อายุ (Age)</label><input type="number" id="reg-age" readonly placeholder="Auto" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-100 text-slate-500 text-sm font-semibold cursor-not-allowed"></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">อายุ (Age)</label><input type="number" id="reg-age" readonly placeholder="Auto" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 font-semibold cursor-not-allowed"></div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-1.5">เพศ (Gender) *</label>
-                                    <select id="reg-gender" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"><option value="">เลือกเพศ</option><option value="ชาย">ชาย (Male)</option><option value="หญิง">หญิง (Female)</option></select>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">เพศ (Gender) *</label>
+                                    <select id="reg-gender" required class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"><option value="">เลือกเพศ</option><option value="ชาย">ชาย</option><option value="หญิง">หญิง</option></select>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Contact & Health -->
-                    <div class="space-y-5">
-                        <h4 class="font-bold text-lg text-indigo-700 flex items-center gap-2 border-b border-slate-200/50 pb-2"><i class="ph-bold ph-heartbeat"></i> ข้อมูลติดต่อและสุขภาพ (Contact & Health)</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                            <div><label class="block text-xs font-bold text-slate-700 mb-1.5">เบอร์โทรศัพท์ (Phone) *</label><input type="tel" id="reg-phone" pattern="\d{9,10}" required placeholder="0812345678" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"></div>
-                            <div><label class="block text-xs font-bold text-slate-700 mb-1.5">โรคประจำตัว (Medical History) *</label><input type="text" id="reg-medical" required placeholder="ระบุโรคประจำตัว (ถ้าไม่มีพิมพ์ว่า ไม่มี)" value="ไม่มี" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"></div>
-                            <div><label class="block text-xs font-bold text-slate-700 mb-1.5">ผู้ติดต่อฉุกเฉิน (Emergency Contact) *</label><input type="text" id="reg-emergname" required placeholder="ชื่อ-นามสกุล ผู้ติดต่อ" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"></div>
+                    <div class="space-y-6">
+                        <h4 class="font-bold text-xl text-indigo-700 flex items-center gap-2 border-b border-slate-100 pb-3"><i class="ph-bold ph-heartbeat"></i> ข้อมูลติดต่อและสุขภาพ</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div><label class="block text-sm font-bold text-slate-700 mb-2">เบอร์โทรศัพท์ (Phone) *</label><input type="tel" id="reg-phone" pattern="\d{9,10}" required placeholder="ตัวเลข 9-10 หลัก" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
+                            <div><label class="block text-sm font-bold text-slate-700 mb-2">โรคประจำตัว (Medical History) *</label><input type="text" id="reg-medical" required placeholder="ระบุโรค (ถ้าไม่มีพิมพ์ว่า ไม่มี)" value="ไม่มี" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
+                            <div><label class="block text-sm font-bold text-slate-700 mb-2">ผู้ติดต่อฉุกเฉิน (Emergency Contact) *</label><input type="text" id="reg-emergname" required placeholder="ชื่อ-นามสกุล" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
                             <div class="grid grid-cols-2 gap-4">
-                                <div><label class="block text-xs font-bold text-slate-700 mb-1.5">เบอร์ฉุกเฉิน *</label><input type="tel" id="reg-emergphone" required placeholder="Phone" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white transition"></div>
-                                <div><label class="block text-xs font-bold text-slate-700 mb-1.5">กรุ๊ปเลือด *</label><select id="reg-blood" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white"><option value="">Blood</option><option value="A">A</option><option value="B">B</option><option value="AB">AB</option><option value="O">O</option></select></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">เบอร์ฉุกเฉิน *</label><input type="tel" id="reg-emergphone" required placeholder="Phone" class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white transition shadow-sm"></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">กรุ๊ปเลือด *</label><select id="reg-blood" required class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white shadow-sm"><option value="">Blood</option><option value="A">A</option><option value="B">B</option><option value="AB">AB</option><option value="O">O</option></select></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Event Pref -->
-                    <div class="space-y-5">
-                        <h4 class="font-bold text-lg text-indigo-700 flex items-center gap-2 border-b border-slate-200/50 pb-2"><i class="ph-bold ph-sneaker"></i> การแข่งขัน (Event Preferences)</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="space-y-6">
+                        <h4 class="font-bold text-xl text-indigo-700 flex items-center gap-2 border-b border-slate-100 pb-3"><i class="ph-bold ph-sneaker"></i> การแข่งขัน</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1.5">เลือกระยะวิ่ง (Distance) *</label>
-                                <select id="reg-distance" required onchange="updatePriceCalculation()" class="w-full px-4 py-3.5 rounded-xl border border-indigo-200 text-sm font-semibold text-indigo-900 focus:ring-2 focus:ring-indigo-600 outline-none bg-indigo-50/50 shadow-sm"><option value="">-- กรุณาเลือกระยะวิ่ง --</option></select>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">เลือกระยะวิ่ง (Distance) *</label>
+                                <select id="reg-distance" required onchange="updatePriceCalculation()" class="w-full px-5 py-4 rounded-xl border-2 border-indigo-200 font-bold text-indigo-900 focus:border-indigo-600 outline-none bg-indigo-50/50 shadow-sm"><option value="">-- เลือกระยะวิ่ง --</option></select>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1.5">ไซส์เสื้อ (Shirt Size) *</label>
-                                <select id="reg-shirt" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-indigo-600 outline-none bg-white shadow-sm">
-                                    <option value="">เลือกไซส์เสื้อ (ดูตารางไซส์ที่เมนูกำหนดการ)</option>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">ไซส์เสื้อ (Shirt Size) *</label>
+                                <select id="reg-shirt" required class="w-full px-5 py-4 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white shadow-sm">
+                                    <option value="">เลือกไซส์เสื้อ</option>
                                     <option value="SS">SS</option><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option><option value="2XL">2XL</option><option value="3XL">3XL</option>
                                 </select>
                             </div>
@@ -530,162 +532,164 @@
                     </div>
 
                     <!-- Payment -->
-                    <div class="p-6 sm:p-8 rounded-[2rem] bg-indigo-50/70 border border-indigo-100 space-y-6">
-                        <h4 class="font-bold text-lg text-indigo-900 flex items-center gap-2"><i class="ph-bold ph-wallet"></i> ข้อมูลการชำระเงิน (Payment)</h4>
+                    <div class="p-6 sm:p-10 rounded-[2rem] bg-indigo-50 border border-indigo-100 space-y-8">
+                        <h4 class="font-bold text-xl text-indigo-900 flex items-center gap-2"><i class="ph-bold ph-wallet"></i> ข้อมูลการชำระเงิน</h4>
                         
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1.5">โค้ดส่วนลด (Discount Code)</label>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">โค้ดส่วนลด (Discount Code)</label>
                                 <div class="flex gap-2">
-                                    <input type="text" id="reg-discount-input" placeholder="Enter Code" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm uppercase focus:ring-2 focus:ring-indigo-600 outline-none bg-white">
-                                    <button type="button" onclick="applyDiscountCode()" class="px-5 py-3 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-900 transition shrink-0 shadow">ใช้โค้ด</button>
+                                    <input type="text" id="reg-discount-input" placeholder="Enter Code" class="w-full px-5 py-4 rounded-xl border border-slate-200 uppercase focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white">
+                                    <button type="button" onclick="applyDiscountCode()" class="px-6 py-4 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition shrink-0 shadow">ใช้โค้ด</button>
                                 </div>
                             </div>
-                            <div class="bg-white p-4 rounded-2xl border border-indigo-100 shadow-sm text-center sm:text-right">
-                                <span class="block text-xs text-slate-500 font-semibold mb-1">ยอดที่ต้องชำระสุทธิ (Net Total)</span>
-                                <span id="display-total-price" class="text-4xl text-indigo-600 font-black tracking-tight">0 ฿</span>
+                            <div class="bg-white p-5 rounded-2xl border border-indigo-100 shadow-sm text-center sm:text-right">
+                                <span class="block text-sm text-slate-500 font-bold mb-1">ยอดที่ต้องชำระสุทธิ (Net Total)</span>
+                                <span id="display-total-price" class="text-5xl text-indigo-600 font-black tracking-tight">0 ฿</span>
                             </div>
                         </div>
 
-                        <div class="pt-6 border-t border-indigo-200/50 flex flex-col items-center sm:items-start">
-                            <p class="text-xs font-bold text-slate-700 mb-3 w-full text-left">โอนเงินเข้าบัญชี (Bank Account):</p>
+                        <div class="pt-6 border-t border-indigo-200/50">
+                            <label class="block text-sm font-bold text-slate-700 mb-3">โอนเงินเข้าบัญชี (Bank Account):</label>
                             
-                            <!-- Clean Elegant Bank Banner -->
-                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 w-full flex flex-col sm:flex-row items-center sm:items-start gap-5 hover:shadow-md transition-shadow duration-300">
+                            <!-- Clean Bank Details Banner -->
+                            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col sm:flex-row items-center sm:items-center gap-6">
                                 <!-- Bank Logo -->
-                                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-slate-50 flex items-center justify-center p-2 shadow-inner border border-slate-100 shrink-0 hidden">
-                                    <img id="display-bank-logo" src="" alt="Bank Logo" class="max-w-full max-h-full object-contain hover:scale-105 transition-transform">
+                                <div class="w-20 h-20 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center p-2 shrink-0">
+                                    <img id="display-bank-logo" src="" alt="Bank" class="max-w-full max-h-full object-contain">
                                 </div>
                                 
-                                <!-- Bank Details -->
-                                <div class="flex-grow text-center sm:text-left w-full">
-                                    <div class="flex items-center justify-center sm:justify-start gap-2 mb-2 pb-2 border-b border-slate-100">
-                                        <i class="ph-fill ph-bank text-indigo-500 text-lg"></i>
-                                        <span class="text-xs font-extrabold text-indigo-500 uppercase tracking-widest">Bank Transfer</span>
+                                <!-- Details -->
+                                <div class="flex-grow text-center sm:text-left space-y-1">
+                                    <div class="text-sm font-bold text-indigo-600" id="display-bank-name">ธนาคาร</div>
+                                    <div class="text-xl font-black text-slate-900 tracking-wider flex flex-col sm:flex-row items-center gap-2">
+                                        <span id="display-bank-accno">000-0-00000-0</span>
+                                        <button type="button" onclick="copyBankNo()" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1 border border-slate-200">
+                                            <i class="ph-bold ph-copy"></i> คัดลอก
+                                        </button>
                                     </div>
-                                    <div id="bank-info-box" class="text-sm font-semibold text-slate-700 whitespace-pre-line leading-relaxed"></div>
+                                    <div class="text-sm font-semibold text-slate-500" id="display-bank-accname">ชื่อบัญชี</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="pt-2">
-                            <label class="block text-xs font-bold text-slate-700 mb-2">แนบสลิปโอนเงิน (Payment Slip) * (ระบบจะย่อขนาดให้อัตโนมัติ)</label>
-                            <input type="file" id="reg-slip-file" accept="image/*" required class="w-full text-sm text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 file:cursor-pointer file:transition file:shadow-md cursor-pointer border border-slate-200 rounded-xl bg-white p-1">
+                            <label class="block text-sm font-bold text-slate-700 mb-2">แนบสลิปโอนเงิน (Payment Slip) *</label>
+                            <input type="file" id="reg-slip-file" accept="image/*" required class="w-full text-slate-500 file:mr-4 file:py-3.5 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 file:cursor-pointer file:transition file:shadow-md cursor-pointer border border-slate-200 rounded-xl bg-white p-1.5">
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full py-5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold rounded-2xl shadow-xl shadow-indigo-200 transition-all transform hover:-translate-y-0.5 text-lg tracking-wide">
+                    <button type="submit" class="w-full py-5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold rounded-2xl shadow-xl shadow-indigo-200 transition-transform transform hover:-translate-y-1 text-xl tracking-wide">
                         ยืนยันการสมัครวิ่ง (Confirm Registration)
                     </button>
                 </form>
             </div>
         </section>
 
-        <section id="section-status" class="main-section hidden relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-            <div class="glass-card p-8 sm:p-12 rounded-[2.5rem] space-y-8">
+        <section id="section-status" class="main-section hidden relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+            <div class="glass-card p-8 sm:p-14 rounded-[2.5rem] space-y-10">
                 <div class="text-center space-y-3 mb-8">
-                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">ตรวจสอบสถานะ (Check Status)</h2>
-                    <p class="text-slate-500 text-sm font-medium">กรอกหมายเลขบัตรประชาชน 13 หลัก หรือ พาสปอร์ต เพื่อตรวจสอบสถานะ</p>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">ตรวจสอบสถานะ</h2>
+                    <p class="text-slate-500 font-medium">กรอกหมายเลขบัตรประชาชน 13 หลัก หรือ พาสปอร์ต เพื่อตรวจสอบ</p>
                 </div>
 
-                <div id="status-search-form" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-                    <input type="text" id="status-search-input" minlength="7" maxlength="13" placeholder="เลขบัตรประชาชน / พาสปอร์ต" class="w-full px-5 py-4 rounded-2xl border-2 border-slate-200 text-base font-semibold focus:border-indigo-600 outline-none transition text-center sm:text-left bg-white shadow-inner">
-                    <button onclick="searchRunnerStatus()" class="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-lg transition text-sm flex items-center justify-center gap-2 shrink-0">
-                        <i class="ph-bold ph-magnifying-glass text-lg"></i> ค้นหา
+                <div id="status-search-form" class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <input type="text" id="status-search-input" minlength="7" maxlength="13" placeholder="เลขบัตร / พาสปอร์ต / BIB" class="w-full px-6 py-5 rounded-2xl border-2 border-slate-200 text-lg font-semibold focus:border-indigo-600 outline-none transition text-center sm:text-left bg-white shadow-inner">
+                    <button onclick="searchRunnerStatus()" class="px-10 py-5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-lg transition text-base flex items-center justify-center gap-2 shrink-0">
+                        <i class="ph-bold ph-magnifying-glass text-xl"></i> ค้นหา
                     </button>
                 </div>
 
-                <div id="status-result-container" class="hidden pt-8 border-t border-slate-200/50">
+                <div id="status-result-container" class="hidden pt-10 border-t border-slate-100">
                     <!-- Dynamic populated result -->
                 </div>
             </div>
         </section>
 
-        <section id="section-schedule" class="main-section hidden relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-            <div class="space-y-12">
+        <section id="section-schedule" class="main-section hidden relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+            <div class="space-y-10">
                 <div class="text-center space-y-3">
-                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">กำหนดการ & ไซส์เสื้อ</h2>
-                    <p class="text-slate-500 text-sm font-medium">รายละเอียดตารางกิจกรรมและแบบเสื้อที่ระลึก (Schedule & Shirt Design)</p>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">กำหนดการ & ไซส์เสื้อ</h2>
+                    <p class="text-slate-500 font-medium">รายละเอียดตารางกิจกรรมและแบบเสื้อที่ระลึก</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="glass-card p-8 rounded-[2rem] flex flex-col">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-200 pb-4">
-                            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="ph-bold ph-calendar"></i></div>
-                            กำหนดการงานวิ่ง (Schedule)
+                    <div class="glass-card p-8 sm:p-10 rounded-[2.5rem] flex flex-col">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3 border-b border-slate-100 pb-5">
+                            <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="ph-bold ph-calendar"></i></div>
+                            กำหนดการงานวิ่ง
                         </h3>
-                        <div id="schedule-table-container" class="rounded-xl overflow-hidden border border-slate-200 bg-white flex-grow"></div>
+                        <div id="schedule-table-container" class="rounded-2xl overflow-hidden border border-slate-200 bg-white flex-grow"></div>
                     </div>
-                    <div class="glass-card p-8 rounded-[2rem] flex flex-col">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-200 pb-4">
-                            <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><i class="ph-bold ph-t-shirt"></i></div>
-                            แบบเสื้อที่ระลึก (Shirt Design)
+                    <div class="glass-card p-8 sm:p-10 rounded-[2.5rem] flex flex-col">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3 border-b border-slate-100 pb-5">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><i class="ph-bold ph-t-shirt"></i></div>
+                            แบบเสื้อที่ระลึก
                         </h3>
-                        <div class="flex-grow rounded-2xl overflow-hidden border border-slate-200 bg-white flex items-center justify-center p-2 relative">
+                        <div class="flex-grow rounded-2xl overflow-hidden border border-slate-200 bg-white flex items-center justify-center p-4 relative">
                             <img id="shirt-img-preview" src="" alt="Shirt Design" class="w-full h-full object-contain hover:scale-105 transition-transform duration-500 rounded-xl max-h-[400px]">
                         </div>
                     </div>
                 </div>
 
-                <div class="glass-card p-8 rounded-[2rem]">
-                    <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-200 pb-4">
-                        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center"><i class="ph-bold ph-ruler"></i></div>
-                        ตารางไซส์เสื้อ (Size Chart Table)
+                <div class="glass-card p-8 sm:p-10 rounded-[2.5rem]">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3 border-b border-slate-100 pb-5">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center"><i class="ph-bold ph-ruler"></i></div>
+                        ตารางไซส์เสื้อ (Size Chart)
                     </h3>
-                    <div id="size-chart-container" class="rounded-xl overflow-x-auto border border-slate-200 bg-white custom-scrollbar"></div>
+                    <div id="size-chart-container" class="rounded-2xl overflow-x-auto border border-slate-200 bg-white custom-scrollbar"></div>
                 </div>
             </div>
         </section>
 
         <section id="section-admin" class="main-section hidden relative z-10 py-10 px-4 sm:px-6 lg:px-8 max-w-[95rem] mx-auto">
-            <div class="space-y-6">
+            <div class="space-y-8">
                 
-                <!-- Admin Header -->
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-900 text-white p-6 sm:p-8 rounded-[2rem] shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-900 text-white p-8 sm:p-10 rounded-[2.5rem] shadow-xl">
                     <div>
-                        <h2 class="text-2xl font-black flex items-center gap-3">
-                            <i class="ph-fill ph-shield-check text-emerald-400 text-3xl"></i> Admin Dashboard
+                        <h2 class="text-3xl font-black flex items-center gap-3">
+                            <i class="ph-fill ph-shield-check text-emerald-400 text-4xl"></i> Admin Dashboard
                         </h2>
-                        <p class="text-slate-400 text-sm mt-1 font-mono text-xs" id="admin-version-tag">TP-RUN Master Control V10</p>
+                        <p class="text-slate-400 mt-2 font-mono text-sm" id="admin-version-tag">TP-RUN Master Control V12 (With EmailJS)</p>
                     </div>
-                    <div class="flex flex-wrap gap-2 sm:gap-3 bg-slate-800 p-2 rounded-2xl">
-                        <button onclick="switchAdminTab('runners')" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-indigo-500 transition">ผู้สมัคร (Runners)</button>
-                        <button onclick="switchAdminTab('scanner')" class="px-5 py-2.5 hover:bg-slate-700 text-white rounded-xl text-sm font-bold transition">สแกนเนอร์ (Scanner)</button>
-                        <button onclick="switchAdminTab('settings')" class="px-5 py-2.5 hover:bg-slate-700 text-white rounded-xl text-sm font-bold transition">ตั้งค่า (Settings)</button>
+                    <div class="flex flex-wrap gap-3 bg-slate-800 p-2.5 rounded-2xl">
+                        <button onclick="switchAdminTab('runners')" class="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-md hover:bg-indigo-500 transition">ผู้สมัคร (Runners)</button>
+                        <button onclick="switchAdminTab('scanner')" class="px-6 py-3 hover:bg-slate-700 text-white rounded-xl font-bold transition">สแกนเนอร์ (Scanner)</button>
+                        <button onclick="switchAdminTab('settings')" class="px-6 py-3 hover:bg-slate-700 text-white rounded-xl font-bold transition">ตั้งค่า (Settings)</button>
                     </div>
                 </div>
 
                 <!-- Admin Tab: Runners Database -->
                 <div id="admin-tab-runners" class="admin-sub-tab space-y-6">
-                    <div class="glass-card p-6 sm:p-8 rounded-[2rem] space-y-4">
-                        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                            <div class="relative w-full sm:w-96">
-                                <i class="ph-bold ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                <input type="text" id="admin-search-box" onkeyup="renderAdminRunnersTable()" placeholder="ค้นหาบัตรประชาชน 13 หลัก, ชื่อ, BIB..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-indigo-500 bg-white shadow-sm transition">
+                    <div class="glass-card p-8 sm:p-10 rounded-[2.5rem] space-y-6">
+                        <div class="flex flex-col lg:flex-row justify-between items-center gap-5">
+                            <div class="relative w-full lg:w-96">
+                                <i class="ph-bold ph-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                                <input type="text" id="admin-search-box" onkeyup="renderAdminRunnersTable()" placeholder="ค้นหาบัตร ปชช, ชื่อ, BIB, Email..." class="w-full pl-12 pr-5 py-4 rounded-xl border border-slate-200 outline-none focus:border-indigo-500 bg-white shadow-sm transition">
                             </div>
-                            <div class="flex flex-wrap gap-2 w-full sm:w-auto">
-                                <span class="bg-indigo-50 text-indigo-800 px-4 py-3 rounded-xl text-sm border border-indigo-100 font-bold flex items-center justify-center">ผู้สมัคร: <span id="admin-total-runners" class="ml-2 font-black text-lg">0</span></span>
-                                <span class="bg-emerald-50 text-emerald-800 px-4 py-3 rounded-xl text-sm border border-emerald-100 font-bold flex items-center justify-center">รายได้สุทธิ: ฿<span id="admin-total-revenue" class="ml-1 font-black text-lg">0</span></span>
-                                <button onclick="exportToExcel()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md flex items-center justify-center gap-2 transition flex-grow sm:flex-none">
-                                    <i class="ph-bold ph-microsoft-excel text-lg"></i> Excel
+                            <div class="flex flex-wrap gap-3 w-full lg:w-auto">
+                                <span class="bg-indigo-50 text-indigo-800 px-5 py-3.5 rounded-xl border border-indigo-100 font-bold flex items-center justify-center">ผู้สมัคร: <span id="admin-total-runners" class="ml-2 font-black text-xl">0</span></span>
+                                <span class="bg-emerald-50 text-emerald-800 px-5 py-3.5 rounded-xl border border-emerald-100 font-bold flex items-center justify-center">รายได้: ฿<span id="admin-total-revenue" class="ml-1 font-black text-xl">0</span></span>
+                                <button onclick="exportToExcel()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2 transition flex-grow sm:flex-none">
+                                    <i class="ph-bold ph-microsoft-excel text-xl"></i> Excel
                                 </button>
                             </div>
                         </div>
                         
-                        <div class="overflow-x-auto rounded-xl border border-slate-200 custom-scrollbar shadow-inner bg-slate-50">
-                            <table class="w-full text-left text-xs sm:text-sm whitespace-nowrap">
+                        <div class="overflow-x-auto rounded-2xl border border-slate-200 custom-scrollbar shadow-inner bg-slate-50">
+                            <table class="w-full text-left whitespace-nowrap">
                                 <thead>
-                                    <tr class="bg-slate-200/50 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-[11px]">
-                                        <th class="p-4">บัตร/พาสปอร์ต & เบอร์</th>
-                                        <th class="p-4">ชื่อ-สกุล</th>
-                                        <th class="p-4">ระยะ/ไซส์</th>
-                                        <th class="p-4">ยอดโอน</th>
-                                        <th class="p-4 text-center">สถานะเงิน/BIB</th>
-                                        <th class="p-4 text-center">เสื้อ/เช็กอิน</th>
-                                        <th class="p-4 text-right">การจัดการ (Actions)</th>
+                                    <tr class="bg-slate-200/60 border-b border-slate-200 text-slate-700 font-bold uppercase tracking-wider text-xs">
+                                        <th class="p-5">ข้อมูลบัตร/ติดต่อ</th>
+                                        <th class="p-5">ชื่อ-สกุล & อีเมล</th>
+                                        <th class="p-5">ระยะ/ไซส์</th>
+                                        <th class="p-5">ยอดโอน</th>
+                                        <th class="p-5 text-center">สถานะเงิน/BIB</th>
+                                        <th class="p-5 text-center">เสื้อ/เช็กอิน</th>
+                                        <th class="p-5 text-right">การจัดการ</th>
                                     </tr>
                                 </thead>
-                                <tbody id="admin-runners-tbody" class="divide-y divide-slate-200 text-slate-700 bg-white"></tbody>
+                                <tbody id="admin-runners-tbody" class="divide-y divide-slate-200 text-slate-700 bg-white text-sm"></tbody>
                             </table>
                         </div>
                     </div>
@@ -693,21 +697,31 @@
 
                 <!-- Admin Tab: Smart Scanner -->
                 <div id="admin-tab-scanner" class="admin-sub-tab hidden space-y-6">
-                    <div class="glass-card p-8 sm:p-12 rounded-[2.5rem] max-w-2xl mx-auto space-y-8 text-center">
+                    <div class="glass-card p-8 sm:p-14 rounded-[2.5rem] max-w-3xl mx-auto space-y-8 text-center">
                         <div class="w-24 h-24 bg-gradient-to-br from-indigo-600 to-purple-600 text-white rounded-full mx-auto flex items-center justify-center text-5xl shadow-xl shadow-indigo-200">
                             <i class="ph-bold ph-qr-code"></i>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-extrabold text-slate-900">สมาร์ทสแกนเนอร์</h3>
-                            <p class="text-sm text-slate-500 mt-2">สแกน QR Code หรือพิมพ์รหัสบัตรประชาชน 13 หลัก / BIB</p>
+                            <h3 class="text-3xl font-extrabold text-slate-900">สมาร์ทสแกนเนอร์</h3>
+                            <p class="text-slate-500 mt-2 font-medium">ใช้เครื่องอ่านบาร์โค้ด หรือใช้กล้องถ่ายรูปสแกน QR Code</p>
                         </div>
                         
-                        <form onsubmit="event.preventDefault(); processScanner();" class="flex flex-col sm:flex-row gap-3">
-                            <input type="text" id="scanner-input" placeholder="Scan QR or Type here..." class="w-full px-5 py-4 rounded-2xl border-2 border-slate-200 text-lg font-bold focus:border-indigo-600 outline-none text-center bg-white shadow-inner">
-                            <button type="submit" class="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-base shadow-lg transition shrink-0">ค้นหาข้อมูล</button>
-                        </form>
+                        <div class="flex flex-col gap-4 max-w-lg mx-auto">
+                            <form onsubmit="event.preventDefault(); processScanner();" class="flex gap-3">
+                                <input type="text" id="scanner-input" placeholder="พิมพ์เลขหรือยิงเลเซอร์..." class="w-full px-5 py-4 rounded-xl border-2 border-slate-200 text-lg font-bold focus:border-indigo-600 outline-none text-center bg-white shadow-inner">
+                                <button type="submit" class="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-base shadow-lg transition shrink-0">ค้นหา</button>
+                            </form>
+                            <button type="button" onclick="startCameraScan()" id="btn-start-camera" class="w-full py-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold rounded-xl border border-indigo-200 transition flex justify-center items-center gap-2">
+                                <i class="ph-bold ph-camera"></i> เปิดกล้องสแกน (Camera Scan)
+                            </button>
+                        </div>
 
-                        <div id="scanner-result-box" class="hidden text-left bg-white p-6 rounded-2xl border border-slate-200 space-y-5 shadow-lg">
+                        <div id="reader-container" class="hidden max-w-md mx-auto bg-slate-900 p-2 rounded-2xl shadow-2xl">
+                            <div id="reader"></div>
+                            <button type="button" onclick="stopCameraScan()" class="mt-4 w-full py-3 bg-rose-600 text-white font-bold rounded-xl">ปิดกล้อง (Close Camera)</button>
+                        </div>
+
+                        <div id="scanner-result-box" class="hidden text-left bg-white p-8 rounded-2xl border border-slate-200 space-y-6 shadow-xl">
                             <!-- Populated on scan -->
                         </div>
                     </div>
@@ -715,83 +729,110 @@
 
                 <!-- Admin Tab: Settings -->
                 <div id="admin-tab-settings" class="admin-sub-tab hidden space-y-6">
-                    <div class="glass-card p-8 sm:p-10 rounded-[2.5rem] max-w-5xl mx-auto">
-                        <h3 class="text-2xl font-extrabold text-slate-900 mb-8 border-b border-slate-200 pb-4">การตั้งค่าระบบ (System Settings)</h3>
-                        <form onsubmit="saveEventConfig(event)" class="space-y-8">
+                    <div class="glass-card p-8 sm:p-12 rounded-[2.5rem] max-w-5xl mx-auto">
+                        <h3 class="text-3xl font-extrabold text-slate-900 mb-8 border-b border-slate-100 pb-5">การตั้งค่าระบบ (System Settings)</h3>
+                        <form onsubmit="saveEventConfig(event)" class="space-y-10">
                             
-                            <!-- General Config -->
+                            <!-- Texts & Links -->
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div><label class="block text-xs font-bold text-slate-700 mb-2">ชื่องานวิ่ง (Event Name)</label><input type="text" id="setting-event-name" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm font-semibold bg-white"></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">ชื่องานระบบ (Tab Title)</label><input type="text" id="setting-event-name" class="w-full px-5 py-4 rounded-xl border border-slate-200 font-semibold bg-white outline-none focus:border-indigo-500 shadow-sm"></div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-700 mb-2">สถานะรับสมัคร (Registration Status)</label>
-                                    <select id="setting-reg-open" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm font-semibold bg-white text-indigo-700"><option value="true">🟢 เปิดรับสมัคร (Open)</option><option value="false">🔴 ปิดรับสมัคร (Closed)</option></select>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">สถานะรับสมัคร (Registration Status)</label>
+                                    <select id="setting-reg-open" class="w-full px-5 py-4 rounded-xl border border-slate-200 font-bold bg-white text-indigo-700 outline-none focus:border-indigo-500 shadow-sm"><option value="true">🟢 เปิดรับสมัคร (Open)</option><option value="false">🔴 ปิดรับสมัคร (Closed)</option></select>
                                 </div>
-                                <div><label class="block text-xs font-bold text-slate-700 mb-2">ลิงก์รูปภาพโลโก้ธนาคาร (Bank Logo URL)</label><input type="url" id="setting-bank-logo" placeholder="https://..." class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm bg-white"></div>
-                                <div><label class="block text-xs font-bold text-slate-700 mb-2">ลิงก์ปุ่มติดต่อ / เพจ (Contact/Page URL)</label><input type="url" id="setting-contact-url" placeholder="เว้นว่างถ้าไม่ต้องการปุ่ม" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 text-sm bg-white"></div>
+                                <div class="md:col-span-2"><h4 class="font-bold text-indigo-600 border-b pb-2 mt-4">ตั้งค่าหน้าแรก (Home Page)</h4></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">หัวข้อหลัก (Hero Title)</label><input type="text" id="setting-hero-title" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500 shadow-sm"></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">สโลแกน (Hero Subtitle)</label><input type="text" id="setting-hero-subtitle" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500 shadow-sm"></div>
+                                <div class="md:col-span-2"><label class="block text-sm font-bold text-slate-700 mb-2">คำอธิบาย (Hero Description)</label><textarea id="setting-hero-desc" rows="2" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500 shadow-sm"></textarea></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">ลิงก์ปุ่มติดต่อ / เพจ (Contact URL)</label><input type="url" id="setting-contact-url" placeholder="เว้นว่างถ้าไม่ต้องการปุ่ม" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500 shadow-sm"></div>
+                                <div><label class="block text-sm font-bold text-slate-700 mb-2">ประกาศป๊อปอัป (Popup Notice)</label><textarea id="setting-popup" rows="2" placeholder="ลบข้อความออกถ้าไม่ต้องการให้แสดง Popup" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500 shadow-sm"></textarea></div>
+                            </div>
+
+                            <!-- EmailJS Config -->
+                            <div class="bg-amber-50/50 p-8 rounded-[1.5rem] border border-amber-200 space-y-6">
+                                <h4 class="font-bold text-amber-700 border-b border-amber-200 pb-2 flex items-center gap-2"><i class="ph-bold ph-envelope-simple"></i> ตั้งค่าระบบอีเมลตอบกลับอัตโนมัติ (EmailJS)</h4>
+                                <p class="text-sm text-amber-600">สมัครใช้งานฟรีที่ emailjs.com เพื่อรับคีย์เหล่านี้ หากไม่ต้องการส่งอีเมลให้ปิดการใช้งาน</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="md:col-span-2">
+                                        <label class="block text-sm font-bold text-slate-700 mb-2">สถานะระบบส่งอีเมล</label>
+                                        <select id="setting-email-enable" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500 font-bold">
+                                            <option value="false">❌ ปิดใช้งาน (Disabled)</option>
+                                            <option value="true">✅ เปิดใช้งาน (Enabled)</option>
+                                        </select>
+                                    </div>
+                                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Service ID</label><input type="text" id="setting-email-service" placeholder="เช่น service_xxxxx" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-amber-500 font-mono"></div>
+                                    <div><label class="block text-sm font-bold text-slate-700 mb-2">Template ID</label><input type="text" id="setting-email-template" placeholder="เช่น template_xxxxx" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-amber-500 font-mono"></div>
+                                    <div class="md:col-span-2"><label class="block text-sm font-bold text-slate-700 mb-2">Public Key</label><input type="text" id="setting-email-publickey" placeholder="เช่น ABC123DEF456" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-amber-500 font-mono"></div>
+                                </div>
                             </div>
 
                             <!-- Dynamic Tables (Distances, Discounts, Size Chart, Schedule) -->
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 
                                 <!-- Distances -->
-                                <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200">
+                                <div class="bg-slate-50 p-6 rounded-[1.5rem] border border-slate-200">
                                     <div class="flex justify-between items-center mb-4">
-                                        <label class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="ph-bold ph-sneaker text-indigo-600"></i> ระยะทางและราคา</label>
-                                        <button type="button" onclick="addConfigRow('distances', {name:'',price:0,bibPrefix:''})" class="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
+                                        <label class="font-bold text-slate-900 flex items-center gap-2"><i class="ph-bold ph-sneaker text-indigo-600"></i> ระยะทางและราคา</label>
+                                        <button type="button" onclick="addConfigRow('distances', {name:'',price:0,bibPrefix:''})" class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
                                     </div>
                                     <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white custom-scrollbar">
-                                        <table class="w-full text-left text-xs whitespace-nowrap"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-2">ระยะ (Name)</th><th class="p-2 w-20">ราคา</th><th class="p-2 w-20">ตัวนำ BIB</th><th class="p-2 w-10 text-center">ลบ</th></tr></thead><tbody id="config-distances-tbody"></tbody></table>
+                                        <table class="w-full text-left text-sm"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-3">ระยะ (Name)</th><th class="p-3 w-24">ราคา</th><th class="p-3 w-20">อักษรนำ BIB</th><th class="p-3 w-12 text-center">ลบ</th></tr></thead><tbody id="config-distances-tbody"></tbody></table>
                                     </div>
                                 </div>
 
                                 <!-- Discounts -->
-                                <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200">
+                                <div class="bg-slate-50 p-6 rounded-[1.5rem] border border-slate-200">
                                     <div class="flex justify-between items-center mb-4">
-                                        <label class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="ph-bold ph-tag text-purple-600"></i> โค้ดส่วนลด</label>
-                                        <button type="button" onclick="addConfigRow('discounts', {code:'',amount:0,limit:1,used:0})" class="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
+                                        <label class="font-bold text-slate-900 flex items-center gap-2"><i class="ph-bold ph-tag text-purple-600"></i> โค้ดส่วนลด</label>
+                                        <button type="button" onclick="addConfigRow('discounts', {code:'',amount:0,limit:1,used:0})" class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
                                     </div>
                                     <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white custom-scrollbar">
-                                        <table class="w-full text-left text-xs whitespace-nowrap"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-2">โค้ด (Code)</th><th class="p-2 w-20">ลด (฿)</th><th class="p-2 w-16">โควตา</th><th class="p-2 w-10">ใช้</th><th class="p-2 w-10 text-center">ลบ</th></tr></thead><tbody id="config-discounts-tbody"></tbody></table>
-                                    </div>
-                                </div>
-
-                                <!-- Size Chart -->
-                                <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200 lg:col-span-2">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <label class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="ph-bold ph-ruler text-emerald-600"></i> ตารางไซส์เสื้อ (Size Chart)</label>
-                                        <button type="button" onclick="addConfigRow('sizeChartRows', {size:'',chest:'',length:''})" class="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
-                                    </div>
-                                    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white custom-scrollbar">
-                                        <table class="w-full text-left text-xs whitespace-nowrap"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-2">ไซส์ (Size)</th><th class="p-2">รอบอก (นิ้ว)</th><th class="p-2">ความยาว (นิ้ว)</th><th class="p-2 w-10 text-center">ลบ</th></tr></thead><tbody id="config-sizechart-tbody"></tbody></table>
+                                        <table class="w-full text-left text-sm"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-3">โค้ด (Code)</th><th class="p-3 w-20">ลด (฿)</th><th class="p-3 w-16">จำกัด</th><th class="p-3 w-10">ใช้ไป</th><th class="p-3 w-12 text-center">ลบ</th></tr></thead><tbody id="config-discounts-tbody"></tbody></table>
                                     </div>
                                 </div>
 
                                 <!-- Schedule -->
-                                <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200 lg:col-span-2">
+                                <div class="bg-slate-50 p-6 rounded-[1.5rem] border border-slate-200 lg:col-span-2">
                                     <div class="flex justify-between items-center mb-4">
-                                        <label class="font-bold text-sm text-slate-900 flex items-center gap-2"><i class="ph-bold ph-calendar text-indigo-600"></i> กำหนดการงานวิ่ง (Schedule)</label>
-                                        <button type="button" onclick="addConfigRow('scheduleRows', {date:'',time:'',detail:''})" class="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
+                                        <label class="font-bold text-slate-900 flex items-center gap-2"><i class="ph-bold ph-calendar text-indigo-600"></i> กำหนดการงานวิ่ง (Schedule)</label>
+                                        <button type="button" onclick="addConfigRow('scheduleRows', {date:'',time:'',detail:''})" class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
                                     </div>
                                     <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white custom-scrollbar">
-                                        <table class="w-full text-left text-xs whitespace-nowrap"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-2 w-1/4">วันที่</th><th class="p-2 w-1/4">เวลา</th><th class="p-2 min-w-[200px]">รายละเอียดกิจกรรม</th><th class="p-2 w-10 text-center">ลบ</th></tr></thead><tbody id="config-schedule-tbody"></tbody></table>
+                                        <table class="w-full text-left text-sm"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-3 w-1/4">วันที่</th><th class="p-3 w-1/4">เวลา</th><th class="p-3">รายละเอียดกิจกรรม</th><th class="p-3 w-12 text-center">ลบ</th></tr></thead><tbody id="config-schedule-tbody"></tbody></table>
+                                    </div>
+                                </div>
+                                
+                                <!-- Size Chart -->
+                                <div class="bg-slate-50 p-6 rounded-[1.5rem] border border-slate-200 lg:col-span-2">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <label class="font-bold text-slate-900 flex items-center gap-2"><i class="ph-bold ph-ruler text-emerald-600"></i> ตารางไซส์เสื้อ (Size Chart)</label>
+                                        <button type="button" onclick="addConfigRow('sizeChartRows', {size:'',chest:'',length:''})" class="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800 transition">+ เพิ่ม</button>
+                                    </div>
+                                    <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white custom-scrollbar">
+                                        <table class="w-full text-left text-sm"><thead class="bg-slate-100 border-b border-slate-200"><tr><th class="p-3">ไซส์ (Size)</th><th class="p-3">รอบอก (นิ้ว)</th><th class="p-3">ความยาว (นิ้ว)</th><th class="p-3 w-12 text-center">ลบ</th></tr></thead><tbody id="config-sizechart-tbody"></tbody></table>
                                     </div>
                                 </div>
 
                             </div>
 
-                            <!-- Text areas & Images -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div><label class="block text-xs font-bold text-slate-700 mb-2">ข้อมูลบัญชีธนาคาร (Bank Info)</label><textarea id="setting-bank" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm bg-white font-mono"></textarea></div>
-                                <div><label class="block text-xs font-bold text-slate-700 mb-2">ประกาศป๊อปอัปเมื่อเข้าเว็บ (Popup Notice)</label><textarea id="setting-popup" rows="4" placeholder="ลบข้อความออกถ้าไม่ต้องการให้แสดง Popup" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm bg-white"></textarea></div>
+                            <!-- Bank Account Setup -->
+                            <div class="bg-indigo-50/50 p-8 rounded-[1.5rem] border border-indigo-100 space-y-6">
+                                <h4 class="font-bold text-indigo-700 border-b border-indigo-200 pb-2">ตั้งค่าบัญชีรับเงิน (Bank Account)</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div><label class="block text-sm font-bold text-slate-700 mb-2">ลิงก์โลโก้ธนาคาร (Logo URL)</label><input type="url" id="setting-bank-logo" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500"></div>
+                                    <div><label class="block text-sm font-bold text-slate-700 mb-2">ชื่อธนาคาร (Bank Name)</label><input type="text" id="setting-bank-name" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500"></div>
+                                    <div><label class="block text-sm font-bold text-slate-700 mb-2">เลขที่บัญชี (Account Number)</label><input type="text" id="setting-bank-accno" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500 font-mono"></div>
+                                    <div><label class="block text-sm font-bold text-slate-700 mb-2">ชื่อบัญชี (Account Name)</label><input type="text" id="setting-bank-accname" class="w-full px-5 py-4 rounded-xl border border-slate-200 bg-white outline-none focus:border-indigo-500"></div>
+                                </div>
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-2">อัปโหลดภาพแบบเสื้อ (Shirt Design) *ย่อให้อัตโนมัติ</label>
-                                <input type="file" id="setting-shirt-file" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300 border border-slate-200 rounded-xl bg-white p-1">
-                                <p class="text-[10px] text-slate-400 mt-1">เว้นว่างไว้หากไม่ต้องการเปลี่ยนรูปภาพ</p>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">อัปโหลดภาพแบบเสื้อ (Shirt Design) *ย่อให้อัตโนมัติ</label>
+                                <input type="file" id="setting-shirt-file" accept="image/*" class="w-full text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:font-bold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300 border border-slate-200 rounded-xl bg-white p-1.5 cursor-pointer">
+                                <p class="text-xs text-slate-400 mt-2 font-medium">เว้นว่างไว้หากไม่ต้องการเปลี่ยนรูปภาพ</p>
                             </div>
 
-                            <button type="submit" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-2xl shadow-xl shadow-indigo-200 text-lg transition-transform transform hover:-translate-y-0.5">
+                            <button type="submit" class="w-full py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-2xl shadow-xl shadow-indigo-200 text-xl transition-transform transform hover:-translate-y-1">
                                 บันทึกการตั้งค่าระบบ (Save Settings)
                             </button>
                         </form>
@@ -804,52 +845,51 @@
 
     <!-- Slip Modal -->
     <div id="slip-modal" class="fixed inset-0 z-[60] bg-slate-900/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl text-center space-y-4">
-            <h3 class="font-bold text-xl text-slate-900">หลักฐานการโอนเงิน</h3>
+        <div class="bg-white rounded-[2rem] max-w-lg w-full p-8 shadow-2xl text-center space-y-5">
+            <h3 class="font-bold text-2xl text-slate-900">หลักฐานการโอนเงิน</h3>
             <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 max-h-[60vh] flex items-center justify-center p-2 relative">
                 <img id="slip-modal-img" src="" alt="Slip" class="max-w-full max-h-[55vh] object-contain rounded-xl">
             </div>
-            <button onclick="closeSlipModal()" class="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition">ปิดหน้าต่าง (Close)</button>
+            <button onclick="closeSlipModal()" class="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition">ปิดหน้าต่าง (Close)</button>
         </div>
     </div>
 
     <!-- Edit Runner Modal -->
     <div id="edit-runner-modal" class="fixed inset-0 z-[60] bg-slate-900/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2.5rem] max-w-2xl w-full p-8 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar space-y-6">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-                <h3 class="font-bold text-xl text-slate-900 flex items-center gap-2"><i class="ph-bold ph-pencil-simple text-indigo-600"></i> แก้ไขข้อมูลผู้สมัคร</h3>
-                <button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-600 bg-slate-100 p-2 rounded-full"><i class="ph-bold ph-x"></i></button>
+        <div class="bg-white rounded-[2.5rem] max-w-2xl w-full p-10 shadow-2xl max-h-[90vh] overflow-y-auto custom-scrollbar space-y-8">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-5">
+                <h3 class="font-bold text-2xl text-slate-900 flex items-center gap-3"><i class="ph-bold ph-pencil-simple text-indigo-600"></i> แก้ไขข้อมูลผู้สมัคร</h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-slate-600 bg-slate-100 p-2.5 rounded-full"><i class="ph-bold ph-x"></i></button>
             </div>
-            <form id="edit-runner-form" onsubmit="saveRunnerEdit(event)" class="space-y-5 text-sm">
+            <form id="edit-runner-form" onsubmit="saveRunnerEdit(event)" class="space-y-6 text-sm">
                 <input type="hidden" id="edit-doc-id">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div><label class="block font-bold mb-1 text-slate-700">เลขบัตร/พาสปอร์ต</label><input type="text" id="edit-idcard" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50" required></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">ชื่อ-นามสกุล</label><input type="text" id="edit-fullname" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50" required></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">เบอร์โทรศัพท์</label><input type="text" id="edit-phone" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50" required></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">ระยะวิ่ง</label><select id="edit-distance" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 font-semibold" required></select></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">ไซส์เสื้อ</label><input type="text" id="edit-shirt" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50" required></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">กรุ๊ปเลือด</label><input type="text" id="edit-blood" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50"></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">ผู้ติดต่อฉุกเฉิน</label><input type="text" id="edit-emergname" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50"></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">เบอร์ฉุกเฉิน</label><input type="text" id="edit-emergphone" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50"></div>
-                    <div><label class="block font-bold mb-1 text-slate-700">หมายเลข BIB (เว้นว่างถ้ารอระบบเจน)</label><input type="text" id="edit-bib" class="w-full px-4 py-3 border border-indigo-200 rounded-xl bg-indigo-50 font-bold text-indigo-700"></div>
-                    <div>
-                        <label class="block font-bold mb-1 text-slate-700">สถานะชำระเงิน</label>
-                        <select id="edit-paystatus" class="w-full px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 font-semibold">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div><label class="block font-bold mb-2 text-slate-700">เลขบัตร/พาสปอร์ต</label><input type="text" id="edit-idcard" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50" required></div>
+                    <div><label class="block font-bold mb-2 text-slate-700">ชื่อ-นามสกุล</label><input type="text" id="edit-fullname" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50" required></div>
+                    <div><label class="block font-bold mb-2 text-slate-700">อีเมล (Email)</label><input type="email" id="edit-email" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50"></div>
+                    <div><label class="block font-bold mb-2 text-slate-700">เบอร์โทรศัพท์</label><input type="text" id="edit-phone" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50" required></div>
+                    <div><label class="block font-bold mb-2 text-slate-700">ระยะวิ่ง</label><select id="edit-distance" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50 font-semibold" required></select></div>
+                    <div><label class="block font-bold mb-2 text-slate-700">ไซส์เสื้อ</label><input type="text" id="edit-shirt" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50" required></div>
+                    <div><label class="block font-bold mb-2 text-slate-700">กรุ๊ปเลือด</label><input type="text" id="edit-blood" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50"></div>
+                    <div><label class="block font-bold mb-2 text-slate-700">หมายเลข BIB</label><input type="text" id="edit-bib" class="w-full px-5 py-4 border-2 border-indigo-200 rounded-xl bg-indigo-50 font-bold text-indigo-700"></div>
+                    <div class="sm:col-span-2">
+                        <label class="block font-bold mb-2 text-slate-700">สถานะชำระเงิน</label>
+                        <select id="edit-paystatus" class="w-full px-5 py-4 border border-slate-200 rounded-xl bg-slate-50 font-semibold">
                             <option value="PENDING">รอตรวจสอบ (PENDING)</option><option value="APPROVED">อนุมัติแล้ว (APPROVED)</option><option value="REJECTED">ไม่อนุมัติ (REJECTED)</option>
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition text-base">บันทึกการแก้ไข (Save)</button>
+                <button type="submit" class="w-full py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition text-base">บันทึกการแก้ไข (Save)</button>
             </form>
         </div>
     </div>
 
-    <footer class="bg-white border-t border-slate-200 py-8 text-center text-slate-500 mt-10 relative z-20">
+    <footer class="bg-white border-t border-slate-200 py-10 text-center text-slate-500 mt-10 relative z-20">
         <div class="max-w-7xl mx-auto px-4">
-            <p class="font-bold text-slate-800 mb-1">TP-RUN Event Management System</p>
-            <p class="text-xs">© 2026 All rights reserved. ระบบรับสมัครและจัดการงานวิ่งครบวงจร</p>
-            <p class="text-xs font-semibold text-indigo-600 mt-3 flex items-center justify-center gap-1 hover:text-indigo-700 transition cursor-pointer">
-                <i class="ph-fill ph-code text-sm"></i> พัฒนาโดย. นวรัตน์ เครือก๋า
+            <p class="font-bold text-slate-800 mb-2">TP-RUN Event Management System</p>
+            <p class="text-sm">© 2026 All rights reserved. ระบบรับสมัครและจัดการงานวิ่งครบวงจร</p>
+            <p class="text-sm font-semibold text-indigo-600 mt-4 flex items-center justify-center gap-1">
+                <i class="ph-fill ph-code text-lg"></i> พัฒนาโดย. นวรัตน์ เครือก๋า
             </p>
         </div>
     </footer>
@@ -861,16 +901,37 @@
             const activeTab = document.getElementById(`section-${tabId}`);
             activeTab.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (html5QrcodeScanner && tabId !== 'admin') stopCameraScan(); // auto stop camera if leaving tab
         };
         window.toggleMobileMenu = () => document.getElementById('mobile-menu').classList.toggle('hidden');
+
+        // Copy Feature
+        window.copyBankNo = function() {
+            const accNo = window.eventConfig.bankAccNo || "";
+            if(!accNo) return;
+            
+            let textArea = document.createElement("textarea");
+            textArea.value = accNo;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showMsg('คัดลอกสำเร็จ', `คัดลอกเลขบัญชี ${accNo} แล้ว\nสามารถนำไปวางในแอปธนาคารได้เลย`, 'success');
+            } catch (err) {
+                showMsg('ผิดพลาด', 'ไม่สามารถคัดลอกได้อัตโนมัติ กรุณาคัดลอกด้วยตนเอง', 'error');
+            }
+            textArea.remove();
+        };
 
         // Notification Modals
         window.showMsg = function(title, text, type='success') {
             const m = document.getElementById('msg-modal'), c = document.getElementById('msg-modal-content'), i = document.getElementById('msg-icon');
             document.getElementById('msg-title').innerText = title; document.getElementById('msg-text').innerText = text;
-            i.className = type === 'success' ? "w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full mx-auto flex items-center justify-center text-4xl shadow-inner" : "w-20 h-20 bg-rose-100 text-rose-500 rounded-full mx-auto flex items-center justify-center text-4xl shadow-inner";
-            i.innerHTML = type === 'success' ? '<i class="ph-bold ph-check"></i>' : (type === 'loading' ? '<i class="ph-bold ph-spinner animate-spin"></i>' : '<i class="ph-bold ph-warning"></i>');
-            if(type==='loading') i.className = "w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full mx-auto flex items-center justify-center text-4xl shadow-inner";
+            i.className = type === 'success' ? "w-24 h-24 bg-emerald-100 text-emerald-500 rounded-full mx-auto flex items-center justify-center text-5xl shadow-inner" : "w-24 h-24 bg-rose-100 text-rose-500 rounded-full mx-auto flex items-center justify-center text-5xl shadow-inner";
+            i.innerHTML = type === 'success' ? '<i class="ph-bold ph-check"></i>' : '<i class="ph-bold ph-warning"></i>';
             m.classList.remove('hidden'); setTimeout(() => { m.classList.remove('opacity-0'); c.classList.remove('scale-95'); }, 10);
         };
         window.closeMsg = function() {
@@ -882,15 +943,14 @@
         // Custom Confirm
         let currentConfirmAction = null;
         window.showConfirm = function(title, text, actionFn) {
-            document.getElementById('confirm-title').innerText = title;
-            document.getElementById('confirm-text').innerText = text;
+            document.getElementById('confirm-title').innerText = title; document.getElementById('confirm-text').innerText = text;
             currentConfirmAction = actionFn;
             document.getElementById('confirm-btn-yes').onclick = () => { closeConfirm(); if(currentConfirmAction) currentConfirmAction(); };
             document.getElementById('confirm-modal').classList.remove('hidden');
         };
         window.closeConfirm = function() { document.getElementById('confirm-modal').classList.add('hidden'); currentConfirmAction = null; };
 
-        // Registration Logic
+        // Registration Form Logic
         window.calculateAge = function() {
             const bdate = document.getElementById('reg-birthdate').value;
             if(bdate) document.getElementById('reg-age').value = Math.abs(new Date(Date.now() - new Date(bdate).getTime()).getUTCFullYear() - 1970);
@@ -912,7 +972,6 @@
             window.updatePriceCalculation(); showMsg('สำเร็จ', `ใช้โค้ดลดราคา ${code} สำเร็จ`, 'success');
         };
 
-        // Image Compression 
         window.compressImage = function(file, maxWidth=800) {
             return new Promise(resolve => {
                 const reader = new FileReader();
@@ -938,6 +997,7 @@
             const data = {
                 idCard: document.getElementById('reg-idcard').value.trim(),
                 fullName: document.getElementById('reg-fullname').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
                 birthDate: document.getElementById('reg-birthdate').value,
                 age: parseInt(document.getElementById('reg-age').value || 0),
                 gender: document.getElementById('reg-gender').value,
@@ -954,7 +1014,7 @@
             };
             if(!data.distance) return showMsg('แจ้งเตือน', 'กรุณาเลือกระยะวิ่ง', 'error');
             const slipFile = document.getElementById('reg-slip-file').files[0];
-            showMsg('กำลังดำเนินการ', 'กำลังอัปโหลดข้อมูลและภาพสลิป กรุณารอสักครู่...', 'loading');
+            showMsg('กำลังดำเนินการ', 'กำลังบันทึกข้อมูลและย่อขนาดรูปภาพสลิป กรุณารอสักครู่...', 'success');
             
             try {
                 if(slipFile) data.paymentSlipUrl = await window.compressImage(slipFile, 800);
@@ -963,93 +1023,96 @@
                     if(dIdx > -1) {
                         window.eventConfig.discounts[dIdx].used += 1;
                         const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
-                        await setDoc(doc(window.db, 'artifacts', window.appId, 'config', 'main'), window.eventConfig);
+                        await setDoc(doc(window.db, 'artifacts', window.appId, 'appData', 'config'), window.eventConfig);
                     }
                 }
                 const { collection, addDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
                 await addDoc(collection(window.db, 'artifacts', window.appId, 'runners'), data);
+                
+                // EmailJS Sending Logic
+                if (window.eventConfig.enableEmail && window.eventConfig.emailjsPublicKey && window.eventConfig.emailjsServiceId && window.eventConfig.emailjsTemplateId) {
+                    try {
+                        emailjs.init(window.eventConfig.emailjsPublicKey);
+                        const templateParams = {
+                            to_email: data.email,
+                            to_name: data.fullName,
+                            event_name: window.eventConfig.eventName,
+                            distance: data.distance,
+                            price: data.totalPrice,
+                            status: "รอตรวจสอบการชำระเงิน (Pending)"
+                        };
+                        // We intentionally don't await this so UI doesn't block if email is slow
+                        emailjs.send(window.eventConfig.emailjsServiceId, window.eventConfig.emailjsTemplateId, templateParams)
+                            .then(() => console.log('Email sent successfully'))
+                            .catch(err => console.error('Failed to send email:', err));
+                    } catch (emailError) {
+                        console.error('EmailJS Init Error:', emailError);
+                    }
+                }
+
                 document.getElementById('registration-form').reset();
                 appliedDiscountAmt = 0; appliedDiscountCode = ""; selectedDistPrice = 0; window.updatePriceCalculation();
                 showMsg('สมัครสำเร็จ!', 'ระบบบันทึกข้อมูลเรียบร้อยแล้ว โปรดรอการตรวจสอบภายใน 24 ชม.', 'success');
                 setTimeout(() => switchTab('status'), 2000);
-            } catch(err) { 
-                console.error(err); 
-                if (err.code === 'permission-denied') {
-                    showMsg('ฐานข้อมูลถูกล็อค', 'Firebase ไม่อนุญาตให้เขียนข้อมูล\nไปที่ Firebase Console -> Firestore -> Rules\nแก้ให้เป็น allow read, write: if true;', 'error');
-                } else {
-                    showMsg('ล้มเหลว', 'เกิดข้อผิดพลาดในการบันทึก กรุณาลองใหม่', 'error'); 
-                }
-            }
+            } catch(err) { console.error(err); showMsg('ล้มเหลว', 'เกิดข้อผิดพลาด กรุณาลองใหม่ (เช็ค Rules)', 'error'); }
         };
 
-        // Status Check Logic
         window.searchRunnerStatus = async function() {
             const q = document.getElementById('status-search-input').value.trim();
             const c = document.getElementById('status-result-container');
-            const formContainer = document.querySelector('.flex.flex-col.sm\\:flex-row.gap-3.max-w-lg');
+            const formContainer = document.getElementById('status-search-form');
             if(!q) return;
             
-            showMsg('กำลังค้นหา', 'กำลังตรวจสอบฐานข้อมูล โปรดรอสักครู่...', 'loading');
+            showMsg('กำลังค้นหา', 'กำลังตรวจสอบฐานข้อมูล โปรดรอสักครู่...', 'success');
             
             try {
                 const runnersRef = window.fsTools.collection(window.db, 'artifacts', window.appId, 'runners');
-                
-                // ค้นหาด้วยเลขบัตรประชาชน
                 let qQuery = window.fsTools.query(runnersRef, window.fsTools.where('idCard', '==', q));
                 let snap = await window.fsTools.getDocs(qQuery);
-                
-                // ถ้าไม่เจอ ค้นหาด้วยเบอร์ BIB
                 if (snap.empty) {
                     qQuery = window.fsTools.query(runnersRef, window.fsTools.where('bibNumber', '==', q.toUpperCase()));
                     snap = await window.fsTools.getDocs(qQuery);
                 }
-                
                 closeMsg();
-                
                 if (snap.empty) {
-                    c.innerHTML = `<div class="p-6 bg-rose-50 text-rose-600 rounded-2xl text-center font-bold border border-rose-100">ไม่พบข้อมูลผู้สมัครหมายเลข "${q}"</div>`;
+                    c.innerHTML = `<div class="p-8 bg-rose-50 text-rose-600 rounded-2xl text-center font-bold border border-rose-100 text-lg">ไม่พบข้อมูลผู้สมัครหมายเลข "${q}"</div>`;
                     c.classList.remove('hidden'); return;
                 }
+                const doc = snap.docs[0]; const r = { docId: doc.id, ...doc.data() };
                 
-                // นำข้อมูลคนแรกที่เจอมาแสดง
-                const doc = snap.docs[0];
-                const r = { docId: doc.id, ...doc.data() };
+                if(formContainer) formContainer.classList.add('hidden');
                 
-                if(formContainer) formContainer.classList.add('hidden'); // ซ่อนช่องค้นหา
-                
-                let pb = r.paymentStatus === 'APPROVED' ? '<span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold border border-emerald-200"><i class="ph-bold ph-check-circle"></i> อนุมัติแล้ว</span>' : (r.paymentStatus === 'REJECTED' ? '<span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-lg text-xs font-bold border border-rose-200"><i class="ph-bold ph-x-circle"></i> ไม่อนุมัติสลิป</span>' : '<span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-lg text-xs font-bold border border-amber-200"><i class="ph-bold ph-clock"></i> รอตรวจสอบยอด</span>');
+                let pb = r.paymentStatus === 'APPROVED' ? '<span class="px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-bold border border-emerald-200"><i class="ph-bold ph-check-circle"></i> อนุมัติแล้ว</span>' : (r.paymentStatus === 'REJECTED' ? '<span class="px-4 py-1.5 bg-rose-100 text-rose-700 rounded-lg text-sm font-bold border border-rose-200"><i class="ph-bold ph-x-circle"></i> ไม่อนุมัติสลิป</span>' : '<span class="px-4 py-1.5 bg-amber-100 text-amber-700 rounded-lg text-sm font-bold border border-amber-200"><i class="ph-bold ph-clock"></i> รอตรวจสอบยอด</span>');
                 let h = `
-                    <div class="bg-slate-50 p-6 rounded-[2rem] border border-slate-200 space-y-6">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-slate-200 pb-4">
-                            <div><h4 class="font-extrabold text-xl text-slate-900">${r.fullName}</h4><p class="text-sm text-slate-500 font-medium">ระยะ: ${r.distance} | ไซส์: ${r.shirt}</p></div>
+                    <div class="bg-slate-50 p-8 rounded-[2rem] border border-slate-200 space-y-8">
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-5 border-b border-slate-200 pb-5">
+                            <div><h4 class="font-extrabold text-2xl text-slate-900">${r.fullName}</h4><p class="text-slate-500 font-medium mt-1">ระยะ: ${r.distance} | ไซส์: ${r.shirt}</p></div>
                             <div>${pb}</div>
                         </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-                            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs text-slate-400 font-bold mb-1">หมายเลข BIB</div><div class="font-black text-indigo-600 text-lg">${r.bibNumber || '-รอ-'}</div></div>
-                            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs text-slate-400 font-bold mb-1">สถานะเสื้อ</div><div class="font-bold text-sm ${r.shirtStatus ? 'text-emerald-600' : 'text-slate-400'}">${r.shirtStatus ? 'รับแล้ว' : 'ยังไม่ได้รับ'}</div></div>
-                            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs text-slate-400 font-bold mb-1">เช็กอินหน้างาน</div><div class="font-bold text-sm ${r.checkInStatus ? 'text-emerald-600' : 'text-slate-400'}">${r.checkInStatus ? 'เช็กอินแล้ว' : 'ยังไม่เช็กอิน'}</div></div>
-                            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm"><div class="text-xs text-slate-400 font-bold mb-1">เกียรติบัตร</div><div class="font-bold text-sm ${r.checkInStatus ? 'text-purple-600' : 'text-slate-400'}">${r.checkInStatus ? 'พร้อมโหลด' : 'รอหลังเส้นชัย'}</div></div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 text-center">
+                            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-sm text-slate-400 font-bold mb-2">หมายเลข BIB</div><div class="font-black text-indigo-600 text-2xl">${r.bibNumber || '-รอ-'}</div></div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-sm text-slate-400 font-bold mb-2">สถานะเสื้อ</div><div class="font-bold text-lg ${r.shirtStatus ? 'text-emerald-600' : 'text-slate-400'}">${r.shirtStatus ? 'รับแล้ว' : 'ยังไม่ได้รับ'}</div></div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-sm text-slate-400 font-bold mb-2">เช็กอินหน้างาน</div><div class="font-bold text-lg ${r.checkInStatus ? 'text-emerald-600' : 'text-slate-400'}">${r.checkInStatus ? 'เช็กอินแล้ว' : 'ยังไม่เช็กอิน'}</div></div>
+                            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"><div class="text-sm text-slate-400 font-bold mb-2">เกียรติบัตร</div><div class="font-bold text-lg ${r.checkInStatus ? 'text-purple-600' : 'text-slate-400'}">${r.checkInStatus ? 'พร้อมโหลด' : 'รอหลังเส้นชัย'}</div></div>
                         </div>
                 `;
                 if(r.paymentStatus === 'APPROVED') {
-                    h += `<div class="pt-6 border-t border-slate-200 flex flex-col items-center text-center space-y-3"><p class="text-xs font-bold text-slate-500 uppercase tracking-widest">QR Code สแกนรับบีบหน้างาน</p><div id="qrcode-container" class="p-4 bg-white rounded-2xl border-2 border-indigo-100 shadow-md"></div></div>`;
+                    h += `<div class="pt-8 border-t border-slate-200 flex flex-col items-center text-center space-y-4"><p class="font-bold text-slate-500 uppercase tracking-widest">QR Code สแกนรับบีบหน้างาน</p><div id="qrcode-container" class="p-5 bg-white rounded-2xl border-2 border-indigo-100 shadow-md"></div></div>`;
                 }
                 if(r.checkInStatus) {
-                    h += `<div class="pt-6 text-center"><button onclick="downloadCertificate('${r.fullName}', '${r.distance}', '${r.bibNumber}')" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-extrabold rounded-2xl shadow-xl shadow-purple-200 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 mx-auto"><i class="ph-bold ph-download-simple text-xl"></i> ดาวน์โหลด E-Certificate</button></div>`;
+                    h += `<div class="pt-8 text-center"><button onclick="downloadCertificate('${r.fullName}', '${r.distance}', '${r.bibNumber}')" class="px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-extrabold rounded-2xl shadow-xl shadow-purple-200 transition-all hover:-translate-y-1 flex items-center justify-center gap-3 mx-auto text-lg"><i class="ph-bold ph-download-simple text-2xl"></i> ดาวน์โหลด E-Certificate</button></div>`;
                 }
-                h += `<div class="pt-6 mt-6 border-t border-slate-200 text-center"><button onclick="resetStatusSearch()" class="px-8 py-3.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl transition inline-flex items-center gap-2"><i class="ph-bold ph-arrow-counter-clockwise"></i> ค้นหาใหม่ (Search Again)</button></div>`;
+                h += `<div class="pt-8 mt-8 border-t border-slate-200 text-center"><button onclick="resetStatusSearch()" class="px-10 py-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-2xl transition inline-flex items-center gap-2"><i class="ph-bold ph-arrow-counter-clockwise"></i> ค้นหาใหม่ (Search Again)</button></div>`;
                 h += `</div>`; c.innerHTML = h; c.classList.remove('hidden');
-                if(r.paymentStatus === 'APPROVED') { setTimeout(() => { const qE = document.getElementById('qrcode-container'); qE.innerHTML = ''; new QRCode(qE, { text: `ID:${r.idCard}|BIB:${r.bibNumber}`, width: 150, height: 150, colorDark: "#1e1b4b" }); }, 100); }
+                if(r.paymentStatus === 'APPROVED') { setTimeout(() => { const qE = document.getElementById('qrcode-container'); qE.innerHTML = ''; new QRCode(qE, { text: `ID:${r.idCard}|BIB:${r.bibNumber}`, width: 180, height: 180, colorDark: "#1e1b4b" }); }, 100); }
             } catch(e) {
-                console.error(e);
-                closeMsg();
-                showMsg('โควต้าการเชื่อมต่อเต็ม', 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาลองใหม่ภายหลัง', 'error');
+                console.error(e); closeMsg(); showMsg('โควต้าการเชื่อมต่อเต็ม', 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาลองใหม่ภายหลัง', 'error');
             }
         };
 
         window.resetStatusSearch = function() {
             document.getElementById('status-result-container').classList.add('hidden');
-            const formContainer = document.querySelector('.flex.flex-col.sm\\:flex-row.gap-3.max-w-lg');
+            const formContainer = document.getElementById('status-search-form');
             if(formContainer) formContainer.classList.remove('hidden');
             document.getElementById('status-search-input').value = '';
             document.getElementById('status-search-input').focus();
@@ -1071,22 +1134,20 @@
             const link = document.createElement('a'); link.download = `Certificate_${bib}.png`; link.href = canvas.toDataURL('image/png'); link.click();
         };
 
-        // Admin Security & Navigation
         window.openAdminAuth = () => document.getElementById('admin-auth-modal').classList.remove('hidden');
         window.closeAdminAuth = () => { document.getElementById('admin-auth-modal').classList.add('hidden'); document.getElementById('admin-password-input').value = ''; };
         window.verifyAdminPassword = function(e) {
             e.preventDefault();
             if(document.getElementById('admin-password-input').value === 'tprun2026') {
                 closeAdminAuth(); switchTab('admin'); switchAdminTab('runners');
-                showMsg('ระบบเจ้าหน้าที่', 'กำลังซิงค์ฐานข้อมูลผู้สมัครทั้งหมด...', 'loading');
-                window.startAdminDatabaseSync(); 
-                setTimeout(closeMsg, 1500);
-                renderConfigTables();
+                showMsg('ระบบเจ้าหน้าที่', 'กำลังซิงค์ฐานข้อมูลผู้สมัครทั้งหมด...', 'success');
+                window.startAdminDatabaseSync(); setTimeout(closeMsg, 1500); renderConfigTables();
             } else { showMsg('Error', 'รหัสผ่านไม่ถูกต้อง', 'error'); }
         };
         window.switchAdminTab = function(subTab) {
             document.querySelectorAll('.admin-sub-tab').forEach(el => el.classList.add('hidden'));
             document.getElementById(`admin-tab-${subTab}`).classList.remove('hidden');
+            if(html5QrcodeScanner) stopCameraScan();
         };
 
         // Admin Runner Database
@@ -1094,9 +1155,8 @@
             const tbody = document.getElementById('admin-runners-tbody');
             if(!tbody) return;
             const search = (document.getElementById('admin-search-box')?.value || '').toLowerCase();
-            const filtered = window.runnersList.filter(r => (r.fullName||'').toLowerCase().includes(search) || (r.idCard||'').includes(search) || (r.bibNumber||'').toLowerCase().includes(search));
+            const filtered = window.runnersList.filter(r => (r.fullName||'').toLowerCase().includes(search) || (r.idCard||'').includes(search) || (r.bibNumber||'').toLowerCase().includes(search) || (r.email||'').toLowerCase().includes(search));
             
-            // Statistics
             document.getElementById('admin-total-runners').innerText = filtered.length;
             const totalRev = filtered.reduce((sum, r) => sum + (r.paymentStatus === 'APPROVED' ? (r.totalPrice||0) : 0), 0);
             document.getElementById('admin-total-revenue').innerText = totalRev.toLocaleString();
@@ -1104,20 +1164,20 @@
             tbody.innerHTML = filtered.map(r => {
                 let btns = '';
                 if(r.paymentStatus === 'PENDING') {
-                    btns += `<button onclick="updateRunnerPayment('${r.docId}', 'APPROVED')" class="px-2 py-1.5 bg-emerald-100 text-emerald-700 rounded text-xs font-bold hover:bg-emerald-600 hover:text-white">อนุมัติ</button>
-                             <button onclick="updateRunnerPayment('${r.docId}', 'REJECTED')" class="px-2 py-1.5 bg-rose-100 text-rose-700 rounded text-xs font-bold hover:bg-rose-600 hover:text-white">ปฏิเสธ</button>`;
+                    btns += `<button onclick="updateRunnerPayment('${r.docId}', 'APPROVED')" class="px-3 py-2 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold hover:bg-emerald-600 hover:text-white transition">อนุมัติ</button>
+                             <button onclick="updateRunnerPayment('${r.docId}', 'REJECTED')" class="px-3 py-2 bg-rose-100 text-rose-700 rounded-lg text-xs font-bold hover:bg-rose-600 hover:text-white transition">ปฏิเสธ</button>`;
                 }
-                btns += `${r.paymentSlipUrl ? `<button onclick="openSlipModal('${r.paymentSlipUrl}')" class="px-2 py-1.5 bg-indigo-100 text-indigo-700 rounded text-xs font-bold hover:bg-indigo-200">สลิป</button>` : ''}
-                         <button onclick="openEditModal('${r.docId}')" class="px-2 py-1.5 bg-slate-200 text-slate-700 rounded text-xs font-bold hover:bg-slate-300">แก้ไข</button>
-                         <button onclick="deleteRunner('${r.docId}')" class="px-2 py-1.5 bg-rose-50 text-rose-600 rounded text-xs font-bold hover:bg-rose-100"><i class="ph-bold ph-trash"></i></button>`;
-                return `<tr class="hover:bg-indigo-50/50 transition">
-                    <td class="p-3"><div class="font-mono text-xs font-bold">${r.idCard}</div><div class="text-[10px] text-slate-500">📞 ${r.phone}</div></td>
-                    <td class="p-3 font-bold text-slate-900">${r.fullName}</td>
-                    <td class="p-3"><span class="bg-slate-100 px-2 py-1 rounded font-semibold text-[11px]">${r.distance}</span><br><span class="text-[10px] text-slate-500">ไซส์: ${r.shirt}</span></td>
-                    <td class="p-3 font-semibold text-indigo-700">${r.totalPrice} ฿</td>
-                    <td class="p-3 text-center"><div class="text-[10px] font-bold ${r.paymentStatus==='APPROVED'?'text-emerald-600':r.paymentStatus==='REJECTED'?'text-rose-600':'text-amber-600'}">${r.paymentStatus}</div><div class="font-black text-indigo-600">${r.bibNumber || '-'}</div></td>
-                    <td class="p-3 text-center"><div class="text-[10px] font-bold ${r.shirtStatus?'text-emerald-600':'text-slate-400'}">เสื้อ ${r.shirtStatus?'✓':'✗'}</div><div class="text-[10px] font-bold ${r.checkInStatus?'text-purple-600':'text-slate-400'}">เช็กอิน ${r.checkInStatus?'✓':'✗'}</div></td>
-                    <td class="p-3 text-right"><div class="flex items-center justify-end gap-1 flex-wrap">${btns}</div></td>
+                btns += `${r.paymentSlipUrl ? `<button onclick="openSlipModal('${r.paymentSlipUrl}')" class="px-3 py-2 bg-indigo-100 text-indigo-700 rounded-lg text-xs font-bold hover:bg-indigo-200 transition">สลิป</button>` : ''}
+                         <button onclick="openEditModal('${r.docId}')" class="px-3 py-2 bg-slate-200 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-300 transition">แก้ไข</button>
+                         <button onclick="deleteRunner('${r.docId}')" class="px-3 py-2 bg-rose-50 text-rose-600 rounded-lg text-xs font-bold hover:bg-rose-100 transition"><i class="ph-bold ph-trash"></i></button>`;
+                return `<tr class="hover:bg-indigo-50/50 transition border-b border-slate-100">
+                    <td class="p-4"><div class="font-mono text-sm font-bold text-slate-800">${r.idCard}</div><div class="text-xs text-slate-500 mt-1">📞 ${r.phone}</div></td>
+                    <td class="p-4"><div class="font-bold text-slate-900">${r.fullName}</div><div class="text-xs text-slate-500 mt-1 font-medium">${r.email || '-'}</div></td>
+                    <td class="p-4"><span class="bg-slate-100 px-2.5 py-1 rounded-md font-semibold text-xs">${r.distance}</span><br><span class="text-xs text-slate-500 mt-1 block">ไซส์: ${r.shirt}</span></td>
+                    <td class="p-4 font-semibold text-indigo-700">฿${r.totalPrice}</td>
+                    <td class="p-4 text-center"><div class="text-xs font-bold ${r.paymentStatus==='APPROVED'?'text-emerald-600':r.paymentStatus==='REJECTED'?'text-rose-600':'text-amber-600'}">${r.paymentStatus}</div><div class="font-black text-indigo-600 mt-1">${r.bibNumber || '-'}</div></td>
+                    <td class="p-4 text-center"><div class="text-xs font-bold ${r.shirtStatus?'text-emerald-600':'text-slate-400'}">เสื้อ ${r.shirtStatus?'✓':'✗'}</div><div class="text-xs font-bold mt-1 ${r.checkInStatus?'text-purple-600':'text-slate-400'}">เช็กอิน ${r.checkInStatus?'✓':'✗'}</div></td>
+                    <td class="p-4 text-right"><div class="flex items-center justify-end gap-2 flex-wrap">${btns}</div></td>
                 </tr>`;
             }).join('');
         };
@@ -1156,7 +1216,7 @@
         window.openEditModal = function(docId) {
             const r = window.runnersList.find(x => x.docId === docId); if(!r) return;
             document.getElementById('edit-doc-id').value = r.docId;
-            ['idcard','fullname','phone','shirt','blood','emergname','emergphone','bib'].forEach(f => {
+            ['idcard','fullname','email','phone','shirt','blood','emergname','emergphone','bib'].forEach(f => {
                 document.getElementById(`edit-${f}`).value = r[f==='idcard'?'idCard':f==='fullname'?'fullName':f==='emergname'?'emergName':f==='emergphone'?'emergPhone':f==='bib'?'bibNumber':f] || '';
             });
             const dSel = document.getElementById('edit-distance');
@@ -1171,6 +1231,7 @@
                 const { updateDoc, doc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
                 await updateDoc(doc(window.db, 'artifacts', window.appId, 'runners', docId), {
                     idCard: document.getElementById('edit-idcard').value, fullName: document.getElementById('edit-fullname').value,
+                    email: document.getElementById('edit-email').value,
                     phone: document.getElementById('edit-phone').value, distance: document.getElementById('edit-distance').value,
                     shirt: document.getElementById('edit-shirt').value, blood: document.getElementById('edit-blood').value,
                     emergName: document.getElementById('edit-emergname').value, emergPhone: document.getElementById('edit-emergphone').value,
@@ -1180,19 +1241,45 @@
             } catch(e) { console.error(e); showMsg('Error', 'บันทึกล้มเหลว', 'error'); }
         };
 
-        // Admin Scanner
+        let html5QrcodeScanner = null;
+
+        window.startCameraScan = function() {
+            const rc = document.getElementById('reader-container');
+            const btn = document.getElementById('btn-start-camera');
+            rc.classList.remove('hidden');
+            btn.classList.add('hidden');
+            
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "reader", { fps: 10, qrbox: {width: 250, height: 250} }, false);
+                
+            html5QrcodeScanner.render((decodedText) => {
+                document.getElementById('scanner-input').value = decodedText;
+                stopCameraScan();
+                processScanner();
+            }, (error) => { /* ignore */ });
+        };
+
+        window.stopCameraScan = function() {
+            if(html5QrcodeScanner) {
+                html5QrcodeScanner.clear();
+                html5QrcodeScanner = null;
+            }
+            document.getElementById('reader-container').classList.add('hidden');
+            document.getElementById('btn-start-camera').classList.remove('hidden');
+        };
+
         window.processScanner = function() {
             const q = document.getElementById('scanner-input').value.trim(); const b = document.getElementById('scanner-result-box');
             if(!q) return;
             const r = window.runnersList.find(x => x.idCard === q || x.bibNumber === q || (q.includes('BIB:') && q.includes(x.bibNumber)));
-            if(!r) { b.innerHTML = `<p class="text-rose-600 font-bold text-center">❌ ไม่พบข้อมูล: "${q}"</p>`; b.classList.remove('hidden'); return; }
+            if(!r) { b.innerHTML = `<p class="text-rose-600 font-bold text-center text-xl">❌ ไม่พบข้อมูล: "${q}"</p>`; b.classList.remove('hidden'); return; }
             b.innerHTML = `
-                <div class="border-b border-slate-200 pb-4"><h4 class="font-extrabold text-2xl text-slate-900">${r.fullName}</h4><p class="text-slate-500 font-medium">เลขบัตร: ${r.idCard} | ระยะ: ${r.distance} | ไซส์: ${r.shirt}</p></div>
-                <div class="grid grid-cols-2 gap-4"><div class="bg-white p-3 rounded-xl border font-bold text-center ${r.paymentStatus==='APPROVED'?'border-emerald-200 text-emerald-600':'border-rose-200 text-rose-600'}">สถานะจ่ายเงิน: ${r.paymentStatus}</div><div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100 font-black text-indigo-700 text-center text-xl">BIB: ${r.bibNumber || 'ไม่มี'}</div></div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                    <button onclick="toggleAction('${r.docId}', 'shirtStatus', ${!r.shirtStatus})" class="py-3 rounded-xl font-bold shadow-md transition ${r.shirtStatus?'bg-rose-100 text-rose-700 hover:bg-rose-200':'bg-emerald-600 text-white hover:bg-emerald-700'}">${r.shirtStatus?'ยกเลิกรับเสื้อ':'ยืนยันรับเสื้อ'}</button>
-                    <button onclick="toggleAction('${r.docId}', 'checkInStatus', ${!r.checkInStatus})" class="py-3 rounded-xl font-bold shadow-md transition ${r.checkInStatus?'bg-rose-100 text-rose-700 hover:bg-rose-200':'bg-purple-600 text-white hover:bg-purple-700'}">${r.checkInStatus?'ยกเลิกเช็กอิน':'สแกนเช็กอินเข้างาน'}</button>
-                    <button onclick="printBIB('${r.fullName}', '${r.bibNumber}', '${r.distance}')" class="py-3 bg-slate-900 text-white rounded-xl shadow-md font-bold hover:bg-slate-800 transition">พิมพ์ BIB</button>
+                <div class="border-b border-slate-100 pb-5"><h4 class="font-extrabold text-3xl text-slate-900">${r.fullName}</h4><p class="text-slate-500 font-medium mt-2">เลขบัตร: ${r.idCard} | ระยะ: ${r.distance} | ไซส์: ${r.shirt}</p></div>
+                <div class="grid grid-cols-2 gap-5"><div class="bg-white p-4 rounded-2xl border-2 font-bold text-center text-lg ${r.paymentStatus==='APPROVED'?'border-emerald-200 text-emerald-600':'border-rose-200 text-rose-600'}">สถานะจ่ายเงิน:<br>${r.paymentStatus}</div><div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100 font-black text-indigo-700 text-center text-2xl">BIB:<br>${r.bibNumber || 'ไม่มี'}</div></div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3">
+                    <button onclick="toggleAction('${r.docId}', 'shirtStatus', ${!r.shirtStatus})" class="py-4 rounded-xl font-bold shadow-md transition text-base ${r.shirtStatus?'bg-rose-100 text-rose-700 hover:bg-rose-200':'bg-emerald-600 text-white hover:bg-emerald-700'}">${r.shirtStatus?'ยกเลิกรับเสื้อ':'ยืนยันรับเสื้อ'}</button>
+                    <button onclick="toggleAction('${r.docId}', 'checkInStatus', ${!r.checkInStatus})" class="py-4 rounded-xl font-bold shadow-md transition text-base ${r.checkInStatus?'bg-rose-100 text-rose-700 hover:bg-rose-200':'bg-purple-600 text-white hover:bg-purple-700'}">${r.checkInStatus?'ยกเลิกเช็กอิน':'สแกนเข้างาน'}</button>
+                    <button onclick="printBIB('${r.fullName}', '${r.bibNumber}', '${r.distance}')" class="py-4 bg-slate-900 text-white rounded-xl shadow-md font-bold hover:bg-slate-800 transition text-base">พิมพ์ BIB</button>
                 </div>
             `;
             b.classList.remove('hidden'); document.getElementById('scanner-input').value = '';
@@ -1211,106 +1298,85 @@
             w.document.close();
         };
 
-        // Admin Config Settings
         window.renderConfigTables = function() {
             const safeSetVal = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
             safeSetVal('setting-event-name', window.eventConfig.eventName || '');
             safeSetVal('setting-reg-open', String(window.eventConfig.registerOpen));
-            safeSetVal('setting-bank-logo', window.eventConfig.bankLogoUrl || '');
+            safeSetVal('setting-hero-title', window.eventConfig.heroTitle || '');
+            safeSetVal('setting-hero-subtitle', window.eventConfig.heroSubtitle || '');
+            safeSetVal('setting-hero-desc', window.eventConfig.heroDesc || '');
             safeSetVal('setting-contact-url', window.eventConfig.contactUrl || '');
-            safeSetVal('setting-bank', window.eventConfig.accountInfo || '');
             safeSetVal('setting-popup', window.eventConfig.popupNotice || '');
-
-            const makeRow = (arr, keys, cssClasses, type) => (arr||[]).map((d,i) => `<tr>${keys.map((k,j) => `<td class="p-1.5"><input type="${cssClasses[j].includes('w-20')?'number':'text'}" value="${d[k] !== undefined ? d[k] : ''}" class="w-full px-2 py-1.5 border rounded bg-slate-50 text-xs t-${k}"></td>`).join('')}${type==='discounts'?`<td class="p-1.5 text-center text-xs font-bold text-slate-500">${d.used||0}</td>`:''}<td class="p-1.5 text-center"><button type="button" onclick="removeConfigRow('${type}',${i})" class="text-rose-500 hover:bg-rose-100 p-1 rounded"><i class="ph-bold ph-trash"></i></button></td></tr>`).join('');
             
-            document.getElementById('config-distances-tbody').innerHTML = makeRow(window.eventConfig.distances, ['name','price','bibPrefix'], ['','w-20','w-20'], 'distances');
-            document.getElementById('config-discounts-tbody').innerHTML = makeRow(window.eventConfig.discounts, ['code','amount','limit'], ['','w-20','w-16'], 'discounts');
-            document.getElementById('config-sizechart-tbody').innerHTML = makeRow(window.eventConfig.sizeChartRows, ['size','chest','length'], ['','',''], 'sizeChartRows');
-            document.getElementById('config-schedule-tbody').innerHTML = makeRow(window.eventConfig.scheduleRows, ['date','time','detail'], ['','',''], 'scheduleRows');
+            safeSetVal('setting-bank-logo', window.eventConfig.bankLogoUrl || '');
+            safeSetVal('setting-bank-name', window.eventConfig.bankName || '');
+            safeSetVal('setting-bank-accno', window.eventConfig.bankAccNo || '');
+            safeSetVal('setting-bank-accname', window.eventConfig.bankAccName || '');
+
+            // Email Settings
+            safeSetVal('setting-email-enable', String(window.eventConfig.enableEmail || false));
+            safeSetVal('setting-email-service', window.eventConfig.emailjsServiceId || '');
+            safeSetVal('setting-email-template', window.eventConfig.emailjsTemplateId || '');
+            safeSetVal('setting-email-publickey', window.eventConfig.emailjsPublicKey || '');
+
+            const makeRow = (arr, keys, cssClasses, type) => (arr||[]).map((d,i) => `<tr>${keys.map((k,j) => `<td class="p-1"><input type="${cssClasses[j].includes('w-20')?'number':'text'}" value="${d[k] !== undefined ? d[k] : ''}" class="w-full px-3 py-2 border border-slate-200 rounded-lg bg-slate-50 text-sm focus:border-indigo-500 outline-none t-${k}"></td>`).join('')}${type==='discounts'?`<td class="p-1 text-center font-bold text-slate-500">${d.used||0}</td>`:''}<td class="p-1 text-center"><button type="button" onclick="removeConfigRow('${type}',${i})" class="text-rose-500 hover:bg-rose-100 p-2 rounded-lg transition"><i class="ph-bold ph-trash"></i></button></td></tr>`).join('');
+            
+            const t1 = document.getElementById('config-distances-tbody'); if(t1) t1.innerHTML = makeRow(window.eventConfig.distances, ['name','price','bibPrefix'], ['','w-20','w-20'], 'distances');
+            const t2 = document.getElementById('config-discounts-tbody'); if(t2) t2.innerHTML = makeRow(window.eventConfig.discounts, ['code','amount','limit'], ['','w-20','w-16'], 'discounts');
+            const t3 = document.getElementById('config-sizechart-tbody'); if(t3) t3.innerHTML = makeRow(window.eventConfig.sizeChartRows, ['size','chest','length'], ['','',''], 'sizeChartRows');
+            const t4 = document.getElementById('config-schedule-tbody'); if(t4) t4.innerHTML = makeRow(window.eventConfig.scheduleRows, ['date','time','detail'], ['','',''], 'scheduleRows');
         };
 
-        // This function saves whatever the admin typed BEFORE adding/removing rows so data isn't lost.
         window.syncTableDataToState = function() {
-            const getT = (q, c) => Array.from(document.querySelectorAll(`${q} tr`)).map(tr => c(tr));
-            if(document.getElementById('config-distances-tbody')) {
-                window.eventConfig.distances = getT('#config-distances-tbody', tr => ({
-                    name: (tr.querySelector('.t-name')||{}).value||'',
-                    price: parseFloat((tr.querySelector('.t-price')||{}).value||0),
-                    bibPrefix: ((tr.querySelector('.t-bibPrefix')||{}).value||'').toUpperCase()
-                }));
-            }
-            if(document.getElementById('config-discounts-tbody')) {
-                window.eventConfig.discounts = getT('#config-discounts-tbody', (tr) => {
-                    const i = Array.from(tr.parentNode.children).indexOf(tr);
-                    return {
-                        code: ((tr.querySelector('.t-code')||{}).value||'').toUpperCase(),
-                        amount: parseFloat((tr.querySelector('.t-amount')||{}).value||0),
-                        limit: parseInt((tr.querySelector('.t-limit')||{}).value||1),
-                        used: window.eventConfig.discounts[i]?.used || 0
-                    };
-                });
-            }
-            if(document.getElementById('config-sizechart-tbody')) {
-                window.eventConfig.sizeChartRows = getT('#config-sizechart-tbody', tr => ({
-                    size: (tr.querySelector('.t-size')||{}).value||'',
-                    chest: (tr.querySelector('.t-chest')||{}).value||'',
-                    length: (tr.querySelector('.t-length')||{}).value||''
-                }));
-            }
-            if(document.getElementById('config-schedule-tbody')) {
-                window.eventConfig.scheduleRows = getT('#config-schedule-tbody', tr => ({
-                    date: (tr.querySelector('.t-date')||{}).value||'',
-                    time: (tr.querySelector('.t-time')||{}).value||'',
-                    detail: (tr.querySelector('.t-detail')||{}).value||''
-                }));
-            }
+            const getT = (q, c) => { const els = document.querySelectorAll(`${q} tr`); return els.length ? Array.from(els).map(tr => c(tr)) : []; };
+            if(document.getElementById('config-distances-tbody')) { window.eventConfig.distances = getT('#config-distances-tbody', tr => ({ name: (tr.querySelector('.t-name')||{}).value||'', price: parseFloat((tr.querySelector('.t-price')||{}).value||0), bibPrefix: ((tr.querySelector('.t-bibPrefix')||{}).value||'').toUpperCase() })); }
+            if(document.getElementById('config-discounts-tbody')) { window.eventConfig.discounts = getT('#config-discounts-tbody', (tr) => { const i = Array.from(tr.parentNode.children).indexOf(tr); return { code: ((tr.querySelector('.t-code')||{}).value||'').toUpperCase(), amount: parseFloat((tr.querySelector('.t-amount')||{}).value||0), limit: parseInt((tr.querySelector('.t-limit')||{}).value||1), used: window.eventConfig.discounts[i]?.used || 0 }; }); }
+            if(document.getElementById('config-sizechart-tbody')) { window.eventConfig.sizeChartRows = getT('#config-sizechart-tbody', tr => ({ size: (tr.querySelector('.t-size')||{}).value||'', chest: (tr.querySelector('.t-chest')||{}).value||'', length: (tr.querySelector('.t-length')||{}).value||'' })); }
+            if(document.getElementById('config-schedule-tbody')) { window.eventConfig.scheduleRows = getT('#config-schedule-tbody', tr => ({ date: (tr.querySelector('.t-date')||{}).value||'', time: (tr.querySelector('.t-time')||{}).value||'', detail: (tr.querySelector('.t-detail')||{}).value||'' })); }
         };
 
-        // Add Row Button Handler
-        window.addConfigRow = (key, defaultObj) => { 
-            window.syncTableDataToState(); // Save typed text first
-            window.eventConfig[key] = window.eventConfig[key] || []; 
-            window.eventConfig[key].push(defaultObj); 
-            renderConfigTables(); // Re-render with new empty row
-        };
-        
-        // Remove Row Button Handler
-        window.removeConfigRow = (key, i) => { 
-            window.syncTableDataToState(); // Save typed text first
-            window.eventConfig[key].splice(i,1); 
-            renderConfigTables(); // Re-render without removed row
-        };
+        window.addConfigRow = (key, defaultObj) => { window.syncTableDataToState(); window.eventConfig[key] = window.eventConfig[key] || []; window.eventConfig[key].push(defaultObj); renderConfigTables(); };
+        window.removeConfigRow = (key, i) => { window.syncTableDataToState(); window.eventConfig[key].splice(i,1); renderConfigTables(); };
 
         window.saveEventConfig = async function(e) {
             e.preventDefault();
-            
-            // Sync all tables data before saving
             window.syncTableDataToState();
 
             const safeGetVal = (id) => { const el = document.getElementById(id); return el ? el.value.trim() : null; };
             
             const eventName = safeGetVal('setting-event-name'); if (eventName !== null) window.eventConfig.eventName = eventName;
             const regOpen = safeGetVal('setting-reg-open'); if (regOpen !== null) window.eventConfig.registerOpen = regOpen === 'true';
-            const bankLogo = safeGetVal('setting-bank-logo'); if (bankLogo !== null) window.eventConfig.bankLogoUrl = bankLogo;
+            
+            const hTitle = safeGetVal('setting-hero-title'); if (hTitle !== null) window.eventConfig.heroTitle = hTitle;
+            const hSub = safeGetVal('setting-hero-subtitle'); if (hSub !== null) window.eventConfig.heroSubtitle = hSub;
+            const hDesc = safeGetVal('setting-hero-desc'); if (hDesc !== null) window.eventConfig.heroDesc = hDesc;
+            
             const contactUrl = safeGetVal('setting-contact-url'); if (contactUrl !== null) window.eventConfig.contactUrl = contactUrl;
-            const bankInfo = safeGetVal('setting-bank'); if (bankInfo !== null) window.eventConfig.accountInfo = bankInfo;
             const popupNotice = safeGetVal('setting-popup'); if (popupNotice !== null) window.eventConfig.popupNotice = popupNotice;
 
+            const bLogo = safeGetVal('setting-bank-logo'); if (bLogo !== null) window.eventConfig.bankLogoUrl = bLogo;
+            const bName = safeGetVal('setting-bank-name'); if (bName !== null) window.eventConfig.bankName = bName;
+            const bAcc = safeGetVal('setting-bank-accno'); if (bAcc !== null) window.eventConfig.bankAccNo = bAcc;
+            const bAccName = safeGetVal('setting-bank-accname'); if (bAccName !== null) window.eventConfig.bankAccName = bAccName;
+
+            // Save EmailJS settings
+            const emEnable = safeGetVal('setting-email-enable'); if (emEnable !== null) window.eventConfig.enableEmail = emEnable === 'true';
+            const emService = safeGetVal('setting-email-service'); if (emService !== null) window.eventConfig.emailjsServiceId = emService;
+            const emTemplate = safeGetVal('setting-email-template'); if (emTemplate !== null) window.eventConfig.emailjsTemplateId = emTemplate;
+            const emPubKey = safeGetVal('setting-email-publickey'); if (emPubKey !== null) window.eventConfig.emailjsPublicKey = emPubKey;
+
             const sf = document.getElementById('setting-shirt-file').files[0];
-            showMsg('Saving...', 'กำลังบันทึกการตั้งค่า...', 'loading');
+            showMsg('Saving...', 'กำลังบันทึกการตั้งค่า...', 'success');
             try {
                 if(sf) window.eventConfig.shirtImg = await window.compressImage(sf, 800);
                 const { setDoc, doc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
-                await setDoc(doc(window.db, 'artifacts', window.appId, 'config', 'main'), window.eventConfig);
+                await setDoc(doc(window.db, 'artifacts', window.appId, 'appData', 'config'), window.eventConfig);
                 applyConfigToUI(); 
                 showMsg('Saved', 'บันทึกการตั้งค่าระบบเรียบร้อยแล้ว', 'success');
             } catch(e) { 
                 console.error(e); 
-                if (e.code === 'permission-denied') {
-                    showMsg('บันทึกไม่ได้ (ถูกล็อค)', 'Firebase Rules ป้องกันการบันทึก กรุณาไปแก้ Rules ใน Firebase', 'error');
-                } else {
-                    showMsg('Error', 'ไม่สามารถบันทึกได้ กรุณาลองใหม่', 'error'); 
-                }
+                if (e.code === 'permission-denied') showMsg('บันทึกไม่ได้ (ถูกล็อค)', 'Firebase Rules ป้องกันการบันทึก กรุณาไปแก้ Rules ใน Firebase', 'error');
+                else showMsg('Error', 'ไม่สามารถบันทึกได้ กรุณาลองใหม่', 'error'); 
             }
         };
     </script>
