@@ -6,6 +6,7 @@
 <title>TP RUN 2026 | โรงเรียนเทพพิทักษ์วิทยา</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Mali:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.js"></script>
@@ -32,6 +33,7 @@
     /* Gradients */
     --grad-main: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
     --grad-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --grad-scan: linear-gradient(135deg, #10b981 0%, #059669 100%);
   }
   *{box-sizing:border-box;}
   html,body{margin:0; background:var(--cream); color:var(--charcoal); font-family:'Sarabun',sans-serif; -webkit-font-smoothing:antialiased;}
@@ -99,7 +101,6 @@
   .eyebrow::before{content:""; width:30px; height:2px; background:var(--sage-pale); border-radius: 2px;}
   .hero-row{display:flex; align-items:center; gap:40px; flex-wrap:wrap;}
   
-  /* Glassmorphism BIB */
   .bib{
     width:150px; height:150px; border-radius:28px; 
     background:rgba(255,255,255,0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -123,6 +124,31 @@
   .btn-peach:hover{transform:translateY(-3px) scale(1.02); box-shadow:0 16px 32px rgba(236,72,153,0.5);}
   .btn-ghost{background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.3); backdrop-filter: blur(4px);}
   .btn-ghost:hover{background:rgba(255,255,255,0.2); transform:translateY(-2px);}
+
+  /* ===== MODERN SCAN BUTTON ===== */
+  .btn-scan {
+    background: var(--grad-scan);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 16px 24px;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 700;
+    font-size: 16.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-scan:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(16, 185, 129, 0.45);
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  }
+  .btn-scan svg { width: 26px; height: 26px; fill: currentColor; }
   
   .hero-meta{display:flex; gap:30px; flex-wrap:wrap; margin-top:46px; border-top:1px solid rgba(255,255,255,0.1); padding-top:24px;}
   .hero-meta div{font-size:13.5px; color:#94a3b8;}
@@ -135,7 +161,6 @@
   .section-title h2{font-size:clamp(26px,4vw,36px); color:var(--sage-deep); margin:8px 0 12px; font-weight:800; letter-spacing: -0.02em;}
   .section-title p{color:var(--muted); font-size:16px; max-width:56ch; margin:0 auto; line-height: 1.6;}
 
-  /* Modern Stepper */
   .stepper{display:grid; grid-template-columns:repeat(6,1fr); gap:0; position:relative;}
   .stepper::before{content:""; position:absolute; top:30px; left:8%; right:8%; height:0; border-top:2px dashed var(--line); z-index:0;}
   .step{position:relative; z-index:1; text-align:center; padding:0 6px;}
@@ -145,7 +170,6 @@
   .step:hover .lbl{color:var(--peach);}
   .step .sub{font-size:12.5px; color:var(--muted); margin-top:4px;}
 
-  /* Vibrant Cards */
   .cards3{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
   .info-card{background:#fff; border:1px solid var(--line); border-radius:28px; padding:36px 28px; text-align:center; transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position:relative; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.03);}
   .info-card::before{content:""; position:absolute; top:0; left:0; width:100%; height:6px; background:var(--line); transition:all 0.4s;}
@@ -161,7 +185,6 @@
   .info-card p{margin:0; font-size:14.5px; color:var(--muted); line-height:1.6;}
   .info-card .price{margin-top:20px; font-family:'Kanit',sans-serif; font-weight:800; color:var(--sage-deep); font-size:24px;}
 
-  /* Modern CTA Band */
   .cta-band{position:relative; background:var(--grad-main); color:#fff; border-radius:36px; padding:64px 40px; text-align:center; margin-top:40px; overflow:hidden; box-shadow:0 20px 40px rgba(236,72,153,0.2);}
   .cta-band::before{content:""; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%); pointer-events:none;}
   .cta-band h2{margin:0 0 12px; font-size:clamp(26px, 4vw, 36px); font-weight:800; position:relative; z-index:1;}
@@ -325,9 +348,7 @@
   .scan-bar{display:flex; gap:12px; max-width:680px; margin-bottom:12px; flex-wrap:wrap;}
   .scan-bar input{flex:1; min-width:240px; padding:14px 20px;}
   .scan-hint{font-size:13px; color:var(--muted); margin-bottom:26px;}
-  .cam-btn{background:var(--gold-pale); border-color:var(--gold); color:var(--gold-deep);}
-  .cam-btn:hover{background:var(--gold); color:#fff;}
-
+  
   .profile-card{background:#fff; border:1px solid var(--line); border-radius:28px; padding:32px; max-width:720px; box-shadow: 0 15px 35px rgba(0,0,0,0.04);}
   .profile-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:24px; flex-wrap:wrap;}
   .profile-head .nm{font-family:'Kanit',sans-serif; font-weight:800; font-size:22px; color:var(--sage-deep);}
@@ -644,7 +665,13 @@
         </div>
         <button class="btn btn-peach" id="lkBtn" style="width:100%;">ตรวจสอบสถานะ</button>
         <div class="scan-divider">หรือ</div>
-        <button class="btn-outline cam-btn" id="lkScanBtn" style="width:100%;">เปิดกล้องสแกน QR ประจำตัว</button>
+        
+        <!-- NEW SCAN BUTTON -->
+        <button class="btn-scan" id="lkScanBtn">
+           <svg viewBox="0 0 24 24"><path d="M4 4h4v2H6v2H4V4zm16 0h-4v2h2v2h2V4zM4 20h4v-2H6v-2H4v4zm16 0h-4v-2h2v-2h2v4zm-5-9H9v2h6v-2z"/></svg>
+           เปิดกล้องสแกน QR ประจำตัว
+        </button>
+
       </div>
       <div class="status-result" id="statusResult" style="display:none;"></div>
     </div>
@@ -696,7 +723,13 @@
         <div class="scan-bar">
           <input type="text" id="scanSearch" placeholder="พิมพ์ชื่อ / เลขบัตรประชาชน / เบอร์โทร หรือสแกนรหัส">
           <button class="btn-outline" id="scanSearchBtn">ค้นหา</button>
-          <button class="btn-outline cam-btn" id="scanCamBtn">เปิดกล้องสแกน QR</button>
+          
+          <!-- NEW SCAN BUTTON -->
+          <button class="btn-scan" id="scanCamBtn" style="width:auto;">
+             <svg viewBox="0 0 24 24"><path d="M4 4h4v2H6v2H4V4zm16 0h-4v2h2v2h2V4zM4 20h4v-2H6v-2H4v4zm16 0h-4v-2h2v-2h2v4zm-5-9H9v2h6v-2z"/></svg>
+             เปิดกล้องสแกน QR
+          </button>
+          
         </div>
         <div class="scan-hint">รองรับเครื่องสแกนบาร์โค้ดแบบ USB/บลูทูธ — เพียงคลิกที่ช่องค้นหาแล้วยิงบาร์โค้ด ระบบจะค้นหาให้อัตโนมัติ</div>
         <div id="scanResult"></div>
@@ -1640,7 +1673,7 @@
     $("camModal").style.display = "none";
   }
   function openCamScan(onResult){
-    if(typeof jsQR === "undefined"){ alert("ไม่สามารถโหลดตัวอ่าน QR ได้ กรุณาเชื่อมต่ออินเทอร์เน็ต"); return; }
+    if(typeof jsQR === "undefined"){ showToast("ไม่สามารถโหลดระบบสแกนได้ กรุณาเชื่อมต่ออินเทอร์เน็ต", "err"); return; }
     $("camModal").style.display = "flex"; $("camHint").textContent = "กรุณาอนุญาตให้ใช้กล้อง แล้วนำ QR เข้ากลางเฟรม";
     const video = $("camVideo"), canvas = $("camCanvas"), ctx = canvas.getContext("2d");
     navigator.mediaDevices.getUserMedia({ video:{ facingMode:"environment" } }).then(stream=>{
