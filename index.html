@@ -302,7 +302,6 @@
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เสื้อวิ่ง TP RUN 60 YEARS ONE JOURNEY</li>
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> หมายเลขวิ่ง (BIB)</li>
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เหรียญหลังเข้าเส้นชัย</li>
-
               </ul>
               <button onclick="showView('register')" class="btn-primary w-full py-4 rounded-2xl font-bold shadow-glow-brand">สมัครระยะนี้เลย</button>
             </div>
@@ -891,7 +890,7 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script type="module">
-    // --- FIREBASE IMPORTS (ตัด Storage ออก ใช้แค่ Firestore) ---
+    // --- FIREBASE IMPORTS (Firestore Only, No Storage to save quotas) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -977,7 +976,7 @@
       return new Date(iso).toLocaleString("th-TH", {day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"});
     }
 
-    // ฟังก์ชันบีบอัดภาพเพื่อเก็บลง Database แทน Storage
+    // Aggressive compression for Base64 saving direct to Firestore
     async function compressImage(file, maxSize = 800) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -990,8 +989,7 @@
             cvs.width = w; cvs.height = h;
             cvs.getContext('2d').drawImage(img,0,0,w,h);
             
-            // บีบอัดเป็น JPEG 60% เพื่อให้ขนาดไฟล์เล็กพอจะเก็บลง Firestore ได้ (<1MB)
-            // ยกเว้นภาพ Logo ถ้าเป็น PNG จะเก็บไว้เพื่อให้พื้นหลังใสได้
+            // Compress heavily to avoid hitting 1MB document limit
             let mimeType = 'image/jpeg';
             let quality = 0.6;
             if (file.type === 'image/png' && maxSize <= 400) {
@@ -1009,7 +1007,7 @@
     /* ================= FIRESTORE DATA MANAGEMENT ================= */
     async function loadAllRecords() {
       try {
-        const querySnapshot = await getDocs(collection(db, "registrations"));
+        const querySnapshot = await getDocs(collection(db, "tp_run_db", "all_records", "registrations"));
         const records = [];
         querySnapshot.forEach((doc) => { records.push(doc.data()); });
         records.sort((a,b) => new Date(b.ts) - new Date(a.ts));
@@ -1023,7 +1021,7 @@
 
     async function loadConfigFromFirebase() {
       try {
-        const docRef = doc(db, "settings", "global");
+        const docRef = doc(db, "tp_run_db", "global_settings");
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           config = { ...config, ...docSnap.data() };
@@ -1101,7 +1099,7 @@
     document.getElementById('slipFile').addEventListener('change', async function() {
       if(!this.files[0]) return;
       if(this.files[0].size > 5*1024*1024) { showToast('ไฟล์ใหญ่เกินไป (สูงสุด 5MB)', 'error'); return; }
-      // บีบอัดสลิปให้เหลือ 600px เพื่อประหยัดพื้นที่ใน Database
+      // Compress immediately for Firestore Base64 saving
       slipBase64 = await compressImage(this.files[0], 600); 
       document.getElementById('uploadPrompt').classList.add('hidden');
       document.getElementById('slipPreview').src = slipBase64;
@@ -1138,23 +1136,20 @@
       try {
         let p = dist === '5' ? config.price5 : dist === '10' ? config.price10 : config.priceVIP;
         const recId = 'TP' + Date.now().toString(36).toUpperCase();
-        
-        // ใช้ภาพ Base64 ยัดลง Database ได้โดยตรง
-        const slipUrl = slipBase64; 
 
         const rec = {
           id: recId, ts: new Date().toISOString(),
           idCard: id, fullName: name, email: document.getElementById('email').value.trim(),
           dob: dob, age: document.getElementById('age').value, ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
           gender: gender, blood: blood, phone: phone, med: med, emName: emN, emPhone: emP,
-          distance: dist, shirt: shirt, amount: p, slip: slipUrl,
+          distance: dist, shirt: shirt, amount: p, slip: slipBase64,
           verified: false, vTs: null, bibNumber: null,
           shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
         };
 
-        // Save to Firestore
-        await setDoc(doc(db, "registrations", rec.id), rec);
-        recordsCache.push(rec); // Update local cache
+        // Save directly to Firestore Document (Under tp_run_db)
+        await setDoc(doc(db, "tp_run_db", "all_records", "registrations", rec.id), rec);
+        recordsCache.push(rec); 
         
         this.reset();
         slipBase64 = null;
@@ -1180,17 +1175,25 @@
 
     function copyToClipboard(text) { navigator.clipboard.writeText(text).then(()=>showToast('คัดลอกเลขบัญชีแล้ว')); }
 
-    /* ================= STATUS CHECK ================= */
+    /* ================= STATUS CHECK & CANVAS ================= */
     document.getElementById('lkBtn').addEventListener('click', async () => {
       const id = document.getElementById('lkId').value.trim();
       const ph = document.getElementById('lkPhone').value.trim();
       if(!id || !ph) { showToast('กรุณากรอกเลขบัตรและเบอร์โทร', 'error'); return; }
       
-      const records = await loadAllRecords(); // fetch fresh from Firestore
+      const btn = document.getElementById('lkBtn');
+      const ogHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ค้นหาข้อมูล';
+      btn.disabled = true;
+
+      const records = await loadAllRecords(); 
       const rec = records.find(r => r.idCard === id && r.phone === ph);
       const res = document.getElementById('statusResult');
       res.classList.remove('hidden');
       
+      btn.innerHTML = ogHtml;
+      btn.disabled = false;
+
       if(!rec) {
         res.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-50 rounded-[1.5rem] border border-slate-100 font-bold"><i class="fa-solid fa-triangle-exclamation text-3xl text-slate-300 mb-3 block"></i>ไม่พบข้อมูลการสมัคร โปรดตรวจสอบความถูกต้อง</div>`;
         return;
@@ -1255,7 +1258,6 @@
         if(!bgUrl) { showToast('ยังไม่ได้ตั้งค่าภาพพื้นหลังในระบบ', 'error'); resolve(null); return; }
         
         const img = new Image();
-        // ไม่ต้องการ crossOrigin="Anonymous" อีกต่อไปเพราะภาพเป็น Data URI
         img.onload = () => {
           const cvs = document.createElement('canvas');
           cvs.width = img.width; cvs.height = img.height;
@@ -1287,6 +1289,18 @@
     }
 
     /* ================= ADMIN LOGIC ================= */
+    document.getElementById('staffSectionSelect').addEventListener('change', function() {
+      document.querySelectorAll('.staff-panel').forEach(el => el.classList.add('hidden'));
+      const panel = document.getElementById('panel-' + this.value);
+      panel.classList.remove('hidden');
+      panel.classList.add('animate-[fadeIn_0.3s_ease-out]');
+      
+      if(this.value === 'overview') renderAdminOverview();
+      if(this.value === 'payment') renderAdminPayment();
+      if(this.value === 'all') renderAdminAll();
+      if(this.value === 'settings') fillAdminSettings();
+    });
+
     function showImg(src) {
       document.getElementById('imgModalSrc').src = src;
       const m = document.getElementById('imgModal');
@@ -1361,7 +1375,7 @@
           r.bibNumber = generateBibNumber(r.gender, r.ageGroupCode, recordsCache);
           
           try {
-            await updateDoc(doc(db, "registrations", id), { verified: r.verified, vTs: r.vTs, bibNumber: r.bibNumber });
+            await updateDoc(doc(db, "tp_run_db", "all_records", "registrations", id), { verified: r.verified, vTs: r.vTs, bibNumber: r.bibNumber });
             Swal.fire({ icon: 'success', title: 'ยืนยันสำเร็จ', text: `สร้าง BIB: ${r.bibNumber} แล้ว`, timer: 2000, showConfirmButton: false });
             renderAdminPayment();
           } catch(err) {
@@ -1430,7 +1444,7 @@
         if(result.isConfirmed) {
           r[key] = true; r[tsKey] = new Date().toISOString();
           try {
-            await updateDoc(doc(db, "registrations", id), { [key]: r[key], [tsKey]: r[tsKey] });
+            await updateDoc(doc(db, "tp_run_db", "all_records", "registrations", id), { [key]: r[key], [tsKey]: r[tsKey] });
             showToast('อัปเดตข้อมูลสำเร็จ');
             document.querySelectorAll('[id^="srch"]').forEach(el => { if(el.value) el.nextElementSibling.click(); });
           } catch(err) {
@@ -1539,17 +1553,15 @@
         const bibFVIP = document.getElementById('cfgBibBgVIP').files[0];
         const certF = document.getElementById('cfgCertBg').files[0];
 
-        // บีบอัดและแปลงรูปให้เป็น Data URI (Base64) เพื่อยัดลง Database (จำกัด 1MB ต่อ 1 โฟลเดอร์)
-        // บีบอัดให้ไม่เกิน 800px จะปลอดภัยที่สุด
-        if(logoF) config.logoUrl = await compressImage(logoF, 300); // โลโก้เล็กๆ พอ
+        // Compress heavily to save directly to Firestore as Base64 (<1MB limit)
+        if(logoF) config.logoUrl = await compressImage(logoF, 300);
         if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 800);
         if(bibF5) config.bibBg5 = await compressImage(bibF5, 800);
         if(bibF10) config.bibBg10 = await compressImage(bibF10, 800);
         if(bibFVIP) config.bibBgVIP = await compressImage(bibFVIP, 800);
         if(certF) config.certBg = await compressImage(certF, 800);
 
-        // Save to Firestore directly (No Storage needed)
-        await setDoc(doc(db, "settings", "global"), config);
+        await setDoc(doc(db, "tp_run_db", "global_settings"), config);
         applyConfigToUI();
         showToast('บันทึกการตั้งค่าแล้ว');
 
