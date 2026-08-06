@@ -814,14 +814,31 @@
                   <h4 class="font-bold text-blue-800 text-lg flex items-center gap-2 mb-4">
                     <i class="fa-solid fa-address-card"></i> ตั้งค่าแบบพิมพ์ BIB
                   </h4>
-                  <input type="file" id="cfgBibBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer mb-5">
+                  <div class="space-y-3 mb-5">
+                    <div>
+                      <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 5KM</label>
+                      <input type="file" id="cfgBibBg5" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                    </div>
+                    <div>
+                      <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 10KM</label>
+                      <input type="file" id="cfgBibBg10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                    </div>
+                    <div>
+                      <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ VIP</label>
+                      <input type="file" id="cfgBibBgVIP" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                    </div>
+                  </div>
                   <div class="grid grid-cols-2 gap-4">
                     <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X ชื่อ (%)</label><input type="number" id="cBNX" max="100" class="text-sm"></div>
                     <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y ชื่อ (%)</label><input type="number" id="cBNY" max="100" class="text-sm"></div>
                     <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X เลข BIB (%)</label><input type="number" id="cBBX" max="100" class="text-sm"></div>
                     <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y เลข BIB (%)</label><input type="number" id="cBBY" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X เพศ M/F (%)</label><input type="number" id="cBGX" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y เพศ M/F (%)</label><input type="number" id="cBGY" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X รุ่นอายุ (%)</label><input type="number" id="cBAX" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y รุ่นอายุ (%)</label><input type="number" id="cBAY" max="100" class="text-sm"></div>
                     <div><label class="text-xs font-bold text-blue-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">ขนาดอักษร (px)</label><input type="number" id="cBS" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">ขนาดอักษรหลัก (px)</label><input type="number" id="cBS" class="text-sm"></div>
                   </div>
                 </div>
                 <!-- Cert Setting -->
@@ -888,8 +905,8 @@
     let config = {
       gasUrl: "", eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
       price5: 400, price10: 500, priceVIP: 1000, logoUrl: "", homeBgUrl: "",
-      bibBg: "", certBg: "",
-      bibConf: { nx: 50, ny: 40, bx: 50, by: 70, c: "#000000", s: 80 },
+      bibBg5: "", bibBg10: "", bibBgVIP: "", certBg: "",
+      bibConf: { nx: 50, ny: 40, bx: 50, by: 70, gx: 10, gy: 30, ax: 10, ay: 60, c: "#000000", s: 80 },
       certConf: { nx: 50, ny: 50, c: "#000000", s: 60 }
     };
 
@@ -1171,6 +1188,7 @@
     }
 
     /* ================= STATUS CHECK ================= */
+    
     document.getElementById('lkBtn').addEventListener('click', async () => {
       const id = document.getElementById('lkId').value.trim();
       const ph = document.getElementById('lkPhone').value.trim();
@@ -1232,7 +1250,16 @@
 
     async function generateCanvasImg(record, type) {
       return new Promise((resolve) => {
-        const bgUrl = type === 'bib' ? config.bibBg : config.certBg;
+        let bgUrl = '';
+        if (type === 'bib') {
+            if (record.distance === '5' && config.bibBg5) bgUrl = config.bibBg5;
+            else if (record.distance === '10' && config.bibBg10) bgUrl = config.bibBg10;
+            else if (record.distance === 'VIP' && config.bibBgVIP) bgUrl = config.bibBgVIP;
+            else bgUrl = config.bibBg5 || config.bibBg10 || config.bibBgVIP; // Fallback
+        } else {
+            bgUrl = config.certBg;
+        }
+
         if(!bgUrl) { showToast('ยังไม่ได้ตั้งค่าภาพพื้นหลังในระบบ', 'error'); resolve(null); return; }
         
         const img = new Image();
@@ -1246,9 +1273,17 @@
           if(type === 'bib') {
             const c = config.bibConf;
             ctx.fillStyle = c.c;
+            // Print Name
             ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
             ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
+            // Print BIB Number
+            ctx.font = `bold ${c.s * 1.5}px "Noto Sans Thai Looped", sans-serif`;
             ctx.fillText(record.bibNumber || 'XXXX', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
+            // Print Gender (M/F)
+            ctx.font = `bold ${c.s * 0.8}px "Noto Sans Thai Looped", sans-serif`;
+            if (c.gx && c.gy) ctx.fillText(record.gender === 'ชาย' ? 'M' : 'F', (c.gx/100)*cvs.width, (c.gy/100)*cvs.height);
+            // Print Age Group
+            if (c.ax && c.ay) ctx.fillText(record.ageGroupCode || '-', (c.ax/100)*cvs.width, (c.ay/100)*cvs.height);
           } else {
             const c = config.certConf;
             ctx.fillStyle = c.c;
@@ -1291,7 +1326,7 @@
     function generateBibNumber(gender, gCode, records) {
       const pfx = (gender === 'ชาย' ? 'M' : 'F') + gCode;
       const count = records.filter(r => r.bibNumber && r.bibNumber.startsWith(pfx)).length;
-      return pfx + String(count + 1).padStart(4, '0');
+      return pfx + String(count + 1).padStart(3, '0');
     }
 
     async function renderAdminOverview() {
@@ -1486,6 +1521,8 @@
       
       document.getElementById('cBNX').value = config.bibConf.nx; document.getElementById('cBNY').value = config.bibConf.ny;
       document.getElementById('cBBX').value = config.bibConf.bx; document.getElementById('cBBY').value = config.bibConf.by;
+      document.getElementById('cBGX').value = config.bibConf.gx; document.getElementById('cBGY').value = config.bibConf.gy;
+      document.getElementById('cBAX').value = config.bibConf.ax; document.getElementById('cBAY').value = config.bibConf.ay;
       document.getElementById('cBC').value = config.bibConf.c; document.getElementById('cBS').value = config.bibConf.s;
       
       document.getElementById('cCNX').value = config.certConf.nx; document.getElementById('cCNY').value = config.certConf.ny;
@@ -1506,8 +1543,10 @@
       config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
       
       config.bibConf = {
-        nx: Number(document.getElementById('cBNX').value)||50, ny: Number(document.getElementById('cBNY').value)||50,
+        nx: Number(document.getElementById('cBNX').value)||50, ny: Number(document.getElementById('cBNY').value)||40,
         bx: Number(document.getElementById('cBBX').value)||50, by: Number(document.getElementById('cBBY').value)||70,
+        gx: Number(document.getElementById('cBGX').value)||20, gy: Number(document.getElementById('cBGY').value)||30,
+        ax: Number(document.getElementById('cBAX').value)||20, ay: Number(document.getElementById('cBAY').value)||60,
         c: document.getElementById('cBC').value||'#000', s: Number(document.getElementById('cBS').value)||80
       };
       config.certConf = {
@@ -1517,12 +1556,16 @@
 
       const logoF = document.getElementById('cfgLogo').files[0];
       const homeBgF = document.getElementById('cfgHomeBg').files[0];
-      const bibF = document.getElementById('cfgBibBg').files[0];
+      const bibF5 = document.getElementById('cfgBibBg5').files[0];
+      const bibF10 = document.getElementById('cfgBibBg10').files[0];
+      const bibFVIP = document.getElementById('cfgBibBgVIP').files[0];
       const certF = document.getElementById('cfgCertBg').files[0];
       
       if(logoF) config.logoUrl = await compressImage(logoF, 400);
       if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 1200);
-      if(bibF) config.bibBg = await compressImage(bibF, 1200);
+      if(bibF5) config.bibBg5 = await compressImage(bibF5, 1200);
+      if(bibF10) config.bibBg10 = await compressImage(bibF10, 1200);
+      if(bibFVIP) config.bibBgVIP = await compressImage(bibFVIP, 1200);
       if(certF) config.certBg = await compressImage(certF, 1200);
 
       localStorage.setItem('tp_config', JSON.stringify(config));
