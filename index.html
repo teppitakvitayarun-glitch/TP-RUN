@@ -59,7 +59,7 @@
     .view.active { display: block; opacity: 1; }
     
     /* Modern Inputs */
-    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], input[type="password"], select, textarea {
       width: 100%; padding: 0.875rem 1.25rem; border-radius: 1rem; border: 1px solid #e2e8f0;
       background: #f8fafc; transition: all 0.3s ease; outline: none;
     }
@@ -135,7 +135,7 @@
       position: absolute; inset: 0;
       background-size: cover;
       background-position: center;
-      opacity: 0.08; /* Default faint opacity */
+      opacity: 0.08;
       z-index: 0;
       transition: background-image 0.5s ease;
     }
@@ -152,6 +152,8 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col font-sans">
@@ -781,10 +783,6 @@
                   <i class="fa-solid fa-pen-to-square text-brand-500"></i> ข้อมูลหลัก
                 </h4>
                 <div>
-                  <label class="block text-sm font-bold text-slate-600 mb-2">Google Apps Script URL (เชื่อม Database)</label>
-                  <input type="text" id="cfgGas" placeholder="https://script.google.com/macros/s/.../exec">
-                </div>
-                <div>
                   <label class="block text-sm font-bold text-slate-600 mb-2">ชื่องาน (Event Title)</label>
                   <input type="text" id="cfgTitle">
                 </div>
@@ -892,20 +890,34 @@
   <!-- AOS Animation JS -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-  <script>
+  <script type="module">
+    // --- FIREBASE IMPORTS (ตัด Storage ออก ใช้แค่ Firestore) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // --- FIREBASE CONFIGURATION ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBvHornDQGGWoGgHtf45q_BKXnES4bc46E",
+      authDomain: "tprun-v2.firebaseapp.com",
+      projectId: "tprun-v2",
+      storageBucket: "tprun-v2.firebasestorage.app",
+      messagingSenderId: "898457763490",
+      appId: "1:898457763490:web:2a54a40c2351ef095f61fb",
+      measurementId: "G-R5T456X5X3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     // Initialize AOS
-    AOS.init({
-      once: true,
-      duration: 800,
-      easing: 'ease-out-cubic',
-    });
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 
     const STAFF_PASSCODE = "tprun2026";
     let recordsCache = [];
     let config = {
-      gasUrl: "", eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
-      price5: 400, price10: 500, priceVIP: 1000, logoUrl: "", homeBgUrl: "",
-      bibBg5: "", bibBg10: "", bibBgVIP: "", certBg: "",
+      eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
+      price5: 400, price10: 500, priceVIP: 1000, 
+      logoUrl: "", homeBgUrl: "", bibBg5: "", bibBg10: "", bibBgVIP: "", certBg: "",
       bibConf: { nx: 50, ny: 40, bx: 50, by: 70, gx: 10, gy: 30, ax: 10, ay: 60, c: "#000000", s: 80 },
       certConf: { nx: 50, ny: 50, c: "#000000", s: 60 }
     };
@@ -916,43 +928,45 @@
       vLog: document.getElementById('view-staffLogin'), vDash: document.getElementById('view-staffDash')
     };
 
+    /* ================= BIND GLOBAL FUNCTIONS ================= */
+    window.showView = showView;
+    window.toggleMobileMenu = toggleMobileMenu;
+    window.copyToClipboard = copyToClipboard;
+    window.downloadImage = downloadImage;
+    window.showImg = showImg;
+    window.closeImgModal = closeImgModal;
+    window.renderAdminOverview = renderAdminOverview;
+    window.renderAdminPayment = renderAdminPayment;
+    window.renderAdminAll = renderAdminAll;
+    window.adminSearch = adminSearch;
+    window.actionUpdate = actionUpdate;
+    window.showDetail = showDetail;
+    window.closeDetailModal = closeDetailModal;
+    window.exportToCSV = exportToCSV;
+    window.saveAdminConfig = saveAdminConfig;
+    window.verifyPayment = verifyPayment;
+
     /* ================= CORE LOGIC ================= */
-    
-    // Replace custom toast with SweetAlert2 Toast
     function showToast(msg, type='success') {
       const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+        toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true,
+        didOpen: (toast) => { toast.addEventListener('mouseenter', Swal.stopTimer); toast.addEventListener('mouseleave', Swal.resumeTimer); }
       });
-      Toast.fire({
-        icon: type === 'error' ? 'error' : 'success',
-        title: msg
-      });
+      Toast.fire({ icon: type === 'error' ? 'error' : 'success', title: msg });
     }
 
-    function toggleMobileMenu() {
-      const m = document.getElementById('mobileMenu');
-      m.classList.toggle('hidden');
-    }
+    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
 
     function showView(id) {
       Object.values(DOM).forEach(v => {
         v.classList.remove('active');
-        setTimeout(() => v.style.display = 'none', 400); // Wait for fade out
+        setTimeout(() => v.style.display = 'none', 400); 
       });
-      
       const target = document.getElementById('view-' + id);
       if(target) {
         setTimeout(() => {
           target.style.display = 'block';
-          setTimeout(() => target.classList.add('active'), 10); // Trigger fade in
+          setTimeout(() => target.classList.add('active'), 10);
           window.scrollTo({top: 0, behavior: 'smooth'});
         }, 400);
       }
@@ -960,11 +974,11 @@
 
     function formatDT(iso) {
       if(!iso) return "-";
-      const d = new Date(iso);
-      return d.toLocaleString("th-TH", {day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"});
+      return new Date(iso).toLocaleString("th-TH", {day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"});
     }
 
-    async function compressImage(file, maxSize = 1000) {
+    // ฟังก์ชันบีบอัดภาพเพื่อเก็บลง Database แทน Storage
+    async function compressImage(file, maxSize = 800) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -975,7 +989,16 @@
             const cvs = document.createElement('canvas');
             cvs.width = w; cvs.height = h;
             cvs.getContext('2d').drawImage(img,0,0,w,h);
-            resolve(cvs.toDataURL(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.8));
+            
+            // บีบอัดเป็น JPEG 60% เพื่อให้ขนาดไฟล์เล็กพอจะเก็บลง Firestore ได้ (<1MB)
+            // ยกเว้นภาพ Logo ถ้าเป็น PNG จะเก็บไว้เพื่อให้พื้นหลังใสได้
+            let mimeType = 'image/jpeg';
+            let quality = 0.6;
+            if (file.type === 'image/png' && maxSize <= 400) {
+              mimeType = 'image/png';
+              quality = 0.8;
+            }
+            resolve(cvs.toDataURL(mimeType, quality));
           };
           img.src = e.target.result;
         };
@@ -983,64 +1006,39 @@
       });
     }
 
-    /* ================= DATA MANAGEMENT (LocalStorage Polyfill) ================= */
-    
-    const localStore = {
-      set: async (key, val) => { localStorage.setItem(key, val); return true; },
-      get: async (key) => { const v = localStorage.getItem(key); return v ? {value: v} : null; },
-      list: async (prefix) => {
-        const keys = [];
-        for(let i=0; i<localStorage.length; i++) {
-          const k = localStorage.key(i);
-          if(k.startsWith(prefix)) keys.push(k);
-        }
-        return {keys};
-      }
-    };
-
+    /* ================= FIRESTORE DATA MANAGEMENT ================= */
     async function loadAllRecords() {
-      const list = await localStore.list('reg:');
-      const records = [];
-      for(const k of list.keys) {
-        const r = await localStore.get(k);
-        if(r && r.value) records.push(JSON.parse(r.value));
-      }
-      records.sort((a,b) => new Date(b.ts) - new Date(a.ts));
-      recordsCache = records;
-      return records;
-    }
-
-    async function saveRecord(rec) {
-      await localStore.set('reg:' + rec.id, JSON.stringify(rec));
-      const idx = recordsCache.findIndex(r => r.id === rec.id);
-      if(idx >= 0) recordsCache[idx] = rec; else recordsCache.push(rec);
-      
-      // GAS Background Sync
-      if(config.gasUrl) {
-        try {
-          fetch(config.gasUrl, {
-            method: "POST", mode: "no-cors",
-            headers: {"Content-Type": "text/plain"},
-            body: JSON.stringify({action: "register", data: rec})
-          }).catch(()=>{}); 
-        } catch(e) {}
+      try {
+        const querySnapshot = await getDocs(collection(db, "registrations"));
+        const records = [];
+        querySnapshot.forEach((doc) => { records.push(doc.data()); });
+        records.sort((a,b) => new Date(b.ts) - new Date(a.ts));
+        recordsCache = records;
+        return records;
+      } catch (err) {
+        console.error("Error loading records:", err);
+        return recordsCache;
       }
     }
 
-    async function loadConfigFromSheet() {
-      const localCfg = localStorage.getItem('tp_config');
-      if(localCfg) { config = {...config, ...JSON.parse(localCfg)}; applyConfigToUI(); }
-      
-      if(config.gasUrl) {
-        try {
-          const res = await fetch(config.gasUrl + "?action=getConfig").then(r=>r.json());
-          if(res.status === 'success' && Object.keys(res.data).length > 0) {
-            config = {...config, ...res.data};
-            localStorage.setItem('tp_config', JSON.stringify(config));
-            applyConfigToUI();
-          }
-        } catch(e) {}
-      } else {
+    async function loadConfigFromFirebase() {
+      try {
+        const docRef = doc(db, "settings", "global");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          config = { ...config, ...docSnap.data() };
+        }
+      } catch(e) {
+        console.error("Error loading config:", e);
+        if(e.code === 'permission-denied' || e.message.includes('permission')) {
+          Swal.fire({
+            icon: 'error',
+            title: 'ติดสิทธิ์การเข้าถึง Firebase',
+            html: 'กรุณาปลดล็อค <b>Firestore Rules</b> ให้เป็น <br><code class="text-xs bg-slate-100 p-2 block mt-2 rounded">allow read, write: if true;</code>',
+            confirmButtonColor: '#10b981'
+          });
+        }
+      } finally {
         applyConfigToUI();
       }
     }
@@ -1053,12 +1051,10 @@
       document.getElementById('lblPrice5').textContent = config.price5;
       document.getElementById('lblPrice10').textContent = config.price10;
       document.getElementById('lblPriceVIP').textContent = config.priceVIP;
-      
       document.getElementById('formPrice5').textContent = config.price5 + ' บาท';
       document.getElementById('formPrice10').textContent = config.price10 + ' บาท';
       document.getElementById('formPriceVIP').textContent = config.priceVIP + ' บาท';
 
-      const lContainer = document.getElementById('navLogoContainer');
       const lText = document.getElementById('navLogoText');
       const lImg = document.getElementById('navLogoImg');
       if(config.logoUrl) {
@@ -1072,7 +1068,6 @@
     }
 
     /* ================= FORM LOGIC ================= */
-    
     document.getElementById('birthDate').addEventListener('change', function() {
       const d = new Date(this.value);
       if(isNaN(d)) return;
@@ -1106,7 +1101,8 @@
     document.getElementById('slipFile').addEventListener('change', async function() {
       if(!this.files[0]) return;
       if(this.files[0].size > 5*1024*1024) { showToast('ไฟล์ใหญ่เกินไป (สูงสุด 5MB)', 'error'); return; }
-      slipBase64 = await compressImage(this.files[0], 800);
+      // บีบอัดสลิปให้เหลือ 600px เพื่อประหยัดพื้นที่ใน Database
+      slipBase64 = await compressImage(this.files[0], 600); 
       document.getElementById('uploadPrompt').classList.add('hidden');
       document.getElementById('slipPreview').src = slipBase64;
       document.getElementById('slipPreview').classList.remove('hidden');
@@ -1128,73 +1124,69 @@
       const emP = document.getElementById('emPhone').value.trim();
       
       if(!id || !name || !dob || !phone || !gender || !blood || !dist || !shirt || !med || !emN || !emP) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'ข้อมูลไม่ครบถ้วน',
-          text: 'กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบถ้วน',
-          confirmButtonColor: '#10b981'
-        });
+        Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบถ้วน', confirmButtonColor: '#10b981' });
         return;
       }
       if(!slipBase64) { 
-        Swal.fire({
-          icon: 'warning',
-          title: 'ขาดหลักฐานโอนเงิน',
-          text: 'กรุณาแนบสลิปโอนเงิน',
-          confirmButtonColor: '#10b981'
-        });
+        Swal.fire({ icon: 'warning', title: 'ขาดหลักฐานโอนเงิน', text: 'กรุณาแนบสลิปโอนเงิน', confirmButtonColor: '#10b981' });
         return; 
       }
 
       const btn = document.getElementById('submitBtn');
       btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
 
-      let p = 0;
-      if(dist === '5') p = config.price5; else if(dist === '10') p = config.price10; else p = config.priceVIP;
-
-      const rec = {
-        id: 'TP' + Date.now().toString(36).toUpperCase(),
-        ts: new Date().toISOString(),
-        idCard: id, fullName: name, email: document.getElementById('email').value.trim(),
-        dob: dob, age: document.getElementById('age').value,
-        ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
-        gender: gender, blood: blood, phone: phone, med: med, emName: emN, emPhone: emP,
-        distance: dist, shirt: shirt, amount: p, slip: slipBase64,
+      try {
+        let p = dist === '5' ? config.price5 : dist === '10' ? config.price10 : config.priceVIP;
+        const recId = 'TP' + Date.now().toString(36).toUpperCase();
         
-        verified: false, vTs: null, bibNumber: null,
-        shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
-      };
+        // ใช้ภาพ Base64 ยัดลง Database ได้โดยตรง
+        const slipUrl = slipBase64; 
 
-      await saveRecord(rec);
-      
-      this.reset();
-      slipBase64 = null;
-      document.getElementById('uploadPrompt').classList.remove('hidden');
-      document.getElementById('slipPreview').classList.add('hidden');
-      document.getElementById('age').value = ''; document.getElementById('ageGroupLabel').value = '';
-      document.getElementById('netTotal').textContent = '0';
-      btn.disabled = false; btn.innerHTML = 'ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
+        const rec = {
+          id: recId, ts: new Date().toISOString(),
+          idCard: id, fullName: name, email: document.getElementById('email').value.trim(),
+          dob: dob, age: document.getElementById('age').value, ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
+          gender: gender, blood: blood, phone: phone, med: med, emName: emN, emPhone: emP,
+          distance: dist, shirt: shirt, amount: p, slip: slipUrl,
+          verified: false, vTs: null, bibNumber: null,
+          shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
+        };
 
-      document.getElementById('successRefId').textContent = rec.id;
-      document.getElementById('successName').textContent = rec.fullName;
-      document.getElementById('successDist').textContent = rec.distance === 'VIP' ? 'VIP' : rec.distance + ' KM';
-      document.getElementById('successShirt').textContent = rec.shirt;
-      document.getElementById('successTotal').textContent = rec.amount + ' บาท';
-      showView('success');
+        // Save to Firestore
+        await setDoc(doc(db, "registrations", rec.id), rec);
+        recordsCache.push(rec); // Update local cache
+        
+        this.reset();
+        slipBase64 = null;
+        document.getElementById('uploadPrompt').classList.remove('hidden');
+        document.getElementById('slipPreview').classList.add('hidden');
+        document.getElementById('age').value = ''; document.getElementById('ageGroupLabel').value = '';
+        document.getElementById('netTotal').textContent = '0';
+        
+        document.getElementById('successRefId').textContent = rec.id;
+        document.getElementById('successName').textContent = rec.fullName;
+        document.getElementById('successDist').textContent = rec.distance === 'VIP' ? 'VIP' : rec.distance + ' KM';
+        document.getElementById('successShirt').textContent = rec.shirt;
+        document.getElementById('successTotal').textContent = rec.amount + ' บาท';
+        showView('success');
+
+      } catch (err) {
+        console.error(err);
+        showToast('เกิดข้อผิดพลาดในการบันทึกข้อมูล', 'error');
+      } finally {
+        btn.disabled = false; btn.innerHTML = 'ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
+      }
     });
 
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(()=>showToast('คัดลอกเลขบัญชีแล้ว'));
-    }
+    function copyToClipboard(text) { navigator.clipboard.writeText(text).then(()=>showToast('คัดลอกเลขบัญชีแล้ว')); }
 
     /* ================= STATUS CHECK ================= */
-    
     document.getElementById('lkBtn').addEventListener('click', async () => {
       const id = document.getElementById('lkId').value.trim();
       const ph = document.getElementById('lkPhone').value.trim();
       if(!id || !ph) { showToast('กรุณากรอกเลขบัตรและเบอร์โทร', 'error'); return; }
       
-      const records = await loadAllRecords();
+      const records = await loadAllRecords(); // fetch fresh from Firestore
       const rec = records.find(r => r.idCard === id && r.phone === ph);
       const res = document.getElementById('statusResult');
       res.classList.remove('hidden');
@@ -1252,17 +1244,18 @@
       return new Promise((resolve) => {
         let bgUrl = '';
         if (type === 'bib') {
-            if (record.distance === '5' && config.bibBg5) bgUrl = config.bibBg5;
-            else if (record.distance === '10' && config.bibBg10) bgUrl = config.bibBg10;
-            else if (record.distance === 'VIP' && config.bibBgVIP) bgUrl = config.bibBgVIP;
-            else bgUrl = config.bibBg5 || config.bibBg10 || config.bibBgVIP; // Fallback
+          if (record.distance === '5' && config.bibBg5) bgUrl = config.bibBg5;
+          else if (record.distance === '10' && config.bibBg10) bgUrl = config.bibBg10;
+          else if (record.distance === 'VIP' && config.bibBgVIP) bgUrl = config.bibBgVIP;
+          else bgUrl = config.bibBg5 || config.bibBg10 || config.bibBgVIP;
         } else {
-            bgUrl = config.certBg;
+          bgUrl = config.certBg;
         }
 
         if(!bgUrl) { showToast('ยังไม่ได้ตั้งค่าภาพพื้นหลังในระบบ', 'error'); resolve(null); return; }
         
         const img = new Image();
+        // ไม่ต้องการ crossOrigin="Anonymous" อีกต่อไปเพราะภาพเป็น Data URI
         img.onload = () => {
           const cvs = document.createElement('canvas');
           cvs.width = img.width; cvs.height = img.height;
@@ -1273,16 +1266,12 @@
           if(type === 'bib') {
             const c = config.bibConf;
             ctx.fillStyle = c.c;
-            // Print Name
             ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
             ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
-            // Print BIB Number
             ctx.font = `bold ${c.s * 1.5}px "Noto Sans Thai Looped", sans-serif`;
             ctx.fillText(record.bibNumber || 'XXXX', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
-            // Print Gender (M/F)
             ctx.font = `bold ${c.s * 0.8}px "Noto Sans Thai Looped", sans-serif`;
             if (c.gx && c.gy) ctx.fillText(record.gender === 'ชาย' ? 'M' : 'F', (c.gx/100)*cvs.width, (c.gy/100)*cvs.height);
-            // Print Age Group
             if (c.ax && c.ay) ctx.fillText(record.ageGroupCode || '-', (c.ax/100)*cvs.width, (c.ay/100)*cvs.height);
           } else {
             const c = config.certConf;
@@ -1298,19 +1287,6 @@
     }
 
     /* ================= ADMIN LOGIC ================= */
-    
-    document.getElementById('staffSectionSelect').addEventListener('change', function() {
-      document.querySelectorAll('.staff-panel').forEach(el => el.classList.add('hidden'));
-      const panel = document.getElementById('panel-' + this.value);
-      panel.classList.remove('hidden');
-      panel.classList.add('animate-[fadeIn_0.3s_ease-out]');
-      
-      if(this.value === 'overview') renderAdminOverview();
-      if(this.value === 'payment') renderAdminPayment();
-      if(this.value === 'all') renderAdminAll();
-      if(this.value === 'settings') fillAdminSettings();
-    });
-
     function showImg(src) {
       document.getElementById('imgModalSrc').src = src;
       const m = document.getElementById('imgModal');
@@ -1375,20 +1351,23 @@
         title: 'ยืนยันการชำระเงิน?',
         text: "ระบบจะสร้างหมายเลข BIB ให้อัตโนมัติ",
         icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#10b981',
-        cancelButtonColor: '#cbd5e1',
-        confirmButtonText: 'ใช่, ยืนยัน',
-        cancelButtonText: 'ยกเลิก'
+        showCancelButton: true, confirmButtonColor: '#10b981', cancelButtonColor: '#cbd5e1',
+        confirmButtonText: 'ใช่, ยืนยัน', cancelButtonText: 'ยกเลิก'
       }).then(async (result) => {
         if (result.isConfirmed) {
           const r = recordsCache.find(x => x.id === id);
           if(!r) return;
           r.verified = true; r.vTs = new Date().toISOString();
           r.bibNumber = generateBibNumber(r.gender, r.ageGroupCode, recordsCache);
-          await saveRecord(r);
-          Swal.fire({ icon: 'success', title: 'ยืนยันสำเร็จ', text: `สร้าง BIB: ${r.bibNumber} แล้ว`, timer: 2000, showConfirmButton: false });
-          renderAdminPayment();
+          
+          try {
+            await updateDoc(doc(db, "registrations", id), { verified: r.verified, vTs: r.vTs, bibNumber: r.bibNumber });
+            Swal.fire({ icon: 'success', title: 'ยืนยันสำเร็จ', text: `สร้าง BIB: ${r.bibNumber} แล้ว`, timer: 2000, showConfirmButton: false });
+            renderAdminPayment();
+          } catch(err) {
+            console.error(err);
+            showToast('เกิดข้อผิดพลาดในการอัปเดตข้อมูล', 'error');
+          }
         }
       })
     }
@@ -1445,19 +1424,19 @@
       if(!r) return;
       
       Swal.fire({
-        title: 'ยืนยันการทำรายการ?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#1e293b',
-        cancelButtonColor: '#cbd5e1',
-        confirmButtonText: 'ยืนยัน',
-        cancelButtonText: 'ยกเลิก'
+        title: 'ยืนยันการทำรายการ?', icon: 'question', showCancelButton: true,
+        confirmButtonColor: '#1e293b', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ยืนยัน', cancelButtonText: 'ยกเลิก'
       }).then(async (result) => {
         if(result.isConfirmed) {
           r[key] = true; r[tsKey] = new Date().toISOString();
-          await saveRecord(r);
-          showToast('อัปเดตข้อมูลสำเร็จ');
-          document.querySelectorAll('[id^="srch"]').forEach(el => { if(el.value) el.nextElementSibling.click(); });
+          try {
+            await updateDoc(doc(db, "registrations", id), { [key]: r[key], [tsKey]: r[tsKey] });
+            showToast('อัปเดตข้อมูลสำเร็จ');
+            document.querySelectorAll('[id^="srch"]').forEach(el => { if(el.value) el.nextElementSibling.click(); });
+          } catch(err) {
+             console.error(err);
+             showToast('เกิดข้อผิดพลาดในการอัปเดต', 'error');
+          }
         }
       });
     }
@@ -1512,7 +1491,6 @@
     }
 
     function fillAdminSettings() {
-      document.getElementById('cfgGas').value = config.gasUrl || '';
       document.getElementById('cfgTitle').value = config.eventName || '';
       document.getElementById('cfgSlogan').value = config.slogan || '';
       document.getElementById('cfgP5').value = config.price5 || '';
@@ -1535,61 +1513,59 @@
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
       btn.disabled = true;
 
-      config.gasUrl = document.getElementById('cfgGas').value.trim();
-      config.eventName = document.getElementById('cfgTitle').value.trim();
-      config.slogan = document.getElementById('cfgSlogan').value.trim();
-      config.price5 = Number(document.getElementById('cfgP5').value) || 400;
-      config.price10 = Number(document.getElementById('cfgP10').value) || 500;
-      config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
-      
-      config.bibConf = {
-        nx: Number(document.getElementById('cBNX').value)||50, ny: Number(document.getElementById('cBNY').value)||40,
-        bx: Number(document.getElementById('cBBX').value)||50, by: Number(document.getElementById('cBBY').value)||70,
-        gx: Number(document.getElementById('cBGX').value)||20, gy: Number(document.getElementById('cBGY').value)||30,
-        ax: Number(document.getElementById('cBAX').value)||20, ay: Number(document.getElementById('cBAY').value)||60,
-        c: document.getElementById('cBC').value||'#000', s: Number(document.getElementById('cBS').value)||80
-      };
-      config.certConf = {
-        nx: Number(document.getElementById('cCNX').value)||50, ny: Number(document.getElementById('cCNY').value)||50,
-        c: document.getElementById('cCC').value||'#000', s: Number(document.getElementById('cCS').value)||60
-      };
+      try {
+        config.eventName = document.getElementById('cfgTitle').value.trim();
+        config.slogan = document.getElementById('cfgSlogan').value.trim();
+        config.price5 = Number(document.getElementById('cfgP5').value) || 400;
+        config.price10 = Number(document.getElementById('cfgP10').value) || 500;
+        config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
+        
+        config.bibConf = {
+          nx: Number(document.getElementById('cBNX').value)||50, ny: Number(document.getElementById('cBNY').value)||50,
+          bx: Number(document.getElementById('cBBX').value)||50, by: Number(document.getElementById('cBBY').value)||70,
+          gx: Number(document.getElementById('cBGX').value)||20, gy: Number(document.getElementById('cBGY').value)||30,
+          ax: Number(document.getElementById('cBAX').value)||20, ay: Number(document.getElementById('cBAY').value)||60,
+          c: document.getElementById('cBC').value||'#000', s: Number(document.getElementById('cBS').value)||80
+        };
+        config.certConf = {
+          nx: Number(document.getElementById('cCNX').value)||50, ny: Number(document.getElementById('cCNY').value)||50,
+          c: document.getElementById('cCC').value||'#000', s: Number(document.getElementById('cCS').value)||60
+        };
 
-      const logoF = document.getElementById('cfgLogo').files[0];
-      const homeBgF = document.getElementById('cfgHomeBg').files[0];
-      const bibF5 = document.getElementById('cfgBibBg5').files[0];
-      const bibF10 = document.getElementById('cfgBibBg10').files[0];
-      const bibFVIP = document.getElementById('cfgBibBgVIP').files[0];
-      const certF = document.getElementById('cfgCertBg').files[0];
-      
-      if(logoF) config.logoUrl = await compressImage(logoF, 400);
-      if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 1200);
-      if(bibF5) config.bibBg5 = await compressImage(bibF5, 1200);
-      if(bibF10) config.bibBg10 = await compressImage(bibF10, 1200);
-      if(bibFVIP) config.bibBgVIP = await compressImage(bibFVIP, 1200);
-      if(certF) config.certBg = await compressImage(certF, 1200);
+        const logoF = document.getElementById('cfgLogo').files[0];
+        const homeBgF = document.getElementById('cfgHomeBg').files[0];
+        const bibF5 = document.getElementById('cfgBibBg5').files[0];
+        const bibF10 = document.getElementById('cfgBibBg10').files[0];
+        const bibFVIP = document.getElementById('cfgBibBgVIP').files[0];
+        const certF = document.getElementById('cfgCertBg').files[0];
 
-      localStorage.setItem('tp_config', JSON.stringify(config));
-      applyConfigToUI();
-      
-      if(config.gasUrl) {
-        try {
-          await fetch(config.gasUrl, {
-            method: "POST", mode: "no-cors",
-            headers: {"Content-Type": "text/plain"},
-            body: JSON.stringify({action: "saveConfig", data: config})
-          });
-        } catch(e) {}
+        // บีบอัดและแปลงรูปให้เป็น Data URI (Base64) เพื่อยัดลง Database (จำกัด 1MB ต่อ 1 โฟลเดอร์)
+        // บีบอัดให้ไม่เกิน 800px จะปลอดภัยที่สุด
+        if(logoF) config.logoUrl = await compressImage(logoF, 300); // โลโก้เล็กๆ พอ
+        if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 800);
+        if(bibF5) config.bibBg5 = await compressImage(bibF5, 800);
+        if(bibF10) config.bibBg10 = await compressImage(bibF10, 800);
+        if(bibFVIP) config.bibBgVIP = await compressImage(bibFVIP, 800);
+        if(certF) config.certBg = await compressImage(certF, 800);
+
+        // Save to Firestore directly (No Storage needed)
+        await setDoc(doc(db, "settings", "global"), config);
+        applyConfigToUI();
+        showToast('บันทึกการตั้งค่าแล้ว');
+
+      } catch (err) {
+        console.error("Error saving config:", err);
+        showToast('เกิดข้อผิดพลาดในการบันทึก', 'error');
+      } finally {
+        btn.innerHTML = origHtml;
+        btn.disabled = false;
       }
-      
-      btn.innerHTML = origHtml;
-      btn.disabled = false;
-      showToast('บันทึกการตั้งค่าแล้ว');
     }
 
     setInterval(() => { document.getElementById('dashTime').textContent = new Date().toLocaleString('th-TH'); }, 1000);
 
     window.onload = () => {
-      loadConfigFromSheet();
+      loadConfigFromFirebase();
       document.getElementById('staffLoginBtn').addEventListener('click', () => {
         if(document.getElementById('staffPass').value === STAFF_PASSCODE) {
           document.getElementById('staffPass').value = '';
@@ -1601,10 +1577,6 @@
           showToast('รหัสผ่านไม่ถูกต้อง', 'error');
         }
       });
-      // Custom tailwind animation added here for dynamic views
-      const style = document.createElement('style');
-      style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }`;
-      document.head.appendChild(style);
     };
   </script>
 </body>
