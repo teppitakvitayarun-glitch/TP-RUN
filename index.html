@@ -1,1418 +1,1568 @@
 <!DOCTYPE html>
 <html lang="th" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP RUN 2026 | งานวิ่งฉลองครบรอบ 60 ปี โรงเรียนเทพพิทักษ์วิทยา</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Sarabun', 'sans-serif'],
-                        display: ['Kanit', 'sans-serif'],
-                    },
-                    colors: {
-                        tp: {
-                            main: '#10b981', // Emerald 500
-                            dark: '#064e3b', // Emerald 900
-                            light: '#d1fae5', // Emerald 100
-                            accent: '#f59e0b', // Amber 500
-                        }
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(40px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TP RUN 2026</title>
+  
+  <!-- Fonts: Noto Sans Thai Looped -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- AOS Animation CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans Thai Looped"', 'sans-serif'],
+            display: ['"Noto Sans Thai Looped"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7', 
+              400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857', 
+              800: '#065f46', 900: '#064e3b',
+            },
+            accent: {
+              500: '#f97316', 600: '#ea580c',
             }
+          },
+          boxShadow: {
+            'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
+            'glass': '0 4px 30px rgba(0, 0, 0, 0.05)',
+            'glow-brand': '0 0 20px rgba(16, 185, 129, 0.4)',
+            'glow-accent': '0 0 20px rgba(249, 115, 22, 0.4)',
+          }
         }
-    </script>
+      }
+    }
+  </script>
+  
+  <style>
+    body { background-color: #f8fafc; color: #334155; overflow-x: hidden; }
+    .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.6); }
+    
+    .view { display: none; opacity: 0; transition: opacity 0.4s ease; }
+    .view.active { display: block; opacity: 1; }
+    
+    /* Modern Inputs */
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
+      width: 100%; padding: 0.875rem 1.25rem; border-radius: 1rem; border: 1px solid #e2e8f0;
+      background: #f8fafc; transition: all 0.3s ease; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: #10b981; background: #fff; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+    input:disabled { background: #f1f5f9; color: #94a3b8; }
+    
+    /* Cute & Modern Radio Buttons */
+    .radio-btn-group { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .radio-btn {
+      flex: 1 1 auto; min-width: 90px; text-align: center; padding: 0.875rem; border: 2px solid #e2e8f0; 
+      border-radius: 1rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); background: #fff; font-weight: 500;
+      color: #64748b;
+    }
+    .radio-btn input { display: none; }
+    .radio-btn:hover { border-color: #cbd5e1; transform: translateY(-2px); }
+    .radio-btn:has(input:checked) { 
+      border-color: #10b981; background: #ecfdf5; color: #047857; 
+      transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 20px -10px rgba(16, 185, 129, 0.3); 
+    }
+    
+    /* Grid Cards for Selection */
+    .grid-select { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    .grid-card {
+      padding: 1.25rem 0.5rem; border: 2px solid #e2e8f0; border-radius: 1.25rem; text-align: center;
+      cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); background: #fff; display: flex; flex-direction: column; justify-content: center;
+    }
+    .grid-card input { display: none; }
+    .grid-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
+    .grid-card:has(input:checked) { 
+      border-color: #f97316; background: #fff7ed; 
+      transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 25px -8px rgba(249, 115, 22, 0.4); 
+    }
+    .grid-card .title { font-size: 1.125rem; font-weight: 700; color: #1e293b; transition: color 0.3s; }
+    .grid-card:has(input:checked) .title { color: #ea580c; }
+    .grid-card .sub { font-size: 0.875rem; color: #64748b; margin-top: 0.25rem; }
 
-    <!-- Custom CSS Styles -->
-    <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    /* Custom Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: #fff;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+    }
+    .btn-accent {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-accent:hover {
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+      transform: translateY(-2px);
+    }
 
-        body { -webkit-font-smoothing: antialiased; background-color: #f8fafc; color: #334155; }
-        
-        /* View Management */
-        .view { display: none; opacity: 0; transition: opacity 0.3s ease; }
-        .view.active { display: block; opacity: 1; }
+    /* Hero Background Overlay */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.08; /* Default faint opacity */
+      z-index: 0;
+      transition: background-image 0.5s ease;
+    }
+    .hero-pattern {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(#10b981 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.1;
+      z-index: 1;
+    }
 
-        /* Scroll Reveal Animation Classes */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-
-        /* Glassmorphism utility */
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .glass-dark { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-
-        /* Hide default file input */
-        input[type="file"] { display: none; }
-        
-        /* Toast Notification */
-        #toast { position: fixed; bottom: 20px; right: 20px; z-index: 9999; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
-        #toast.show { transform: translateY(0); opacity: 1; }
-    </style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
 </head>
-<body>
+<body class="antialiased min-h-screen flex flex-col font-sans">
 
-    <!-- Navigation Bar -->
-    <nav class="fixed w-full z-50 glass-dark text-white border-b border-slate-700/50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-                <!-- Logo -->
-                <div class="flex-shrink-0 cursor-pointer flex items-center gap-3 group" data-nav="home">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-tp-accent to-orange-500 flex items-center justify-center font-display font-black text-white shadow-lg group-hover:scale-105 transition-transform">
-                        <span id="navLogoText">60</span>
-                    </div>
-                    <span class="font-display font-bold text-lg sm:text-xl tracking-wide" id="navTitle">TP RUN 2026</span>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-2">
-                    <button class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors" data-nav="status">🔍 ตรวจสอบสถานะ</button>
-                    <button class="px-6 py-2.5 rounded-full text-sm font-bold bg-gradient-to-r from-tp-main to-emerald-400 text-slate-900 shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] hover:scale-105 transition-all" data-nav="register">🏃‍♂️ สมัครวิ่ง</button>
-                    <div class="w-px h-6 bg-slate-700 mx-2"></div>
-                    <button class="px-4 py-2 rounded-full text-sm font-medium text-slate-400 hover:text-tp-accent transition-colors flex items-center gap-2" data-nav="staffLogin">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                        เจ้าหน้าที่
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobileMenuBtn" class="text-slate-300 hover:text-white p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    </button>
-                </div>
-            </div>
+  <!-- Navbar -->
+  <nav class="glass-nav fixed w-full z-40 top-0 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-4 cursor-pointer group" onclick="showView('home')">
+          <div id="navLogoContainer" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-400 to-brand-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-brand-500/30 overflow-hidden relative transition-transform group-hover:scale-105">
+            <span id="navLogoText">TP</span>
+            <img id="navLogoImg" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Logo">
+          </div>
+          <span class="font-extrabold text-2xl text-slate-800 tracking-tight" id="navBrandName">TP RUN 2026</span>
         </div>
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobileMenu" class="hidden md:hidden bg-slate-800/95 backdrop-blur-md border-t border-slate-700">
-            <div class="px-4 pt-2 pb-6 space-y-2">
-                <button class="block w-full text-left px-4 py-3 rounded-xl text-slate-200 hover:bg-slate-700 font-medium" data-nav="status">🔍 ตรวจสอบสถานะ</button>
-                <button class="block w-full text-center px-4 py-3 rounded-xl bg-tp-main text-white font-bold shadow-lg" data-nav="register">🏃‍♂️ สมัครวิ่ง</button>
-                <div class="border-t border-slate-700 my-2 pt-2">
-                    <button class="block w-full text-left px-4 py-3 rounded-xl text-slate-400 hover:text-tp-accent font-medium" data-nav="staffLogin">🛡️ สำหรับเจ้าหน้าที่</button>
-                </div>
-            </div>
+        
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-4">
+          <button onclick="showView('status')" class="px-5 py-2.5 rounded-full text-slate-600 font-semibold hover:text-brand-600 hover:bg-brand-50 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-magnifying-glass"></i> ตรวจสอบสถานะ
+          </button>
+          <button onclick="showView('register')" class="btn-primary px-7 py-3 rounded-full font-bold flex items-center gap-2">
+            <i class="fa-solid fa-person-running"></i> สมัครวิ่ง
+          </button>
+          <div class="h-8 w-px bg-slate-200 mx-2"></div>
+          <button onclick="showView('staffLogin')" class="w-10 h-10 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="สำหรับเจ้าหน้าที่">
+            <i class="fa-solid fa-shield-halved"></i>
+          </button>
         </div>
-    </nav>
 
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2 bg-slate-100 rounded-lg">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden bg-white/95 backdrop-blur-md border-t border-slate-100 px-4 pt-4 pb-6 space-y-3 shadow-2xl absolute w-full">
+      <button onclick="showView('status'); toggleMobileMenu()" class="w-full text-left px-5 py-4 rounded-2xl text-slate-700 font-semibold hover:bg-slate-50 flex items-center gap-3">
+        <i class="fa-solid fa-magnifying-glass text-slate-400"></i> ตรวจสอบสถานะ
+      </button>
+      <button onclick="showView('register'); toggleMobileMenu()" class="w-full text-left px-5 py-4 rounded-2xl bg-brand-50 text-brand-700 font-bold hover:bg-brand-100 flex items-center gap-3">
+        <i class="fa-solid fa-person-running"></i> สมัครวิ่งเลย
+      </button>
+      <button onclick="showView('staffLogin'); toggleMobileMenu()" class="w-full text-left px-5 py-4 rounded-2xl text-slate-500 font-medium hover:bg-slate-50 flex items-center gap-3">
+        <i class="fa-solid fa-shield-halved text-slate-400"></i> สำหรับเจ้าหน้าที่
+      </button>
+    </div>
+  </nav>
+
+  <main class="flex-grow pt-20">
+    
     <!-- ==================== HOME VIEW ==================== -->
     <div class="view active" id="view-home">
-        <!-- Hero Section -->
-        <div class="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-900 pt-20">
-            <!-- Background Image with Overlay -->
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Marathon Background" class="w-full h-full object-cover opacity-40 mix-blend-overlay">
-                <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-900"></div>
-            </div>
-
-            <!-- Glowing Orbs (Animation) -->
-            <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-tp-main rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob z-0"></div>
-            <div class="absolute top-1/3 right-1/4 w-72 h-72 bg-tp-accent rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-2000 z-0"></div>
-            
-            <div class="relative z-10 text-center px-4 max-w-5xl mx-auto w-full">
-                <!-- Glowing Seal -->
-                <div class="mb-8 inline-block reveal">
-                    <div class="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-3xl glass-dark flex flex-col items-center justify-center border border-tp-accent/30 shadow-[0_0_50px_rgba(245,158,11,0.2)] transform -rotate-3">
-                        <span class="font-display font-black text-4xl sm:text-6xl text-tp-accent tracking-tighter" id="homeLogoText">60</span>
-                        <span class="text-[10px] sm:text-xs font-bold text-slate-300 tracking-[0.2em] mt-1">ANNIVERSARY</span>
-                    </div>
-                </div>
-
-                <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-dark border border-slate-700 mb-6 reveal delay-100">
-                    <span class="w-2 h-2 rounded-full bg-tp-main animate-pulse"></span>
-                    <span class="text-sm font-medium text-slate-300 tracking-wider uppercase" id="homeSubtitle">โรงเรียนเทพพิทักษ์วิทยา</span>
-                </div>
-                
-                <h1 class="font-display font-black text-5xl sm:text-7xl md:text-8xl text-white mb-6 tracking-tight leading-none reveal delay-200" id="homeTitle">
-                    TP RUN <span class="text-transparent bg-clip-text bg-gradient-to-r from-tp-main to-emerald-300">2026</span>
-                </h1>
-                
-                <p class="text-lg sm:text-2xl text-slate-300 mb-10 max-w-2xl mx-auto font-light reveal delay-300" id="homeDesc">
-                    ร่วมเป็นส่วนหนึ่งของงานวิ่งการกุศลเฉลิมฉลองครบรอบ 60 ปี ก้าวไปด้วยกันเพื่อสุขภาพและการศึกษา
-                </p>
-
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal delay-300">
-                    <button class="w-full sm:w-auto px-10 py-4 rounded-full bg-gradient-to-r from-tp-main to-emerald-500 text-slate-900 font-display font-bold text-lg shadow-[0_0_30px_rgba(16,185,129,0.4)] hover:shadow-[0_0_50px_rgba(16,185,129,0.6)] hover:scale-105 transition-all" data-nav="register">
-                        สมัครวิ่งตอนนี้
-                    </button>
-                    <button class="w-full sm:w-auto px-10 py-4 rounded-full glass-dark text-white font-display font-bold text-lg hover:bg-slate-800 transition-colors border border-slate-600" data-nav="status">
-                        ตรวจสอบสถานะ
-                    </button>
-                </div>
+      <!-- Hero Section -->
+      <div class="relative overflow-hidden bg-white min-h-[85vh] flex items-center" id="heroContainer">
+        <!-- Dynamic Background elements -->
+        <div id="heroBgImage" class="hero-overlay"></div>
+        <div class="hero-pattern"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-brand-300 blur-[100px] opacity-40 z-0 animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-accent-300 blur-[100px] opacity-30 z-0 animate-pulse" style="animation-delay: 2s;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+              <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 text-brand-700 font-bold text-sm shadow-sm">
+                <i class="fa-solid fa-medal text-accent-500"></i> ฉลองครบรอบ 60 ปี โรงเรียนเทพพิทักษ์วิทยา
+              </div>
+              <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black text-slate-900 tracking-tight mb-6 leading-tight" id="homeTitle">
+                TP RUN <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-500 drop-shadow-sm">2026</span>
+              </h1>
+              <p class="text-xl sm:text-2xl text-slate-600 mb-10 leading-relaxed font-medium" id="homeSlogan">
+                “60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน” ขอเชิญร่วมเป็นส่วนหนึ่งของงานวิ่งการกุศลที่ยิ่งใหญ่ที่สุดแห่งปี
+              </p>
+              <div class="flex flex-col sm:flex-row gap-5">
+                <button onclick="showView('register')" class="btn-primary px-8 py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-3">
+                  สมัครวิ่งออนไลน์ <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button onclick="showView('status')" class="btn-secondary px-8 py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-3">
+                  <i class="fa-solid fa-search"></i> ตรวจสอบสถานะ
+                </button>
+              </div>
             </div>
             
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-400 animate-bounce">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            <div class="hidden lg:block relative" data-aos="fade-left" data-aos-delay="200">
+              <div class="absolute inset-0 bg-gradient-to-tr from-brand-100 to-transparent rounded-[3rem] transform rotate-3 scale-105 z-0"></div>
+              <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Runners" class="relative z-10 rounded-[3rem] shadow-2xl object-cover h-[600px] w-full border-8 border-white">
+              <!-- Floating Badge -->
+              <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl z-20 flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
+                <div class="w-14 h-14 bg-accent-100 rounded-full flex items-center justify-center text-accent-600 text-2xl">
+                  <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <div>
+                  <div class="text-sm text-slate-500 font-bold uppercase tracking-wider">สุขภาพดี</div>
+                  <div class="text-xl font-black text-slate-800">เพื่อการกุศล</div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Objectives Section -->
-        <div class="py-24 bg-white relative">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="font-display font-black text-3xl sm:text-4xl text-slate-800 mb-4">วัตถุประสงค์การจัดงาน</h2>
-                    <div class="w-20 h-1.5 bg-tp-accent mx-auto rounded-full"></div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-slate-50 rounded-3xl p-8 text-center border border-slate-100 hover:shadow-xl transition-shadow reveal">
-                        <div class="w-16 h-16 mx-auto bg-emerald-100 text-tp-main rounded-2xl flex items-center justify-center text-3xl mb-6">📚</div>
-                        <h3 class="font-display font-bold text-xl text-slate-800 mb-3">ทุนการศึกษา</h3>
-                        <p class="text-slate-600">รายได้ส่วนหนึ่งมอบเป็นทุนการศึกษาให้กับนักเรียนที่เรียนดีแต่ขาดแคลนทุนทรัพย์</p>
-                    </div>
-                    <div class="bg-slate-50 rounded-3xl p-8 text-center border border-slate-100 hover:shadow-xl transition-shadow reveal delay-100">
-                        <div class="w-16 h-16 mx-auto bg-amber-100 text-amber-500 rounded-2xl flex items-center justify-center text-3xl mb-6">🏃‍♂️</div>
-                        <h3 class="font-display font-bold text-xl text-slate-800 mb-3">ส่งเสริมสุขภาพ</h3>
-                        <p class="text-slate-600">ส่งเสริมให้เยาวชน ศิษย์เก่า และประชาชนทั่วไป หันมาออกกำลังกายเพื่อสุขภาพที่ดี</p>
-                    </div>
-                    <div class="bg-slate-50 rounded-3xl p-8 text-center border border-slate-100 hover:shadow-xl transition-shadow reveal delay-200">
-                        <div class="w-16 h-16 mx-auto bg-blue-100 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-6">🤝</div>
-                        <h3 class="font-display font-bold text-xl text-slate-800 mb-3">สานสัมพันธ์</h3>
-                        <p class="text-slate-600">สร้างความสามัคคีและกระชับความสัมพันธ์ระหว่างศิษย์เก่า ศิษย์ปัจจุบัน และชุมชน</p>
-                    </div>
-                </div>
+      <!-- Distance & Pricing -->
+      <div class="py-24 bg-slate-50 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-black text-slate-900 mb-4">ระยะการแข่งขันและค่าสมัคร</h2>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto">เลือกระยะทางที่เหมาะสมกับคุณ รายได้ส่วนหนึ่งหลังหักค่าใช้จ่ายนำไปสนับสนุนทุนการศึกษาและพัฒนาโรงเรียน</p>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- 5KM -->
+            <div class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group" data-aos="fade-up" data-aos-delay="100">
+              <div class="w-20 h-20 bg-slate-100 text-slate-700 rounded-3xl flex items-center justify-center text-3xl font-black mb-8 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">5K</div>
+              <h3 class="text-2xl font-black text-slate-800 mb-2">Fun Run</h3>
+              <p class="text-slate-500 font-medium mb-8">เหมาะสำหรับครอบครัวและผู้เริ่มต้น</p>
+              <div class="flex items-baseline mb-8">
+                <span class="text-5xl font-black text-brand-600" id="lblPrice5">400</span>
+                <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
+              </div>
+              <ul class="text-slate-600 space-y-4 mb-10 font-medium">
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เสื้อที่ระลึกคอกลม</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> หมายเลขวิ่ง (BIB)</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เหรียญหลังเข้าเส้นชัย</li>
+              </ul>
+              <button onclick="showView('register')" class="w-full py-4 rounded-2xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">เลือกระยะนี้</button>
             </div>
+            
+            <!-- 10KM (Popular) -->
+            <div class="glass-card p-10 rounded-[2.5rem] shadow-xl shadow-brand-500/15 border-2 border-brand-500 relative transform md:-translate-y-6 bg-white" data-aos="fade-up" data-aos-delay="200">
+              <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
+                <i class="fa-solid fa-star"></i> ยอดนิยม
+              </div>
+              <div class="w-20 h-20 bg-brand-100 text-brand-600 rounded-3xl flex items-center justify-center text-3xl font-black mb-8">10K</div>
+              <h3 class="text-2xl font-black text-slate-800 mb-2">Mini Marathon</h3>
+              <p class="text-slate-500 font-medium mb-8">ท้าทายขีดจำกัด สำหรับนักวิ่งทั่วไป</p>
+              <div class="flex items-baseline mb-8">
+                <span class="text-5xl font-black text-brand-600" id="lblPrice10">500</span>
+                <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
+              </div>
+              <ul class="text-slate-600 space-y-4 mb-10 font-medium">
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เสื้อที่ระลึกคอกลม</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> หมายเลขวิ่ง (BIB)</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เหรียญหลังเข้าเส้นชัย</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> อาหารพิเศษโซนนักวิ่ง</li>
+              </ul>
+              <button onclick="showView('register')" class="btn-primary w-full py-4 rounded-2xl font-bold shadow-glow-brand">สมัครระยะนี้เลย</button>
+            </div>
+
+            <!-- VIP -->
+            <div class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group" data-aos="fade-up" data-aos-delay="300">
+              <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-3xl flex items-center justify-center text-2xl font-black mb-8 group-hover:bg-amber-200 transition-colors">VIP</div>
+              <h3 class="text-2xl font-black text-slate-800 mb-2">VIP Run</h3>
+              <p class="text-slate-500 font-medium mb-8">วิ่งระยะใดก็ได้ พร้อมสิทธิพิเศษสูงสุด</p>
+              <div class="flex items-baseline mb-8">
+                <span class="text-5xl font-black text-amber-500" id="lblPriceVIP">1,000</span>
+                <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
+              </div>
+              <ul class="text-slate-600 space-y-4 mb-10 font-medium">
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> เสื้อที่ระลึก (คอปกพรีเมียม)</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> หมายเลขวิ่ง (BIB) VIP</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> ถ้วยรางวัลเกียรติยศ VIP</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> ที่จอดรถโซนพิเศษ</li>
+              </ul>
+              <button onclick="showView('register')" class="w-full py-4 rounded-2xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">เลือกแพ็กเกจนี้</button>
+            </div>
+          </div>
         </div>
-
-        <!-- Distances & Prices -->
-        <div class="py-24 bg-slate-50 border-t border-slate-200">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 reveal">
-                    <h2 class="font-display font-black text-3xl sm:text-4xl text-slate-800 mb-4">เลือกระยะทางของคุณ</h2>
-                    <p class="text-slate-500 max-w-2xl mx-auto">ทุกระยะทาง คุณจะได้รับเสื้อที่ระลึก เหรียญรางวัลเมื่อเข้าเส้นชัย และอาหารเครื่องดื่มตลอดงาน</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-5xl mx-auto">
-                    <!-- 5K -->
-                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg text-center relative overflow-hidden reveal">
-                        <div class="absolute -right-6 -top-6 text-9xl text-slate-50 font-black opacity-50 select-none">5K</div>
-                        <div class="relative z-10">
-                            <h3 class="font-display font-bold text-2xl text-slate-700 mb-2">Fun Run</h3>
-                            <div class="font-display font-black text-6xl text-emerald-500 mb-4">5<span class="text-2xl">KM</span></div>
-                            <p class="text-slate-500 text-sm mb-6">เหมาะสำหรับครอบครัวและผู้เริ่มต้น</p>
-                            <div class="text-3xl font-bold text-slate-800 mb-8"><span id="displayPrice5K">400</span><span class="text-base text-slate-500 font-normal ml-1">บาท</span></div>
-                            <ul class="text-sm text-slate-600 space-y-3 mb-8 text-left max-w-[200px] mx-auto">
-                                <li class="flex items-center gap-2"><span>✅</span> เสื้อที่ระลึก 5KM</li>
-                                <li class="flex items-center gap-2"><span>✅</span> เหรียญรางวัล</li>
-                                <li class="flex items-center gap-2"><span>✅</span> BIB (ไม่มีชิปจับเวลา)</li>
-                            </ul>
-                            <button class="w-full py-3 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors" data-nav="register">เลือกแพ็กเกจนี้</button>
-                        </div>
-                    </div>
-                    
-                    <!-- 10K (Popular) -->
-                    <div class="bg-slate-900 rounded-3xl p-1 border border-slate-800 shadow-2xl text-center relative transform md:-translate-y-4 reveal delay-100">
-                        <div class="absolute top-0 inset-x-0 flex justify-center -translate-y-1/2 z-20">
-                            <span class="bg-gradient-to-r from-tp-accent to-yellow-400 text-slate-900 text-xs font-black uppercase tracking-widest py-1.5 px-4 rounded-full shadow-lg">ยอดนิยม</span>
-                        </div>
-                        <div class="bg-slate-800 rounded-[22px] p-8 relative overflow-hidden h-full">
-                            <div class="absolute -left-6 -bottom-6 text-9xl text-slate-700 font-black opacity-20 select-none">10K</div>
-                            <div class="relative z-10">
-                                <h3 class="font-display font-bold text-2xl text-slate-300 mb-2">Mini Marathon</h3>
-                                <div class="font-display font-black text-6xl text-tp-accent mb-4 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]">10<span class="text-2xl">KM</span></div>
-                                <p class="text-slate-400 text-sm mb-6">ท้าทายขีดจำกัด สำหรับนักวิ่งทั่วไป</p>
-                                <div class="text-3xl font-bold text-white mb-8"><span id="displayPrice10K">500</span><span class="text-base text-slate-400 font-normal ml-1">บาท</span></div>
-                                <ul class="text-sm text-slate-300 space-y-3 mb-8 text-left max-w-[200px] mx-auto">
-                                    <li class="flex items-center gap-2"><span>✅</span> เสื้อที่ระลึก 10KM</li>
-                                    <li class="flex items-center gap-2"><span>✅</span> เหรียญรางวัล</li>
-                                    <li class="flex items-center gap-2"><span>✅</span> BIB พร้อมชิปจับเวลา</li>
-                                    <li class="flex items-center gap-2"><span>✅</span> ถ้วยรางวัลตามรุ่นอายุ</li>
-                                </ul>
-                                <button class="w-full py-4 rounded-xl bg-gradient-to-r from-tp-accent to-yellow-500 text-slate-900 font-display font-bold text-lg hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:scale-105 transition-all" data-nav="register">สมัครระยะนี้เลย</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- VIP -->
-                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg text-center relative overflow-hidden reveal delay-200">
-                        <div class="absolute -right-2 -bottom-2 text-8xl text-slate-50 font-black opacity-50 select-none italic">VIP</div>
-                        <div class="relative z-10">
-                            <h3 class="font-display font-bold text-2xl text-slate-700 mb-2">Charity Run</h3>
-                            <div class="font-display font-black text-5xl text-rose-500 mb-4">VIP</div>
-                            <p class="text-slate-500 text-sm mb-6">ผู้สนับสนุนหลัก วิ่งได้ทุกระยะ</p>
-                            <div class="text-3xl font-bold text-slate-800 mb-8"><span id="displayPriceVIP">1,000</span><span class="text-base text-slate-500 font-normal ml-1">บาท</span></div>
-                            <ul class="text-sm text-slate-600 space-y-3 mb-8 text-left max-w-[200px] mx-auto">
-                                <li class="flex items-center gap-2"><span>✅</span> เสื้อ VIP พรีเมียม</li>
-                                <li class="flex items-center gap-2"><span>✅</span> เหรียญรางวัล + โล่ผู้สนับสนุน</li>
-                                <li class="flex items-center gap-2"><span>✅</span> BIB เลขสวย (เลือกได้)</li>
-                                <li class="flex items-center gap-2"><span>✅</span> ที่จอดรถโซนพิเศษ</li>
-                            </ul>
-                            <button class="w-full py-3 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors" data-nav="register">เลือกแพ็กเกจนี้</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer / Contact -->
-        <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
-            <div class="max-w-6xl mx-auto px-4 text-center">
-                <div class="font-display font-bold text-2xl text-white mb-4">TP RUN 2026</div>
-                <p class="mb-6">จัดโดย สมาคมศิษย์เก่าโรงเรียนเทพพิทักษ์วิทยา</p>
-                <div class="flex justify-center gap-6 mb-8 text-sm">
-                    <span id="contactPhone">📞 02-123-4567</span>
-                    <span id="contactEmail">✉️ tpun2026@example.com</span>
-                </div>
-                <p class="text-xs text-slate-600">© 2026 Thep Pitak Wittaya School. All rights reserved.</p>
-            </div>
-        </footer>
+      </div>
     </div>
 
     <!-- ==================== REGISTER VIEW ==================== -->
     <div class="view" id="view-register">
-        <!-- Header -->
-        <div class="bg-slate-900 text-white pt-24 pb-16 px-4 text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-b from-tp-dark/80 to-slate-900 z-0"></div>
-            <div class="relative z-10">
-                <button class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-bold backdrop-blur-md transition-colors mb-6 border border-white/20" data-nav="home">← กลับหน้าแรก</button>
-                <h1 class="font-display font-black text-3xl sm:text-5xl mb-3 reveal">แบบฟอร์มสมัครวิ่ง</h1>
-                <p class="text-emerald-200 font-medium max-w-xl mx-auto reveal delay-100">กรุณากรอกข้อมูลให้ครบถ้วนและตรวจสอบความถูกต้อง เพื่อรักษาสิทธิประโยชน์ของท่าน</p>
-            </div>
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <button onclick="showView('home')" class="text-brand-600 font-bold hover:text-brand-800 mb-8 flex items-center gap-2 transition-colors">
+          <i class="fa-solid fa-arrow-left"></i> กลับหน้าแรก
+        </button>
+        
+        <div class="mb-10">
+          <h2 class="text-4xl font-black text-slate-900 mb-3">แบบฟอร์มสมัครวิ่ง</h2>
+          <p class="text-slate-500 font-medium text-lg">กรุณากรอกข้อมูลให้ครบถ้วนและตรวจสอบความถูกต้อง เพื่อรักษาสิทธิประโยชน์ของท่าน</p>
         </div>
 
-        <div class="max-w-4xl mx-auto px-4 py-12 -mt-12 relative z-20 reveal delay-200">
-            <!-- Form Card -->
-            <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
-                <form id="regForm" class="p-6 sm:p-10">
-                    
-                    <!-- Section 1: ข้อมูลส่วนตัว -->
-                    <div class="mb-12">
-                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="w-8 h-8 rounded-full bg-tp-light text-tp-dark font-display font-black flex items-center justify-center">1</span>
-                            <h2 class="font-display font-bold text-2xl text-slate-800">ข้อมูลส่วนตัว (Personal Info)</h2>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-bold text-slate-700 mb-2">เลขบัตรประชาชน / พาสปอร์ต <span class="text-red-500">*</span></label>
-                                <input type="text" id="idCard" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-tp-main focus:ring-4 focus:ring-tp-light outline-none transition-all" placeholder="กรอกเฉพาะตัวเลข 13 หลัก">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-bold text-slate-700 mb-2">ชื่อ-นามสกุล <span class="text-red-500">*</span></label>
-                                <input type="text" id="fullName" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-tp-main focus:ring-4 focus:ring-tp-light outline-none transition-all" placeholder="นายสมชาย ใจดี">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">วันเกิด <span class="text-red-500">*</span></label>
-                                <input type="date" id="birthDate" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-tp-main focus:ring-4 focus:ring-tp-light outline-none transition-all">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-bold text-slate-500 mb-2">อายุ (ปี)</label>
-                                    <input type="text" id="age" readonly class="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-600 font-bold cursor-not-allowed text-center" placeholder="-">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-slate-500 mb-2">รุ่นอายุ</label>
-                                    <input type="text" id="ageGroupStr" readonly class="w-full px-4 py-3 rounded-xl border-2 border-slate-100 bg-slate-50 text-tp-main font-bold cursor-not-allowed text-center text-sm" placeholder="-">
-                                    <input type="hidden" id="ageGroupCode">
-                                </div>
-                            </div>
-
-                            <!-- เพศ (Fancy Buttons) -->
-                            <div class="md:col-span-2 mt-4">
-                                <label class="block text-sm font-bold text-slate-700 mb-3">เพศ (Gender) <span class="text-red-500">*</span></label>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="gender" value="ชาย" class="peer sr-only" required>
-                                        <div class="rounded-2xl border-2 border-slate-200 p-4 text-center hover:bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 transition-all">
-                                            <span class="text-3xl block mb-2">👨</span><span class="font-bold text-sm">ชาย (Male)</span>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="gender" value="หญิง" class="peer sr-only">
-                                        <div class="rounded-2xl border-2 border-slate-200 p-4 text-center hover:bg-slate-50 peer-checked:border-pink-500 peer-checked:bg-pink-50 peer-checked:text-pink-700 transition-all">
-                                            <span class="text-3xl block mb-2">👩</span><span class="font-bold text-sm">หญิง (Female)</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <!-- กรุ๊ปเลือด (Fancy Buttons) -->
-                            <div class="md:col-span-2 mt-4">
-                                <label class="block text-sm font-bold text-slate-700 mb-3">กรุ๊ปเลือด (Blood Type) <span class="text-red-500">*</span></label>
-                                <div class="grid grid-cols-4 gap-3">
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="blood" value="A" class="peer sr-only" required>
-                                        <div class="rounded-xl border-2 border-slate-200 py-3 text-center hover:bg-slate-50 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-600 font-black text-lg text-slate-400 transition-all">A</div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="blood" value="B" class="peer sr-only">
-                                        <div class="rounded-xl border-2 border-slate-200 py-3 text-center hover:bg-slate-50 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-600 font-black text-lg text-slate-400 transition-all">B</div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="blood" value="O" class="peer sr-only">
-                                        <div class="rounded-xl border-2 border-slate-200 py-3 text-center hover:bg-slate-50 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-600 font-black text-lg text-slate-400 transition-all">O</div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="blood" value="AB" class="peer sr-only">
-                                        <div class="rounded-xl border-2 border-slate-200 py-3 text-center hover:bg-slate-50 peer-checked:border-red-500 peer-checked:bg-red-50 peer-checked:text-red-600 font-black text-lg text-slate-400 transition-all">AB</div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Section 2: ข้อมูลการติดต่อ -->
-                    <div class="mb-12">
-                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="w-8 h-8 rounded-full bg-tp-light text-tp-dark font-display font-black flex items-center justify-center">2</span>
-                            <h2 class="font-display font-bold text-2xl text-slate-800">การติดต่อ & ฉุกเฉิน</h2>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
-                                <input type="tel" id="phone" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-tp-main focus:ring-4 focus:ring-tp-light outline-none transition-all" placeholder="08XXXXXXXX">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">โรคประจำตัว <span class="text-red-500">*</span></label>
-                                <input type="text" id="medical" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-tp-main focus:ring-4 focus:ring-tp-light outline-none transition-all" placeholder="หากไม่มีให้พิมพ์ 'ไม่มี'">
-                            </div>
-                            
-                            <div class="md:col-span-2 p-6 bg-rose-50 rounded-2xl border border-rose-100">
-                                <h4 class="font-bold text-rose-800 mb-4 flex items-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg> ผู้ติดต่อกรณีฉุกเฉิน</h4>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <input type="text" id="emName" required class="w-full px-4 py-3 rounded-xl border-2 border-rose-200 focus:border-rose-400 focus:ring-4 focus:ring-rose-100 outline-none transition-all" placeholder="ชื่อ-สกุล ผู้ติดต่อ">
-                                    </div>
-                                    <div>
-                                        <input type="tel" id="emPhone" required class="w-full px-4 py-3 rounded-xl border-2 border-rose-200 focus:border-rose-400 focus:ring-4 focus:ring-rose-100 outline-none transition-all" placeholder="เบอร์โทรศัพท์ฉุกเฉิน">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Section 3: การแข่งขัน -->
-                    <div class="mb-12">
-                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="w-8 h-8 rounded-full bg-tp-light text-tp-dark font-display font-black flex items-center justify-center">3</span>
-                            <h2 class="font-display font-bold text-2xl text-slate-800">รายละเอียดการแข่งขัน</h2>
-                        </div>
-                        
-                        <!-- ระยะวิ่ง -->
-                        <div class="mb-8">
-                            <label class="block text-sm font-bold text-slate-700 mb-4">เลือกระยะวิ่ง (Distance) <span class="text-red-500">*</span></label>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <label class="cursor-pointer relative h-full">
-                                    <input type="radio" name="distance" value="5" class="peer sr-only" required>
-                                    <div class="h-full rounded-2xl border-2 border-slate-200 p-5 text-center hover:bg-slate-50 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 peer-checked:shadow-md transition-all flex flex-col justify-center">
-                                        <div class="font-display font-black text-3xl text-slate-700 peer-checked:text-emerald-600 mb-1">5 KM</div>
-                                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Fun Run</div>
-                                        <div class="mt-auto font-bold text-slate-800 text-lg"><span id="formPrice5K">400</span> ฿</div>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative h-full">
-                                    <input type="radio" name="distance" value="10" class="peer sr-only">
-                                    <div class="h-full rounded-2xl border-2 border-slate-200 p-5 text-center hover:bg-slate-50 peer-checked:border-tp-accent peer-checked:bg-amber-50 peer-checked:shadow-md transition-all flex flex-col justify-center">
-                                        <div class="absolute -top-3 -right-2 bg-gradient-to-r from-tp-accent to-yellow-500 text-slate-900 text-[10px] font-black px-3 py-1 rounded-full shadow-sm">ยอดฮิต</div>
-                                        <div class="font-display font-black text-3xl text-slate-700 peer-checked:text-tp-accent mb-1">10 KM</div>
-                                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Mini Marathon</div>
-                                        <div class="mt-auto font-bold text-slate-800 text-lg"><span id="formPrice10K">500</span> ฿</div>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer relative h-full">
-                                    <input type="radio" name="distance" value="VIP" class="peer sr-only">
-                                    <div class="h-full rounded-2xl border-2 border-slate-200 p-5 text-center hover:bg-slate-50 peer-checked:border-rose-500 peer-checked:bg-rose-50 peer-checked:shadow-md transition-all flex flex-col justify-center">
-                                        <div class="font-display font-black text-3xl text-slate-700 peer-checked:text-rose-500 mb-1">VIP</div>
-                                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Charity Run</div>
-                                        <div class="mt-auto font-bold text-slate-800 text-lg"><span id="formPriceVIP">1,000</span> ฿</div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- ไซส์เสื้อ (New Design) -->
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-4">ไซส์เสื้อ (Shirt Size) <span class="text-red-500">*</span></label>
-                            
-                            <!-- ไซส์เด็ก -->
-                            <div class="mb-4">
-                                <div class="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">ไซส์เด็ก (Kids)</div>
-                                <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="Kids 26" class="peer sr-only" required><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all"><div class="text-[10px] text-slate-400 font-bold mb-0.5 peer-checked:text-tp-main">อก 26"</div></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="Kids 28" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all"><div class="text-[10px] text-slate-400 font-bold mb-0.5 peer-checked:text-tp-main">อก 28"</div></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="Kids 30" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all"><div class="text-[10px] text-slate-400 font-bold mb-0.5 peer-checked:text-tp-main">อก 30"</div></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="Kids 32" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all"><div class="text-[10px] text-slate-400 font-bold mb-0.5 peer-checked:text-tp-main">อก 32"</div></div></label>
-                                </div>
-                            </div>
-
-                            <!-- ไซส์ผู้ใหญ่ -->
-                            <div>
-                                <div class="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">ไซส์ผู้ใหญ่ (Adults)</div>
-                                <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="SS" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">SS</span><span class="text-[10px] text-slate-400 font-medium">34"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="S" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">S</span><span class="text-[10px] text-slate-400 font-medium">36"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="M" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">M</span><span class="text-[10px] text-slate-400 font-medium">38"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="L" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">L</span><span class="text-[10px] text-slate-400 font-medium">40"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="XL" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">XL</span><span class="text-[10px] text-slate-400 font-medium">42"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="2XL" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">2XL</span><span class="text-[10px] text-slate-400 font-medium">44"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="3XL" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">3XL</span><span class="text-[10px] text-slate-400 font-medium">46"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="4XL" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">4XL</span><span class="text-[10px] text-slate-400 font-medium">48"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="5XL" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">5XL</span><span class="text-[10px] text-slate-400 font-medium">50"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="6XL" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">6XL</span><span class="text-[10px] text-slate-400 font-medium">52"</span></div></label>
-                                    <label class="cursor-pointer"><input type="radio" name="shirtSize" value="7XL" class="peer sr-only"><div class="rounded-xl border-2 border-slate-200 py-2 text-center hover:bg-slate-50 peer-checked:border-tp-main peer-checked:bg-tp-light peer-checked:text-tp-dark transition-all flex flex-col items-center justify-center"><span class="font-black text-sm">7XL</span><span class="text-[10px] text-slate-400 font-medium">54"</span></div></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Section 4: ชำระเงิน -->
-                    <div class="mb-10">
-                        <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                            <span class="w-8 h-8 rounded-full bg-tp-light text-tp-dark font-display font-black flex items-center justify-center">4</span>
-                            <h2 class="font-display font-bold text-2xl text-slate-800">การชำระเงิน</h2>
-                        </div>
-                        
-                        <div class="bg-slate-900 p-6 rounded-2xl shadow-inner mb-6 flex justify-between items-center text-white">
-                            <div class="font-bold text-slate-300">ยอดที่ต้องชำระ</div>
-                            <div class="font-display font-black text-4xl text-tp-accent"><span id="netTotal">0</span> <span class="text-xl font-medium text-slate-400">THB</span></div>
-                        </div>
-
-                        <div class="border-2 border-dashed border-emerald-300 bg-emerald-50 rounded-2xl p-6 mb-8">
-                            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <div class="flex items-center gap-5">
-                                    <div class="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center font-display font-black text-emerald-600 text-3xl border border-emerald-100">K</div>
-                                    <div>
-                                        <div class="text-sm font-bold text-emerald-800">ธนาคารกสิกรไทย (KBank)</div>
-                                        <div class="font-display font-black text-2xl sm:text-3xl text-slate-800 tracking-wider">105-292872-5</div>
-                                        <div class="text-sm text-slate-600 font-medium">ชื่อบัญชี: โรงเรียนเทพพิทักษ์วิทยา</div>
-                                    </div>
-                                </div>
-                                <button type="button" id="copyAcct" class="px-6 py-3 bg-white border border-emerald-200 rounded-full font-bold text-emerald-700 text-sm hover:bg-emerald-100 shadow-sm transition-colors whitespace-nowrap">📋 คัดลอกเลขบัญชี</button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-bold text-slate-700 mb-3">แนบหลักฐานการโอนเงิน (สลิป) <span class="text-red-500">*</span></label>
-                            <label class="block w-full border-2 border-dashed border-slate-300 rounded-2xl p-10 text-center cursor-pointer hover:bg-slate-50 transition-colors group relative" id="uploadArea">
-                                <input type="file" id="slipFile" accept="image/*" required>
-                                <div id="uploadPlaceholder">
-                                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 group-hover:scale-110 group-hover:bg-tp-light transition-all">📸</div>
-                                    <div id="uploadTitle" class="font-bold text-slate-700 text-lg mb-1">คลิกเพื่ออัปโหลดรูปสลิป</div>
-                                    <div class="text-sm text-slate-500">รองรับไฟล์ JPG, PNG ขนาดไม่เกิน 5MB</div>
-                                </div>
-                                <img id="slipPreview" class="hidden mx-auto max-h-64 rounded-xl shadow-md border border-slate-200 z-10 relative">
-                                <button type="button" id="removeSlipBtn" class="hidden absolute top-4 right-4 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 z-20 shadow-md">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                </button>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="pt-8 border-t border-slate-100">
-                        <button type="submit" id="submitBtn" class="w-full py-5 rounded-2xl bg-gradient-to-r from-tp-main to-emerald-600 text-white font-display font-black text-xl shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)] hover:shadow-[0_15px_30px_-10px_rgba(16,185,129,0.6)] hover:-translate-y-1 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
-                            ยืนยันการสมัครวิ่ง
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Success Panel (Receipt Style) -->
-                <div id="successPanel" class="hidden p-8 sm:p-12 text-center bg-slate-50">
-                    <div class="w-24 h-24 bg-gradient-to-br from-emerald-400 to-tp-main rounded-full flex items-center justify-center text-white text-5xl mx-auto mb-6 shadow-xl border-4 border-white animate-[blob_2s_ease-out]">✓</div>
-                    
-                    <h2 class="font-display font-black text-4xl text-slate-800 mb-2">สมัครสำเร็จ!</h2>
-                    <p class="text-slate-500 font-medium mb-8 max-w-md mx-auto">ระบบได้รับข้อมูลของท่านเรียบร้อยแล้ว กรุณารอเจ้าหน้าที่ตรวจสอบสลิปโอนเงินภายใน 1-2 วันทำการ</p>
-                    
-                    <!-- Ticket Design -->
-                    <div class="bg-white rounded-3xl p-6 mb-8 border border-slate-200 shadow-sm max-w-sm mx-auto text-left relative overflow-hidden">
-                        <!-- Perforated edges -->
-                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 bg-slate-50 rounded-full border-r border-slate-200"></div>
-                        <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-8 h-8 bg-slate-50 rounded-full border-l border-slate-200"></div>
-                        
-                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 text-center">รหัสอ้างอิงการสมัคร (Ref. ID)</div>
-                        <div id="regIdTag" class="font-display font-black text-3xl text-tp-main text-center mb-6 tracking-wider">TPXXXXX</div>
-                        
-                        <div class="space-y-4 border-t-2 border-dashed border-slate-200 pt-6">
-                            <div class="flex justify-between items-center"><span class="text-slate-500 text-sm">ชื่อ-นามสกุล</span><span id="succName" class="font-bold text-slate-800 text-right max-w-[200px] truncate">นายทดสอบ</span></div>
-                            <div class="flex justify-between items-center"><span class="text-slate-500 text-sm">ระยะทาง</span><span id="succDist" class="font-bold text-slate-800">10 KM</span></div>
-                            <div class="flex justify-between items-center"><span class="text-slate-500 text-sm">ไซส์เสื้อ</span><span id="succShirt" class="font-bold text-slate-800">L</span></div>
-                            <div class="flex justify-between items-center pt-4 border-t border-slate-100"><span class="text-slate-800 font-bold">ยอดชำระ</span><span id="succPrice" class="font-black text-tp-accent text-xl">500 ฿</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button class="px-8 py-4 rounded-xl bg-slate-800 text-white font-bold hover:bg-slate-900 transition-colors shadow-md" data-nav="status">🔍 ตรวจสอบสถานะ</button>
-                        <button class="px-8 py-4 rounded-xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-colors" data-nav="home">🏠 กลับหน้าแรก</button>
-                    </div>
+        <form id="regForm" class="space-y-10" novalidate>
+          
+          <!-- Section 1: Personal Info -->
+          <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
+            <div class="absolute top-0 left-0 w-2 h-full bg-brand-500"></div>
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-id-card"></i>
+              </div> 
+              ข้อมูลส่วนตัว
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">เลขบัตรประชาชน / พาสปอร์ต <span class="text-red-500">*</span></label>
+                <input type="text" id="idCard" placeholder="ไม่ต้องใส่ขีด (-)" required>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">ชื่อ - นามสกุล <span class="text-red-500">*</span></label>
+                <input type="text" id="fullName" placeholder="เช่น นายสมชาย ใจดี" required>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">วันเกิด <span class="text-red-500">*</span></label>
+                <input type="date" id="birthDate" required>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-2">อายุ (อัตโนมัติ)</label>
+                  <input type="text" id="age" disabled placeholder="-">
                 </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-2">รุ่นอายุ (อัตโนมัติ)</label>
+                  <input type="text" id="ageGroupLabel" disabled placeholder="-">
+                </div>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">เพศ <span class="text-red-500">*</span></label>
+                <div class="radio-btn-group">
+                  <label class="radio-btn"><input type="radio" name="gender" value="ชาย"> <i class="fa-solid fa-mars mr-2"></i> ชาย</label>
+                  <label class="radio-btn"><input type="radio" name="gender" value="หญิง"> <i class="fa-solid fa-venus mr-2"></i> หญิง</label>
+                </div>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">กรุ๊ปเลือด <span class="text-red-500">*</span></label>
+                <div class="radio-btn-group">
+                  <label class="radio-btn"><input type="radio" name="blood" value="A"> A</label>
+                  <label class="radio-btn"><input type="radio" name="blood" value="B"> B</label>
+                  <label class="radio-btn"><input type="radio" name="blood" value="O"> O</label>
+                  <label class="radio-btn"><input type="radio" name="blood" value="AB"> AB</label>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
+
+          <!-- Section 2: Contact & Med -->
+          <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
+            <div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-notes-medical"></i>
+              </div> 
+              ข้อมูลติดต่อและสุขภาพ
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
+                <input type="tel" id="phone" placeholder="08xxxxxxxx" required>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">อีเมล (ถ้ามี)</label>
+                <input type="email" id="email" placeholder="example@email.com">
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">โรคประจำตัว <span class="text-slate-400 font-normal ml-1">(หากไม่มีให้กรอก "ไม่มี")</span> <span class="text-red-500">*</span></label>
+                <input type="text" id="medical" placeholder="ระบุโรคประจำตัว" required>
+              </div>
+              <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 sm:col-span-2 grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-2">ผู้ติดต่อฉุกเฉิน <span class="text-red-500">*</span></label>
+                  <input type="text" id="emName" placeholder="ระบุชื่อ" required>
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-2">เบอร์ติดต่อฉุกเฉิน <span class="text-red-500">*</span></label>
+                  <input type="tel" id="emPhone" placeholder="08xxxxxxxx" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Race Details -->
+          <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
+            <div class="absolute top-0 left-0 w-2 h-full bg-accent-500"></div>
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-accent-50 text-accent-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-shirt"></i>
+              </div> 
+              การแข่งขัน
+            </h3>
+            <div class="space-y-10">
+              <div>
+                <label class="block font-bold text-slate-700 mb-4 text-lg">เลือกระยะวิ่ง <span class="text-red-500">*</span></label>
+                <div class="grid-select sm:grid-cols-3 gap-4">
+                  <label class="grid-card"><input type="radio" name="distance" value="5"><span class="title">5 KM</span><span class="sub" id="formPrice5">400 บาท</span></label>
+                  <label class="grid-card"><input type="radio" name="distance" value="10"><span class="title">10 KM</span><span class="sub" id="formPrice10">500 บาท</span></label>
+                  <label class="grid-card"><input type="radio" name="distance" value="VIP"><span class="title">VIP</span><span class="sub" id="formPriceVIP">1000 บาท</span></label>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block font-bold text-slate-700 mb-4 text-lg">ไซส์เสื้อ <span class="text-red-500">*</span></label>
+                <div class="grid-select" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));">
+                  <!-- Kids -->
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 26"><span class="title">เด็ก 26"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 28"><span class="title">เด็ก 28"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 30"><span class="title">เด็ก 30"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 32"><span class="title">เด็ก 32"</span></label>
+                  <!-- Adults -->
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="SS (34)"><span class="title">SS</span><span class="sub">อก 34"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="S (36)"><span class="title">S</span><span class="sub">อก 36"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="M (38)"><span class="title">M</span><span class="sub">อก 38"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="L (40)"><span class="title">L</span><span class="sub">อก 40"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="XL (42)"><span class="title">XL</span><span class="sub">อก 42"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="2XL (44)"><span class="title">2XL</span><span class="sub">อก 44"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="3XL (46)"><span class="title">3XL</span><span class="sub">อก 46"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="4XL (48)"><span class="title">4XL</span><span class="sub">อก 48"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="5XL (50)"><span class="title">5XL</span><span class="sub">อก 50"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="6XL (52)"><span class="title">6XL</span><span class="sub">อก 52"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="7XL (54)"><span class="title">7XL</span><span class="sub">อก 54"</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: Payment -->
+          <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
+            <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+              </div> 
+              ชำระเงิน
+            </h3>
+            
+            <div class="bg-gradient-to-r from-emerald-50 to-brand-50 rounded-[1.5rem] p-8 mb-8 border border-emerald-100 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm">
+              <div class="text-emerald-800 font-bold text-lg">ยอดที่ต้องชำระสุทธิ</div>
+              <div class="text-5xl font-black text-emerald-600"><span id="netTotal">0</span> <span class="text-xl font-bold text-emerald-700 ml-1">บาท</span></div>
+            </div>
+
+            <div class="bg-white rounded-[1.5rem] p-8 mb-8 border-2 border-dashed border-slate-200 text-center relative">
+              <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-slate-100 px-4 py-1 rounded-full text-xs font-bold text-slate-500 border border-slate-200">บัญชีรับโอน</div>
+              <div class="text-slate-500 font-medium mb-2 mt-2">ธนาคารกสิกรไทย</div>
+              <div class="text-3xl font-black text-slate-800 mb-2 tracking-wider">105-292872-5</div>
+              <div class="text-slate-600 font-bold mb-6">โรงเรียนเทพพิทักษ์วิทยา</div>
+              <button type="button" onclick="copyToClipboard('105-292872-5')" class="btn-secondary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 mx-auto">
+                <i class="fa-regular fa-copy"></i> คัดลอกเลขบัญชี
+              </button>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-4 text-lg">แนบหลักฐานการโอนเงิน (สลิป) <span class="text-red-500">*</span></label>
+              <div id="uploadArea" class="border-2 border-dashed border-slate-300 rounded-[1.5rem] p-10 text-center bg-slate-50 cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all relative group" onclick="document.getElementById('slipFile').click()">
+                <input type="file" id="slipFile" accept="image/*" class="hidden">
+                <div id="uploadPrompt" class="transition-transform group-hover:scale-105">
+                  <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-3xl text-brand-500">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                  </div>
+                  <div class="text-slate-700 font-bold text-lg">คลิกเพื่ออัปโหลดสลิป</div>
+                  <div class="text-slate-400 text-sm mt-2 font-medium">รองรับไฟล์ภาพ JPG, PNG ขนาดไม่เกิน 5MB</div>
+                </div>
+                <img id="slipPreview" src="" class="hidden mx-auto max-h-72 rounded-2xl shadow-lg z-10 relative object-contain">
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-6 pb-12" data-aos="fade-up">
+            <button type="submit" id="submitBtn" class="btn-primary w-full py-5 rounded-[1.5rem] font-black text-xl flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed">
+              ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>
+            </button>
+            <p class="text-center text-slate-400 text-sm mt-6 font-medium">เมื่อกดยืนยัน ถือว่าท่านยอมรับเงื่อนไขการสมัครและรับรองว่าข้อมูลถูกต้อง</p>
+          </div>
+        </form>
+      </div>
     </div>
 
-    <!-- ==================== STATUS CHECK VIEW ==================== -->
-    <div class="view" id="view-status">
-        <div class="bg-slate-900 text-white pt-24 pb-16 px-4 text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 z-0"></div>
-            <div class="relative z-10">
-                <button class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-bold backdrop-blur-md transition-colors mb-6 border border-white/20" data-nav="home">← กลับหน้าแรก</button>
-                <h1 class="font-display font-black text-3xl sm:text-5xl mb-3 reveal">ตรวจสอบสถานะ</h1>
-                <p class="text-slate-300 font-medium max-w-xl mx-auto reveal delay-100">เช็คสถานะการสมัคร ดาวน์โหลดภาพ BIB และเกียรติบัตรของคุณ</p>
+    <!-- ==================== SUCCESS TICKET ==================== -->
+    <div class="view" id="view-success">
+      <div class="max-w-md mx-auto px-4 py-20 text-center" data-aos="zoom-in">
+        <div class="w-28 h-28 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-6xl mx-auto mb-8 shadow-inner">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-4xl font-black text-slate-800 mb-4">สมัครสำเร็จ!</h2>
+        <p class="text-slate-500 mb-10 font-medium">ระบบได้รับข้อมูลของท่านเรียบร้อยแล้ว<br>กรุณารอเจ้าหน้าที่ตรวจสอบสลิป 1-2 วันทำการ</p>
+        
+        <div class="bg-white rounded-[2rem] shadow-xl overflow-hidden mb-10 text-left border border-slate-100 relative">
+          <!-- Ticket Notches -->
+          <div class="absolute left-0 top-20 -ml-4 w-8 h-8 bg-[#f8fafc] rounded-full shadow-inner"></div>
+          <div class="absolute right-0 top-20 -mr-4 w-8 h-8 bg-[#f8fafc] rounded-full shadow-inner"></div>
+          
+          <div class="border-b-2 border-dashed border-slate-200 p-8 bg-slate-50 text-center">
+            <div class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-2">รหัสอ้างอิง (Reference ID)</div>
+            <div class="text-3xl font-mono font-black text-brand-600 tracking-wider" id="successRefId">TP-XXXXXX</div>
+          </div>
+          <div class="p-8 space-y-5">
+            <div class="flex justify-between border-b border-slate-50 pb-4">
+              <span class="text-slate-500 font-medium">ชื่อ-นามสกุล</span>
+              <span class="text-slate-800 font-bold text-right" id="successName"></span>
             </div>
+            <div class="flex justify-between border-b border-slate-50 pb-4">
+              <span class="text-slate-500 font-medium">ระยะวิ่ง</span>
+              <span class="text-slate-800 font-bold text-right" id="successDist"></span>
+            </div>
+            <div class="flex justify-between border-b border-slate-50 pb-4">
+              <span class="text-slate-500 font-medium">ไซส์เสื้อ</span>
+              <span class="text-slate-800 font-bold text-right" id="successShirt"></span>
+            </div>
+            <div class="flex justify-between items-center pt-2">
+              <span class="text-slate-500 font-medium">ยอดโอน</span>
+              <span class="text-brand-600 font-black text-xl text-right" id="successTotal"></span>
+            </div>
+          </div>
         </div>
         
-        <div class="max-w-2xl mx-auto px-4 py-12 -mt-12 relative z-20 reveal delay-200">
-            <div class="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border border-slate-100">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">เลขบัตรประชาชน</label>
-                        <input type="text" id="lkId" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-tp-main focus:ring-4 focus:ring-tp-light outline-none transition-all" placeholder="กรอกเลขบัตร">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">เบอร์โทรศัพท์</label>
-                        <input type="text" id="lkPhone" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-tp-main focus:ring-4 focus:ring-tp-light outline-none transition-all" placeholder="กรอกเบอร์โทร">
-                    </div>
-                </div>
-                <button id="lkBtn" class="w-full py-4 rounded-xl bg-slate-800 text-white font-display font-bold text-lg hover:bg-slate-900 transition-all shadow-md active:scale-95">🔍 ค้นหาข้อมูล</button>
-                
-                <div id="statusResult" class="mt-8 pt-8 border-t border-slate-100 hidden">
-                    <!-- Status results injected here -->
-                </div>
-            </div>
+        <div class="space-y-4">
+          <button onclick="showView('status'); document.getElementById('lkId').value = '';" class="btn-primary w-full py-4 rounded-2xl font-bold flex justify-center items-center gap-2">
+            <i class="fa-solid fa-magnifying-glass"></i> เช็คสถานะการสมัคร
+          </button>
+          <button onclick="showView('home')" class="w-full py-4 text-slate-500 font-bold hover:text-slate-800 transition-colors">
+            กลับหน้าแรก
+          </button>
         </div>
+      </div>
+    </div>
+
+    <!-- ==================== STATUS CHECK ==================== -->
+    <div class="view" id="view-status">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-12" data-aos="fade-down">
+          <h2 class="text-4xl font-black text-slate-900 mb-4">ตรวจสอบสถานะ</h2>
+          <p class="text-slate-500 font-medium text-lg">กรอกข้อมูลที่ใช้ในการสมัครเพื่อดูความคืบหน้า</p>
+        </div>
+
+        <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft mb-10" data-aos="fade-up">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+            <div>
+              <label class="block font-bold text-slate-700 mb-3">เลขบัตรประชาชน / พาสปอร์ต</label>
+              <input type="text" id="lkId" placeholder="กรอกให้ตรงกับตอนสมัคร">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 mb-3">เบอร์โทรศัพท์</label>
+              <input type="tel" id="lkPhone" placeholder="08xxxxxxxx">
+            </div>
+          </div>
+          <button id="lkBtn" class="btn-primary w-full py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-2">
+            <i class="fa-solid fa-search"></i> ค้นหาข้อมูล
+          </button>
+        </div>
+
+        <div id="statusResult" class="hidden" data-aos="fade-up">
+          <!-- Dynamic Content Here -->
+        </div>
+      </div>
     </div>
 
     <!-- ==================== STAFF LOGIN ==================== -->
-    <div class="view bg-slate-50" id="view-staffLogin">
-        <div class="min-h-screen flex flex-col items-center justify-center pt-24 pb-12 px-4">
-            <div class="max-w-md w-full reveal">
-                <div class="bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border border-slate-100 text-center relative">
-                    <div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-lg">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    </div>
-                    <h2 class="font-display font-black text-2xl text-slate-800 mb-2">เจ้าหน้าที่ระบบ</h2>
-                    <p class="text-slate-500 mb-8 text-sm">กรุณาใส่รหัสผ่านเพื่อเข้าสู่ระบบจัดการงานวิ่ง</p>
-                    
-                    <input type="password" id="staffPass" class="w-full px-4 py-4 rounded-xl border-2 border-slate-200 focus:border-slate-800 focus:ring-4 focus:ring-slate-100 outline-none text-center text-xl tracking-widest font-mono mb-4 transition-all" placeholder="••••••••">
-                    
-                    <button id="staffLoginBtn" class="w-full py-4 rounded-xl bg-slate-900 text-white font-bold text-lg hover:bg-slate-800 transition-colors shadow-lg active:scale-95">เข้าสู่ระบบ</button>
-                    <button class="mt-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors" data-nav="home">← กลับหน้าแรก</button>
-                </div>
-            </div>
+    <div class="view" id="view-staffLogin">
+      <div class="min-h-[70vh] flex items-center justify-center px-4 py-12">
+        <div class="glass-card p-10 rounded-[2rem] shadow-xl w-full max-w-md text-center" data-aos="zoom-in">
+          <div class="w-20 h-20 bg-slate-800 text-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg text-3xl">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <h2 class="text-3xl font-black text-slate-800 mb-3">เจ้าหน้าที่ระบบ</h2>
+          <p class="text-slate-500 font-medium mb-10">กรุณาใส่รหัสผ่านเพื่อเข้าสู่แผงควบคุม</p>
+          <input type="password" id="staffPass" placeholder="••••••••" class="text-center text-2xl tracking-[0.5em] mb-8 py-4 font-mono bg-slate-50" onkeypress="if(event.key==='Enter') document.getElementById('staffLoginBtn').click()">
+          <button id="staffLoginBtn" class="w-full py-4 rounded-2xl bg-slate-800 text-white font-bold hover:bg-slate-900 transition-colors flex justify-center items-center gap-2">
+            เข้าสู่ระบบ <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          </button>
         </div>
+      </div>
     </div>
 
     <!-- ==================== STAFF DASHBOARD ==================== -->
-    <div class="view bg-slate-50 min-h-screen pt-16 sm:pt-20" id="view-staffDash">
-        <div class="flex flex-col md:flex-row min-h-[calc(100vh-4rem)] sm:min-h-[calc(100vh-5rem)]">
-            <!-- Sidebar -->
-            <div class="w-full md:w-64 bg-slate-900 text-slate-300 flex flex-col shadow-2xl z-20 md:sticky top-16 sm:top-20 md:h-[calc(100vh-5rem)]">
-                <div class="p-6 border-b border-slate-800 flex items-center gap-3">
-                    <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-white font-bold">TP</div>
-                    <div>
-                        <div class="font-display font-bold text-white leading-tight">Staff Dashboard</div>
-                        <div class="text-[10px] uppercase tracking-wider text-slate-500">TP RUN 2026</div>
-                    </div>
-                </div>
-                
-                <!-- เปลี่ยนแปลงไอคอนและการจัดวางในส่วนนี้ -->
-                <div class="flex-1 overflow-y-auto p-4 space-y-2 flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible hide-scrollbar" id="staffTabs">
-                    <button class="staff-tab active bg-slate-800 text-white flex items-center justify-start gap-3 w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all font-medium text-sm sm:text-base whitespace-nowrap" data-panel="overview">
-                        <svg class="w-5 h-5 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                        <span class="pointer-events-none">ภาพรวม</span>
-                    </button>
-                    
-                    <button class="staff-tab flex items-center justify-start gap-3 w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all font-medium text-sm sm:text-base whitespace-nowrap" data-panel="payment">
-                        <svg class="w-5 h-5 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span class="pointer-events-none">ยืนยันการเงิน</span>
-                    </button>
-                    
-                    <button class="staff-tab flex items-center justify-start gap-3 w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all font-medium text-sm sm:text-base whitespace-nowrap" data-panel="shirt">
-                        <svg class="w-5 h-5 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.3 5.1l-4.5-2.2c-.4-.2-.8-.2-1.2 0-.1.1-1.2.6-2.6.6-1.4 0-2.5-.5-2.6-.6-.4-.2-.8-.2-1.2 0L3.7 5.1C3.3 5.3 3 5.7 3 6.2V8c0 .6.4 1 1 1h1v11c0 .6.4 1 1 1h12c0 .6.4 1 1-1V9h1c.6 0 1-.4 1-1V6.2c0-.5-.3-.9-.7-1.1z"></path></svg>
-                        <span class="pointer-events-none">แจกเสื้อ</span>
-                    </button>
-                    
-                    <button class="staff-tab flex items-center justify-start gap-3 w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all font-medium text-sm sm:text-base whitespace-nowrap" data-panel="checkin">
-                        <svg class="w-5 h-5 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.242-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span class="pointer-events-none">เช็คอิน</span>
-                    </button>
-                    
-                    <button class="staff-tab flex items-center justify-start gap-3 w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all font-medium text-sm sm:text-base whitespace-nowrap" data-panel="cert">
-                        <svg class="w-5 h-5 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        <span class="pointer-events-none">เกียรติบัตร</span>
-                    </button>
-                    
-                    <button class="staff-tab flex items-center justify-start gap-3 w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all font-medium text-sm sm:text-base whitespace-nowrap" data-panel="all">
-                        <svg class="w-5 h-5 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <span class="pointer-events-none">รายชื่อทั้งหมด</span>
-                    </button>
-                    
-                    <button class="staff-tab flex items-center justify-start gap-3 w-full px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all font-medium text-sm sm:text-base whitespace-nowrap" data-panel="config">
-                        <svg class="w-5 h-5 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span class="pointer-events-none">ตั้งค่าระบบ</span>
-                    </button>
-                </div>
-                
-                <div class="p-4 border-t border-slate-800 mt-auto hidden md:block">
-                    <button class="w-full py-2 px-4 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors text-sm font-bold flex items-center justify-center gap-2" data-nav="home">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg> ออกจากระบบ
-                    </button>
-                </div>
+    <div class="view" id="view-staffDash">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Dropdown Admin Nav -->
+        <div class="bg-white rounded-[1.5rem] shadow-sm p-4 mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 relative z-30 border border-slate-100">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center font-black text-lg">
+              <i class="fa-solid fa-user-shield"></i>
             </div>
-
-            <!-- Main Content Area -->
-            <div class="flex-1 p-4 sm:p-8 overflow-y-auto">
-                
-                <!-- Panel: Overview -->
-                <div class="staff-panel active" id="panel-overview">
-                    <div class="flex justify-between items-center mb-8">
-                        <h2 class="font-display font-black text-2xl text-slate-800">ภาพรวมระบบ (Overview)</h2>
-                        <button class="btn-refresh p-2 bg-white border border-slate-200 rounded-lg shadow-sm hover:bg-slate-50">🔄</button>
-                    </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8" id="statGrid">
-                        <!-- Stats injected here -->
-                    </div>
-                </div>
-
-                <!-- Panel: Payment -->
-                <div class="staff-panel hidden" id="panel-payment">
-                    <h2 class="font-display font-black text-2xl text-slate-800 mb-6">ตรวจสอบสลิปโอนเงิน</h2>
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm whitespace-nowrap">
-                                <thead class="bg-slate-50 text-slate-600 border-b border-slate-200">
-                                    <tr><th class="p-4 font-bold">เวลาสมัคร</th><th class="p-4 font-bold">ชื่อ-สกุล</th><th class="p-4 font-bold">ระยะ</th><th class="p-4 font-bold">ยอดโอน</th><th class="p-4 font-bold">สลิป</th><th class="p-4 font-bold">จัดการ</th></tr>
-                                </thead>
-                                <tbody id="paymentTableBody" class="divide-y divide-slate-100"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Shared Panel Style for Actions (Shirt, Checkin, Cert) -->
-                <template id="actionPanelTemplate">
-                    <h2 class="font-display font-black text-2xl text-slate-800 mb-6 panel-title">Title</h2>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-6">
-                        <div class="flex gap-4 max-w-lg">
-                            <input type="text" class="search-input flex-1 px-4 py-2 rounded-xl border border-slate-300 focus:border-tp-main outline-none" placeholder="ค้นหาชื่อ, เลขบัตร, เบอร์โทร, BIB">
-                            <button class="search-btn px-6 py-2 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900">ค้นหา</button>
-                        </div>
-                    </div>
-                    <div class="action-result"></div>
-                </template>
-
-                <div class="staff-panel hidden" id="panel-shirt"></div>
-                <div class="staff-panel hidden" id="panel-checkin"></div>
-                <div class="staff-panel hidden" id="panel-cert"></div>
-
-                <!-- Panel: All Users (Export CSV) -->
-                <div class="staff-panel hidden" id="panel-all">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                        <h2 class="font-display font-black text-2xl text-slate-800">รายชื่อผู้สมัครทั้งหมด</h2>
-                        <div class="flex gap-2">
-                            <button id="exportCsvBtn" class="px-4 py-2 bg-emerald-600 text-white text-sm font-bold rounded-lg hover:bg-emerald-700 shadow-sm flex items-center gap-2">
-                                📥 ส่งออก Excel (CSV)
-                            </button>
-                            <button class="btn-refresh px-3 py-2 bg-white border border-slate-200 rounded-lg shadow-sm hover:bg-slate-50">🔄</button>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm whitespace-nowrap">
-                                <thead class="bg-slate-50 text-slate-600 border-b border-slate-200">
-                                    <tr>
-                                        <th class="p-4 font-bold">BIB</th>
-                                        <th class="p-4 font-bold">ชื่อ-สกุล</th>
-                                        <th class="p-4 font-bold">ระยะ</th>
-                                        <th class="p-4 font-bold">เสื้อ</th>
-                                        <th class="p-4 font-bold">สถานะ</th>
-                                        <th class="p-4 font-bold text-center">จัดการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="allTableBody" class="divide-y divide-slate-100"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Panel: Config -->
-                <div class="staff-panel hidden" id="panel-config">
-                    <h2 class="font-display font-black text-2xl text-slate-800 mb-6">ตั้งค่าระบบ (Settings)</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <h3 class="font-bold text-lg mb-4 border-b pb-2">ข้อมูลงานวิ่ง</h3>
-                            <div class="space-y-4">
-                                <div><label class="block text-sm font-bold text-slate-600 mb-1">ชื่องาน (Event Name)</label><input type="text" id="cfg_eventName" class="w-full px-3 py-2 border rounded-lg"></div>
-                                <div><label class="block text-sm font-bold text-slate-600 mb-1">สโลแกน (Slogan)</label><input type="text" id="cfg_slogan" class="w-full px-3 py-2 border rounded-lg"></div>
-                            </div>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                            <h3 class="font-bold text-lg mb-4 border-b pb-2">ราคาค่าสมัคร</h3>
-                            <div class="space-y-4">
-                                <div><label class="block text-sm font-bold text-slate-600 mb-1">ระยะ 5KM (บาท)</label><input type="number" id="cfg_price5k" class="w-full px-3 py-2 border rounded-lg"></div>
-                                <div><label class="block text-sm font-bold text-slate-600 mb-1">ระยะ 10KM (บาท)</label><input type="number" id="cfg_price10k" class="w-full px-3 py-2 border rounded-lg"></div>
-                                <div><label class="block text-sm font-bold text-slate-600 mb-1">VIP (บาท)</label><input type="number" id="cfg_priceVip" class="w-full px-3 py-2 border rounded-lg"></div>
-                            </div>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 md:col-span-2">
-                            <h3 class="font-bold text-lg mb-4 border-b pb-2 text-tp-main">การเชื่อมต่อฐานข้อมูล Google Sheets</h3>
-                            <p class="text-sm text-slate-500 mb-4">นำ URL ของ Web App จาก Google Apps Script มาวางที่นี่เพื่อบันทึกข้อมูลลง Google Sheets แบบเรียลไทม์</p>
-                            <div><label class="block text-sm font-bold text-slate-600 mb-1">Google Apps Script Web App URL</label>
-                            <input type="text" id="cfg_gasUrl" class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-slate-50 focus:bg-white outline-none focus:border-tp-main" placeholder="https://script.google.com/macros/s/AKfycb.../exec"></div>
-                        </div>
-                    </div>
-                    <div class="mt-6 flex justify-end">
-                        <button id="saveConfigBtn" class="px-8 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 shadow-md">💾 บันทึกการตั้งค่า</button>
-                    </div>
-                </div>
-
+            <div>
+              <div class="font-black text-slate-800 text-lg">แผงควบคุมหลัก</div>
+              <div class="text-sm text-slate-500 font-medium" id="dashTime"></div>
             </div>
+          </div>
+          
+          <div class="w-full sm:w-auto flex gap-3">
+            <div class="relative w-full sm:w-64">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
+                <i class="fa-solid fa-layer-group"></i>
+              </div>
+              <select id="staffSectionSelect" class="bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-xl pl-10 pr-4 py-3 outline-none focus:border-brand-500 w-full cursor-pointer appearance-none">
+                <option value="overview">ภาพรวม (Overview)</option>
+                <option value="payment">ยืนยันการเงิน (Payment)</option>
+                <option value="shirt">แจกเสื้อ (Shirt)</option>
+                <option value="checkin">เช็คอิน (Check-in)</option>
+                <option value="cert">แจกเกียรติบัตร (Certificate)</option>
+                <option value="all">รายชื่อทั้งหมด (All Users)</option>
+                <option value="settings">ตั้งค่าหน้าเว็บ (Settings)</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                <i class="fa-solid fa-chevron-down text-xs"></i>
+              </div>
+            </div>
+            <button onclick="showView('home')" class="px-5 py-3 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-800 font-bold transition-colors flex items-center gap-2" title="ออกจากระบบ">
+              <i class="fa-solid fa-power-off"></i> <span class="hidden sm:inline">ออก</span>
+            </button>
+          </div>
         </div>
-    </div>
 
-    <!-- Modals -->
-    <!-- Image Modal (Slip) -->
-    <div id="imageModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white p-2 rounded-2xl max-w-lg w-full relative">
-            <button class="close-modal absolute -top-4 -right-4 w-10 h-10 bg-white text-slate-800 rounded-full font-bold shadow-lg border border-slate-200 hover:bg-slate-100">X</button>
-            <img id="modalImgSrc" src="" alt="Slip" class="w-full h-auto rounded-xl max-h-[80vh] object-contain">
-        </div>
-    </div>
-
-    <!-- User Details Modal -->
-    <div id="detailsModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl max-w-2xl w-full relative max-h-[90vh] overflow-y-auto">
-            <button class="close-modal absolute top-4 right-4 text-slate-400 hover:text-slate-800 font-bold text-xl">&times;</button>
-            <h3 class="font-display font-black text-2xl text-slate-800 mb-4 border-b pb-2">ข้อมูลผู้สมัคร</h3>
-            <div id="detailsContent" class="space-y-4 text-sm">
-                <!-- Injected via JS -->
+        <!-- Dashboard Panels Container -->
+        <div class="bg-white rounded-[2rem] shadow-sm p-6 sm:p-8 min-h-[60vh] border border-slate-100">
+          
+          <!-- Panel: Overview -->
+          <div id="panel-overview" class="staff-panel hidden">
+            <div class="flex justify-between items-center mb-8">
+              <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-chart-pie text-brand-500"></i> สรุปข้อมูลภาพรวม
+              </h3>
+              <button onclick="renderAdminOverview()" class="text-brand-500 hover:text-brand-700 font-bold text-sm flex items-center gap-2 bg-brand-50 px-4 py-2 rounded-lg">
+                <i class="fa-solid fa-rotate-right"></i> รีเฟรช
+              </button>
             </div>
-            <div class="mt-6 pt-4 border-t flex justify-end">
-                <button class="close-modal px-6 py-2 bg-slate-200 text-slate-800 font-bold rounded-lg hover:bg-slate-300">ปิด</button>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10" id="statGrid"></div>
+            <h4 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-road text-slate-400"></i> สัดส่วนระยะวิ่ง
+            </h4>
+            <div class="flex flex-wrap gap-4" id="distBreakdown"></div>
+          </div>
+
+          <!-- Panel: Payment -->
+          <div id="panel-payment" class="staff-panel hidden">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-money-check-dollar text-emerald-500"></i> ตรวจสอบการชำระเงิน
+              </h3>
             </div>
+            <p class="text-slate-500 mb-8 font-medium bg-slate-50 p-4 rounded-xl border border-slate-100 inline-block">กดยืนยันเพื่อสร้างเลข BIB อัตโนมัติ (สุ่มตามเพศและรุ่นอายุ)</p>
+            <div class="overflow-x-auto rounded-2xl border border-slate-100 shadow-sm">
+              <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead class="bg-slate-50 text-slate-600 text-sm">
+                  <tr><th class="p-5 font-bold">วันที่สมัคร</th><th class="p-5 font-bold">ชื่อ-นามสกุล</th><th class="p-5 font-bold">ระยะ</th><th class="p-5 font-bold">ยอดโอน</th><th class="p-5 font-bold">สลิป</th><th class="p-5 font-bold">จัดการ</th></tr>
+                </thead>
+                <tbody id="tbPayment" class="divide-y divide-slate-100 text-sm font-medium text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Panel: Shirt / Checkin / Cert -->
+          <div id="panel-shirt" class="staff-panel hidden">
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
+              <i class="fa-solid fa-shirt text-blue-500"></i> แจกเสื้อ (Shirt)
+            </h3>
+            <div class="flex gap-3 max-w-lg mb-8">
+              <div class="relative flex-grow">
+                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="srchShirt" placeholder="ค้นหา ชื่อ / เลขบัตร / เบอร์" class="pl-11 w-full bg-slate-50">
+              </div>
+              <button onclick="adminSearch('shirt')" class="px-6 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">ค้นหา</button>
+            </div>
+            <div id="resShirt"></div>
+          </div>
+          <div id="panel-checkin" class="staff-panel hidden">
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
+              <i class="fa-solid fa-map-pin text-red-500"></i> เช็คอินวันแข่ง (Check-in)
+            </h3>
+            <div class="flex gap-3 max-w-lg mb-8">
+              <div class="relative flex-grow">
+                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="srchCheckin" placeholder="ค้นหา ชื่อ / เลขบัตร / เบอร์" class="pl-11 w-full bg-slate-50">
+              </div>
+              <button onclick="adminSearch('checkin')" class="px-6 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">ค้นหา</button>
+            </div>
+            <div id="resCheckin"></div>
+          </div>
+          <div id="panel-cert" class="staff-panel hidden">
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
+              <i class="fa-solid fa-certificate text-amber-500"></i> แจกเกียรติบัตร (Certificate)
+            </h3>
+            <div class="flex gap-3 max-w-lg mb-8">
+              <div class="relative flex-grow">
+                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="srchCert" placeholder="ค้นหา ชื่อ / เลขบัตร / เบอร์" class="pl-11 w-full bg-slate-50">
+              </div>
+              <button onclick="adminSearch('cert')" class="px-6 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">ค้นหา</button>
+            </div>
+            <div id="resCert"></div>
+          </div>
+
+          <!-- Panel: All Users -->
+          <div id="panel-all" class="staff-panel hidden">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+              <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-users text-indigo-500"></i> รายชื่อผู้สมัครทั้งหมด
+              </h3>
+              <div class="flex gap-3">
+                <button onclick="renderAdminAll()" class="px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 font-bold transition-colors flex items-center gap-2">
+                  <i class="fa-solid fa-rotate-right"></i> รีเฟรช
+                </button>
+                <button onclick="exportToCSV()" class="btn-primary px-5 py-2.5 rounded-xl font-bold flex items-center gap-2">
+                  <i class="fa-solid fa-file-excel"></i> โหลด Excel (CSV)
+                </button>
+              </div>
+            </div>
+            <div class="overflow-x-auto rounded-2xl border border-slate-100 shadow-sm">
+              <table class="w-full text-left border-collapse whitespace-nowrap">
+                <thead class="bg-slate-50 text-slate-600 text-sm">
+                  <tr>
+                    <th class="p-5 font-bold">ลำดับ</th>
+                    <th class="p-5 font-bold">ชื่อ-นามสกุล</th>
+                    <th class="p-5 font-bold">รุ่นอายุ / ระยะ</th>
+                    <th class="p-5 font-bold">BIB</th>
+                    <th class="p-5 font-bold text-center">ดูข้อมูล / จัดการ</th>
+                  </tr>
+                </thead>
+                <tbody id="tbAll" class="divide-y divide-slate-100 text-sm font-medium text-slate-700"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Panel: Settings -->
+          <div id="panel-settings" class="staff-panel hidden">
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
+              <i class="fa-solid fa-gear text-slate-500"></i> ตั้งค่าระบบ (Web Settings)
+            </h3>
+            <div class="grid md:grid-cols-2 gap-10">
+              
+              <!-- Core Settings -->
+              <div class="space-y-6 bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                <h4 class="font-bold text-slate-800 text-lg flex items-center gap-2 mb-4">
+                  <i class="fa-solid fa-pen-to-square text-brand-500"></i> ข้อมูลหลัก
+                </h4>
+                <div>
+                  <label class="block text-sm font-bold text-slate-600 mb-2">Google Apps Script URL (เชื่อม Database)</label>
+                  <input type="text" id="cfgGas" placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-slate-600 mb-2">ชื่องาน (Event Title)</label>
+                  <input type="text" id="cfgTitle">
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-slate-600 mb-2">สโลแกน (Slogan)</label>
+                  <textarea id="cfgSlogan" rows="2"></textarea>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา 5K</label><input type="number" id="cfgP5"></div>
+                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา 10K</label><input type="number" id="cfgP10"></div>
+                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา VIP</label><input type="number" id="cfgPVIP"></div>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดโลโก้งาน (สี่เหลี่ยม)</label>
+                  <input type="file" id="cfgLogo" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดพื้นหลังหน้าแรก</label>
+                  <input type="file" id="cfgHomeBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                </div>
+              </div>
+
+              <!-- Print Settings -->
+              <div class="space-y-8">
+                <!-- BIB Setting -->
+                <div class="bg-blue-50/50 p-8 rounded-3xl border border-blue-100">
+                  <h4 class="font-bold text-blue-800 text-lg flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-address-card"></i> ตั้งค่าแบบพิมพ์ BIB
+                  </h4>
+                  <input type="file" id="cfgBibBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer mb-5">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X ชื่อ (%)</label><input type="number" id="cBNX" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y ชื่อ (%)</label><input type="number" id="cBNY" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X เลข BIB (%)</label><input type="number" id="cBBX" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y เลข BIB (%)</label><input type="number" id="cBBY" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-blue-700 block mb-1">ขนาดอักษร (px)</label><input type="number" id="cBS" class="text-sm"></div>
+                  </div>
+                </div>
+                <!-- Cert Setting -->
+                <div class="bg-amber-50/50 p-8 rounded-3xl border border-amber-100">
+                  <h4 class="font-bold text-amber-800 text-lg flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-certificate"></i> ตั้งค่าเกียรติบัตร
+                  </h4>
+                  <input type="file" id="cfgCertBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer mb-5">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน X ชื่อ (%)</label><input type="number" id="cCNX" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน Y ชื่อ (%)</label><input type="number" id="cCNY" max="100" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-amber-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cCC" placeholder="#000000" class="text-sm"></div>
+                    <div><label class="text-xs font-bold text-amber-700 block mb-1">ขนาดอักษร (px)</label><input type="number" id="cCS" class="text-sm"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="mt-10 border-t border-slate-200 pt-8 flex justify-end">
+              <button onclick="saveAdminConfig()" class="btn-primary px-10 py-4 rounded-2xl font-black text-lg flex items-center gap-3">
+                <i class="fa-solid fa-floppy-disk"></i> บันทึกการตั้งค่าระบบ
+              </button>
+            </div>
+          </div>
+
         </div>
+      </div>
     </div>
+  </main>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="bg-slate-800 text-white px-6 py-3 rounded-xl shadow-2xl font-bold flex items-center gap-3 border border-slate-700">
-        <span id="toastIcon">✅</span>
-        <span id="toastMsg">บันทึกสำเร็จ</span>
+  <!-- View Details Modal (Admin) -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+    <div class="bg-white w-full max-w-2xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-300" id="detailModalContent">
+      <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+        <h3 class="text-xl font-black text-slate-800 flex items-center gap-2"><i class="fa-solid fa-address-card text-brand-500"></i> ข้อมูลผู้สมัคร</h3>
+        <button onclick="closeDetailModal()" class="text-slate-400 hover:text-slate-700 w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 transition-colors">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+      <div class="p-8 overflow-y-auto font-medium" id="detailContent"></div>
+      <div class="p-6 border-t border-slate-100 bg-slate-50 flex flex-wrap gap-3" id="detailActions"></div>
     </div>
+  </div>
 
-    <script>
-        // Utilities
-        const $ = id => document.getElementById(id);
-        const showToast = (msg, isError = false) => {
-            $('toastMsg').innerText = msg;
-            $('toastIcon').innerText = isError ? '❌' : '✅';
-            $('toast').classList.add('show');
-            setTimeout(() => $('toast').classList.remove('show'), 3000);
+  <!-- Image Viewer Modal (Slip) -->
+  <div id="imgModal" class="fixed inset-0 bg-black/95 hidden z-[60] flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeImgModal()">
+    <img id="imgModalSrc" class="max-w-full max-h-[90vh] rounded-xl object-contain transform scale-95 transition-transform duration-300">
+    <button class="absolute top-6 right-6 text-white/50 hover:text-white text-4xl"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <!-- AOS Animation JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init({
+      once: true,
+      duration: 800,
+      easing: 'ease-out-cubic',
+    });
+
+    const STAFF_PASSCODE = "tprun2026";
+    let recordsCache = [];
+    let config = {
+      gasUrl: "", eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
+      price5: 400, price10: 500, priceVIP: 1000, logoUrl: "", homeBgUrl: "",
+      bibBg: "", certBg: "",
+      bibConf: { nx: 50, ny: 40, bx: 50, by: 70, c: "#000000", s: 80 },
+      certConf: { nx: 50, ny: 50, c: "#000000", s: 60 }
+    };
+
+    const DOM = {
+      vHome: document.getElementById('view-home'), vReg: document.getElementById('view-register'),
+      vSucc: document.getElementById('view-success'), vStat: document.getElementById('view-status'),
+      vLog: document.getElementById('view-staffLogin'), vDash: document.getElementById('view-staffDash')
+    };
+
+    /* ================= CORE LOGIC ================= */
+    
+    // Replace custom toast with SweetAlert2 Toast
+    function showToast(msg, type='success') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      });
+      Toast.fire({
+        icon: type === 'error' ? 'error' : 'success',
+        title: msg
+      });
+    }
+
+    function toggleMobileMenu() {
+      const m = document.getElementById('mobileMenu');
+      m.classList.toggle('hidden');
+    }
+
+    function showView(id) {
+      Object.values(DOM).forEach(v => {
+        v.classList.remove('active');
+        setTimeout(() => v.style.display = 'none', 400); // Wait for fade out
+      });
+      
+      const target = document.getElementById('view-' + id);
+      if(target) {
+        setTimeout(() => {
+          target.style.display = 'block';
+          setTimeout(() => target.classList.add('active'), 10); // Trigger fade in
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }, 400);
+      }
+    }
+
+    function formatDT(iso) {
+      if(!iso) return "-";
+      const d = new Date(iso);
+      return d.toLocaleString("th-TH", {day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"});
+    }
+
+    async function compressImage(file, maxSize = 1000) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.width, h = img.height;
+            if(w > maxSize) { h = Math.round((maxSize/w)*h); w = maxSize; }
+            const cvs = document.createElement('canvas');
+            cvs.width = w; cvs.height = h;
+            cvs.getContext('2d').drawImage(img,0,0,w,h);
+            resolve(cvs.toDataURL(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.8));
+          };
+          img.src = e.target.result;
         };
-        const escapeHtml = str => String(str).replace(/[&<>"']/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[m]));
+        reader.readAsDataURL(file);
+      });
+    }
 
-        // Navigation
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => {
-                v.classList.remove('active');
-            });
-            $(viewId).classList.add('active');
-            window.scrollTo(0, 0);
-            if(viewId === 'view-home') initScrollReveal();
-            $('mobileMenu').classList.add('hidden'); // close mobile menu
+    /* ================= DATA MANAGEMENT (LocalStorage Polyfill) ================= */
+    
+    const localStore = {
+      set: async (key, val) => { localStorage.setItem(key, val); return true; },
+      get: async (key) => { const v = localStorage.getItem(key); return v ? {value: v} : null; },
+      list: async (prefix) => {
+        const keys = [];
+        for(let i=0; i<localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if(k.startsWith(prefix)) keys.push(k);
         }
+        return {keys};
+      }
+    };
 
-        document.querySelectorAll('[data-nav]').forEach(el => {
-            el.addEventListener('click', () => {
-                const target = 'view-' + el.dataset.nav;
-                showView(target);
-            });
-        });
+    async function loadAllRecords() {
+      const list = await localStore.list('reg:');
+      const records = [];
+      for(const k of list.keys) {
+        const r = await localStore.get(k);
+        if(r && r.value) records.push(JSON.parse(r.value));
+      }
+      records.sort((a,b) => new Date(b.ts) - new Date(a.ts));
+      recordsCache = records;
+      return records;
+    }
 
-        $('mobileMenuBtn').addEventListener('click', () => {
-            $('mobileMenu').classList.toggle('hidden');
-        });
+    async function saveRecord(rec) {
+      await localStore.set('reg:' + rec.id, JSON.stringify(rec));
+      const idx = recordsCache.findIndex(r => r.id === rec.id);
+      if(idx >= 0) recordsCache[idx] = rec; else recordsCache.push(rec);
+      
+      // GAS Background Sync
+      if(config.gasUrl) {
+        try {
+          fetch(config.gasUrl, {
+            method: "POST", mode: "no-cors",
+            headers: {"Content-Type": "text/plain"},
+            body: JSON.stringify({action: "register", data: rec})
+          }).catch(()=>{}); 
+        } catch(e) {}
+      }
+    }
 
-        // Scroll Animation (Intersection Observer)
-        function initScrollReveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-            
-            reveals.forEach(r => observer.observe(r));
-        }
-
-        // Configuration & State
-        let config = {
-            eventName: "TP RUN 2026",
-            slogan: "ร่วมเป็นส่วนหนึ่งของงานวิ่งการกุศลเฉลิมฉลองครบรอบ 60 ปี",
-            price5k: 400, price10k: 500, priceVip: 1000,
-            gasUrl: ""
-        };
-        let recordsCache = [];
-        let slipBase64 = null;
-
-        function loadConfig() {
-            const saved = localStorage.getItem('tp_config');
-            if (saved) config = { ...config, ...JSON.parse(saved) };
-            
-            // Apply to Home
-            if($('homeTitle')) $('homeTitle').innerHTML = config.eventName;
-            if($('homeDesc')) $('homeDesc').innerHTML = config.slogan;
-            if($('displayPrice5K')) $('displayPrice5K').innerText = config.price5k;
-            if($('displayPrice10K')) $('displayPrice10K').innerText = config.price10k;
-            if($('displayPriceVIP')) $('displayPriceVIP').innerText = config.priceVip;
-            
-            // Apply to Form Prices
-            if($('formPrice5K')) $('formPrice5K').innerText = config.price5k;
-            if($('formPrice10K')) $('formPrice10K').innerText = config.price10k;
-            if($('formPriceVIP')) $('formPriceVIP').innerText = config.priceVip;
-
-            // Apply to Staff Panel
-            if($('cfg_eventName')) $('cfg_eventName').value = config.eventName;
-            if($('cfg_slogan')) $('cfg_slogan').value = config.slogan;
-            if($('cfg_price5k')) $('cfg_price5k').value = config.price5k;
-            if($('cfg_price10k')) $('cfg_price10k').value = config.price10k;
-            if($('cfg_priceVip')) $('cfg_priceVip').value = config.priceVip;
-            if($('cfg_gasUrl')) $('cfg_gasUrl').value = config.gasUrl;
-        }
-
-        function saveConfig() {
-            config.eventName = $('cfg_eventName').value;
-            config.slogan = $('cfg_slogan').value;
-            config.price5k = Number($('cfg_price5k').value) || 0;
-            config.price10k = Number($('cfg_price10k').value) || 0;
-            config.priceVip = Number($('cfg_priceVip').value) || 0;
-            config.gasUrl = $('cfg_gasUrl').value.trim();
+    async function loadConfigFromSheet() {
+      const localCfg = localStorage.getItem('tp_config');
+      if(localCfg) { config = {...config, ...JSON.parse(localCfg)}; applyConfigToUI(); }
+      
+      if(config.gasUrl) {
+        try {
+          const res = await fetch(config.gasUrl + "?action=getConfig").then(r=>r.json());
+          if(res.status === 'success' && Object.keys(res.data).length > 0) {
+            config = {...config, ...res.data};
             localStorage.setItem('tp_config', JSON.stringify(config));
-            loadConfig();
-            showToast("บันทึกการตั้งค่าแล้ว");
-        }
+            applyConfigToUI();
+          }
+        } catch(e) {}
+      } else {
+        applyConfigToUI();
+      }
+    }
 
-        // Database Simulation (LocalStorage)
-        function loadRecords() {
-            const data = localStorage.getItem('tp_records');
-            recordsCache = data ? JSON.parse(data) : [];
-            return recordsCache;
-        }
-        function saveRecords() {
-            localStorage.setItem('tp_records', JSON.stringify(recordsCache));
-        }
+    function applyConfigToUI() {
+      document.getElementById('navBrandName').textContent = config.eventName;
+      document.getElementById('homeTitle').innerHTML = config.eventName.replace('2026', '<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-500 drop-shadow-sm">2026</span>');
+      document.getElementById('homeSlogan').textContent = config.slogan;
+      
+      document.getElementById('lblPrice5').textContent = config.price5;
+      document.getElementById('lblPrice10').textContent = config.price10;
+      document.getElementById('lblPriceVIP').textContent = config.priceVIP;
+      
+      document.getElementById('formPrice5').textContent = config.price5 + ' บาท';
+      document.getElementById('formPrice10').textContent = config.price10 + ' บาท';
+      document.getElementById('formPriceVIP').textContent = config.priceVIP + ' บาท';
 
-        // Form Logic
-        $('birthDate')?.addEventListener('change', function() {
-            const d = new Date(this.value);
-            if(isNaN(d.getTime())) return;
-            const ageDate = new Date(Date.now() - d.getTime());
-            const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-            $('age').value = age;
-            
-            let groupStr = "", code = "";
-            if (age <= 12) { groupStr = "ไม่เกิน 12 ปี"; code = "A"; }
-            else if (age <= 19) { groupStr = "13 - 19 ปี"; code = "B"; }
-            else if (age <= 29) { groupStr = "20 - 29 ปี"; code = "C"; }
-            else if (age <= 39) { groupStr = "30 - 39 ปี"; code = "D"; }
-            else if (age <= 49) { groupStr = "40 - 49 ปี"; code = "E"; }
-            else { groupStr = "50 ปี ขึ้นไป"; code = "F"; }
-            
-            $('ageGroupStr').value = groupStr;
-            $('ageGroupCode').value = code;
+      const lContainer = document.getElementById('navLogoContainer');
+      const lText = document.getElementById('navLogoText');
+      const lImg = document.getElementById('navLogoImg');
+      if(config.logoUrl) {
+        lImg.src = config.logoUrl; lImg.classList.remove('hidden'); lText.classList.add('hidden');
+      }
+      
+      if(config.homeBgUrl) {
+        document.getElementById('heroBgImage').style.backgroundImage = `url(${config.homeBgUrl})`;
+        document.getElementById('heroBgImage').style.opacity = '0.3';
+      }
+    }
+
+    /* ================= FORM LOGIC ================= */
+    
+    document.getElementById('birthDate').addEventListener('change', function() {
+      const d = new Date(this.value);
+      if(isNaN(d)) return;
+      let age = new Date().getFullYear() - d.getFullYear();
+      if(new Date().setFullYear(1970) < d.setFullYear(1970)) age--;
+      age = Math.max(0, age);
+      document.getElementById('age').value = age + ' ปี';
+      
+      let group = 'F (50 ปีขึ้นไป)', gCode = 'F';
+      if(age <= 12) { group = 'A (ไม่เกิน 12 ปี)'; gCode = 'A'; }
+      else if(age <= 19) { group = 'B (13-19 ปี)'; gCode = 'B'; }
+      else if(age <= 29) { group = 'C (20-29 ปี)'; gCode = 'C'; }
+      else if(age <= 39) { group = 'D (30-39 ปี)'; gCode = 'D'; }
+      else if(age <= 49) { group = 'E (40-49 ปี)'; gCode = 'E'; }
+      
+      document.getElementById('ageGroupLabel').value = group;
+      document.getElementById('ageGroupLabel').dataset.code = gCode;
+    });
+
+    document.querySelectorAll('input[name="distance"]').forEach(el => {
+      el.addEventListener('change', () => {
+        let p = 0;
+        if(el.value === '5') p = config.price5;
+        if(el.value === '10') p = config.price10;
+        if(el.value === 'VIP') p = config.priceVIP;
+        document.getElementById('netTotal').textContent = p;
+      });
+    });
+
+    let slipBase64 = null;
+    document.getElementById('slipFile').addEventListener('change', async function() {
+      if(!this.files[0]) return;
+      if(this.files[0].size > 5*1024*1024) { showToast('ไฟล์ใหญ่เกินไป (สูงสุด 5MB)', 'error'); return; }
+      slipBase64 = await compressImage(this.files[0], 800);
+      document.getElementById('uploadPrompt').classList.add('hidden');
+      document.getElementById('slipPreview').src = slipBase64;
+      document.getElementById('slipPreview').classList.remove('hidden');
+    });
+
+    document.getElementById('regForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const id = document.getElementById('idCard').value.trim();
+      const name = document.getElementById('fullName').value.trim();
+      const dob = document.getElementById('birthDate').value;
+      const phone = document.getElementById('phone').value.trim();
+      const gender = document.querySelector('input[name="gender"]:checked')?.value;
+      const blood = document.querySelector('input[name="blood"]:checked')?.value;
+      const dist = document.querySelector('input[name="distance"]:checked')?.value;
+      const shirt = document.querySelector('input[name="shirtSize"]:checked')?.value;
+      const med = document.getElementById('medical').value.trim();
+      const emN = document.getElementById('emName').value.trim();
+      const emP = document.getElementById('emPhone').value.trim();
+      
+      if(!id || !name || !dob || !phone || !gender || !blood || !dist || !shirt || !med || !emN || !emP) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'ข้อมูลไม่ครบถ้วน',
+          text: 'กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบถ้วน',
+          confirmButtonColor: '#10b981'
         });
-
-        document.querySelectorAll('input[name="distance"]').forEach(el => {
-            el.addEventListener('change', () => {
-                const dist = el.value;
-                let p = 0;
-                if(dist === '5') p = config.price5k;
-                else if(dist === '10') p = config.price10k;
-                else p = config.priceVip;
-                $('netTotal').innerText = p.toLocaleString();
-            });
+        return;
+      }
+      if(!slipBase64) { 
+        Swal.fire({
+          icon: 'warning',
+          title: 'ขาดหลักฐานโอนเงิน',
+          text: 'กรุณาแนบสลิปโอนเงิน',
+          confirmButtonColor: '#10b981'
         });
+        return; 
+      }
 
-        $('copyAcct')?.addEventListener('click', () => {
-            navigator.clipboard.writeText('105-292872-5');
-            showToast("คัดลอกเลขบัญชีแล้ว");
-        });
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
 
-        // Slip Image Handling
-        $('slipFile')?.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            if (file.size > 5 * 1024 * 1024) { showToast("ไฟล์ใหญ่เกิน 5MB", true); this.value=""; return; }
-            
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const img = new Image();
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    let width = img.width, height = img.height;
-                    const max = 800;
-                    if(width > height && width > max) { height *= max / width; width = max; }
-                    else if(height > max) { width *= max / height; height = max; }
-                    
-                    canvas.width = width; canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-                    slipBase64 = canvas.toDataURL('image/jpeg', 0.8);
-                    
-                    $('uploadPlaceholder').classList.add('hidden');
-                    $('slipPreview').src = slipBase64;
-                    $('slipPreview').classList.remove('hidden');
-                    $('removeSlipBtn').classList.remove('hidden');
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-        $('removeSlipBtn')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            slipBase64 = null;
-            $('slipFile').value = "";
-            $('uploadPlaceholder').classList.remove('hidden');
-            $('slipPreview').classList.add('hidden');
-            $('removeSlipBtn').classList.add('hidden');
-        });
+      let p = 0;
+      if(dist === '5') p = config.price5; else if(dist === '10') p = config.price10; else p = config.priceVIP;
 
-        // Submit Form
-        $('regForm')?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if(!slipBase64) { showToast("กรุณาอัปโหลดสลิป", true); return; }
-            
-            $('submitBtn').disabled = true;
-            $('submitBtn').innerText = "กำลังบันทึกข้อมูล...";
+      const rec = {
+        id: 'TP' + Date.now().toString(36).toUpperCase(),
+        ts: new Date().toISOString(),
+        idCard: id, fullName: name, email: document.getElementById('email').value.trim(),
+        dob: dob, age: document.getElementById('age').value,
+        ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
+        gender: gender, blood: blood, phone: phone, med: med, emName: emN, emPhone: emP,
+        distance: dist, shirt: shirt, amount: p, slip: slipBase64,
+        
+        verified: false, vTs: null, bibNumber: null,
+        shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
+      };
 
-            const id = 'TP' + Date.now().toString().slice(-6);
-            const dist = document.querySelector('input[name="distance"]:checked').value;
-            const rec = {
-                id: id,
-                timestamp: new Date().toISOString(),
-                idCard: $('idCard').value,
-                fullName: $('fullName').value,
-                birthDate: $('birthDate').value,
-                age: $('age').value,
-                ageGroupCode: $('ageGroupCode').value,
-                ageGroupStr: $('ageGroupStr').value,
-                gender: document.querySelector('input[name="gender"]:checked').value,
-                blood: document.querySelector('input[name="blood"]:checked').value,
-                phone: $('phone').value,
-                medical: $('medical').value,
-                emName: $('emName').value,
-                emPhone: $('emPhone').value,
-                distance: dist,
-                shirtSize: document.querySelector('input[name="shirtSize"]:checked').value,
-                amount: dist==='5'?config.price5k : dist==='10'?config.price10k : config.priceVip,
-                slip: slipBase64,
-                status: 'pending', // pending, verified
-                bib: null,
-                shirtClaimed: false,
-                checkIn: false,
-                certClaimed: false
-            };
+      await saveRecord(rec);
+      
+      this.reset();
+      slipBase64 = null;
+      document.getElementById('uploadPrompt').classList.remove('hidden');
+      document.getElementById('slipPreview').classList.add('hidden');
+      document.getElementById('age').value = ''; document.getElementById('ageGroupLabel').value = '';
+      document.getElementById('netTotal').textContent = '0';
+      btn.disabled = false; btn.innerHTML = 'ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
 
-            // Save Local
-            loadRecords();
-            recordsCache.push(rec);
-            saveRecords();
+      document.getElementById('successRefId').textContent = rec.id;
+      document.getElementById('successName').textContent = rec.fullName;
+      document.getElementById('successDist').textContent = rec.distance === 'VIP' ? 'VIP' : rec.distance + ' KM';
+      document.getElementById('successShirt').textContent = rec.shirt;
+      document.getElementById('successTotal').textContent = rec.amount + ' บาท';
+      showView('success');
+    });
 
-            // Try GAS push (Fire & Forget)
-            if(config.gasUrl) {
-                try {
-                    fetch(config.gasUrl, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({action: 'register', data: rec})
-                    });
-                } catch(e) { console.log('GAS Push failed', e); }
-            }
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(()=>showToast('คัดลอกเลขบัญชีแล้ว'));
+    }
 
-            // Show Success
-            $('regForm').classList.add('hidden');
-            $('successPanel').classList.remove('hidden');
-            $('regIdTag').innerText = id;
-            $('succName').innerText = rec.fullName;
-            $('succDist').innerText = rec.distance + (rec.distance!=='VIP'?' KM':'');
-            $('succShirt').innerText = rec.shirtSize;
-            $('succPrice').innerText = rec.amount + ' ฿';
-            
-            $('submitBtn').disabled = false;
-            $('submitBtn').innerText = "ยืนยันการสมัครวิ่ง";
-            window.scrollTo(0,0);
-        });
+    /* ================= STATUS CHECK ================= */
+    document.getElementById('lkBtn').addEventListener('click', async () => {
+      const id = document.getElementById('lkId').value.trim();
+      const ph = document.getElementById('lkPhone').value.trim();
+      if(!id || !ph) { showToast('กรุณากรอกเลขบัตรและเบอร์โทร', 'error'); return; }
+      
+      const records = await loadAllRecords();
+      const rec = records.find(r => r.idCard === id && r.phone === ph);
+      const res = document.getElementById('statusResult');
+      res.classList.remove('hidden');
+      
+      if(!rec) {
+        res.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-50 rounded-[1.5rem] border border-slate-100 font-bold"><i class="fa-solid fa-triangle-exclamation text-3xl text-slate-300 mb-3 block"></i>ไม่พบข้อมูลการสมัคร โปรดตรวจสอบความถูกต้อง</div>`;
+        return;
+      }
 
-        // Status Check
-        $('lkBtn')?.addEventListener('click', () => {
-            const id = $('lkId').value.trim();
-            const phone = $('lkPhone').value.trim();
-            if(!id || !phone) { showToast('กรุณากรอกข้อมูลให้ครบ', true); return; }
-            
-            loadRecords();
-            const rec = recordsCache.find(r => r.idCard === id && r.phone === phone);
-            const resDiv = $('statusResult');
-            resDiv.classList.remove('hidden');
-            
-            if(!rec) {
-                resDiv.innerHTML = `<div class="p-4 bg-red-50 text-red-600 rounded-xl text-center font-bold">❌ ไม่พบข้อมูล กรุณาตรวจสอบเลขบัตรและเบอร์โทร</div>`;
-                return;
-            }
+      const step = (done, icon, title, sub, date) => `
+        <div class="flex gap-5 relative">
+          <div class="w-10 h-10 shrink-0 rounded-2xl flex items-center justify-center text-lg z-10 transition-colors ${done ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30' : 'bg-slate-100 text-slate-400'}"><i class="fa-solid ${icon}"></i></div>
+          <div class="pb-8 ${done ? 'opacity-100' : 'opacity-50'}">
+            <h4 class="font-bold text-slate-800 text-lg">${title}</h4>
+            <p class="font-medium text-slate-500">${sub}</p>
+            ${date ? `<div class="text-xs font-bold text-emerald-600 mt-2"><i class="fa-regular fa-clock"></i> ${formatDT(date)}</div>` : ''}
+          </div>
+        </div>
+      `;
 
-            const stepClass = (done) => done ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-300 text-slate-400';
-            const lineClass = (done) => done ? 'bg-emerald-500' : 'bg-slate-200';
-            
-            let html = `
-                <div class="bg-slate-50 p-6 rounded-2xl mb-8 flex justify-between items-center border border-slate-200">
-                    <div>
-                        <div class="font-display font-bold text-xl text-slate-800">${escapeHtml(rec.fullName)}</div>
-                        <div class="text-sm text-slate-500 mt-1">Ref: <span class="font-mono font-bold text-slate-700">${rec.id}</span> | ${rec.distance==='VIP'?'VIP':rec.distance+'KM'}</div>
-                    </div>
-                    ${rec.bib ? `<div class="text-right"><div class="text-[10px] uppercase font-bold text-slate-400">BIB Number</div><div class="font-display font-black text-3xl text-tp-main">${rec.bib}</div></div>` : ''}
-                </div>
-                
-                <div class="relative pl-4 space-y-8">
-                    <!-- Tracker -->
-            `;
-            
-            const steps = [
-                { label: "รับข้อมูลสมัคร", desc: "ระบบบันทึกข้อมูลแล้ว", done: true },
-                { label: "ชำระเงิน", desc: rec.status==='verified'?"ตรวจสอบสลิปสำเร็จ":"รอเจ้าหน้าที่ตรวจสอบสลิป 1-2 วัน", done: rec.status==='verified' },
-                { label: "จัดเตรียม BIB", desc: rec.bib ? `หมายเลข ${rec.bib}` : "รอกำหนดหมายเลขวิ่ง", done: !!rec.bib },
-                { label: "รับเสื้อและ BIB", desc: rec.shirtClaimed ? "รับเรียบร้อยแล้ว" : "ติดต่อรับตามกำหนดการ", done: rec.shirtClaimed },
-                { label: "เช็คอินงานวิ่ง", desc: rec.checkIn ? "เข้าร่วมงานแล้ว" : "รอยืนยันหน้างาน", done: rec.checkIn },
-                { label: "เกียรติบัตร", desc: rec.certClaimed ? "รับเรียบร้อยแล้ว" : "-", done: rec.certClaimed }
-            ];
+      res.innerHTML = `
+        <div class="bg-gradient-to-r from-brand-50 to-emerald-50 p-8 rounded-[1.5rem] border border-brand-100 mb-8 flex justify-between items-center shadow-sm">
+          <div>
+            <div class="font-black text-2xl text-brand-900">${rec.fullName}</div>
+            <div class="text-brand-700 font-bold mt-2"><i class="fa-solid fa-person-running"></i> ${rec.distance==='VIP'?'VIP':rec.distance+' KM'} &nbsp;|&nbsp; <i class="fa-solid fa-shirt"></i> ไซส์ ${rec.shirt}</div>
+          </div>
+          ${rec.bibNumber ? `<div class="text-right"><div class="text-xs text-brand-600 uppercase font-black tracking-widest">BIB Number</div><div class="text-4xl font-black text-brand-600">${rec.bibNumber}</div></div>` : ''}
+        </div>
+        <div class="relative pl-3">
+          <div class="absolute left-8 top-5 bottom-12 w-0.5 bg-slate-200"></div>
+          ${step(true, 'fa-check', 'ส่งข้อมูลสำเร็จ', 'ระบบได้รับฟอร์มสมัครแล้ว', rec.ts)}
+          ${step(rec.verified, 'fa-money-check', 'ยืนยันการชำระเงิน', 'แอดมินตรวจสอบสลิปและสร้างหมายเลขวิ่ง', rec.vTs)}
+          ${step(rec.shirtGet, 'fa-shirt', 'รับเสื้อที่ระลึก', 'รับเสื้อไซส์ ' + rec.shirt, rec.sTs)}
+          ${step(rec.checkin, 'fa-map-pin', 'เช็คอินวันแข่ง', 'ยืนยันตัวตนเข้าร่วมงาน', rec.cTs)}
+          ${step(rec.certGet, 'fa-certificate', 'รับเกียรติบัตร', 'ผ่านเส้นชัยและรับเกียรติบัตร', rec.ceTs)}
+        </div>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          ${rec.bibNumber ? `<button onclick="downloadImage('${rec.id}', 'bib')" class="flex-1 py-4 rounded-2xl bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 border border-blue-200 transition-colors flex justify-center items-center gap-2"><i class="fa-solid fa-download"></i> ดาวน์โหลด e-BIB</button>` : ''}
+          ${rec.certGet ? `<button onclick="downloadImage('${rec.id}', 'cert')" class="flex-1 py-4 rounded-2xl bg-amber-50 text-amber-600 font-bold hover:bg-amber-100 border border-amber-200 transition-colors flex justify-center items-center gap-2"><i class="fa-solid fa-download"></i> ดาวน์โหลดเกียรติบัตร</button>` : ''}
+        </div>
+      `;
+    });
 
-            steps.forEach((s, idx) => {
-                const isLast = idx === steps.length - 1;
-                html += `
-                    <div class="relative flex items-start gap-4">
-                        ${!isLast ? `<div class="absolute top-8 left-[15px] bottom-[-24px] w-0.5 ${lineClass(steps[idx+1]?.done)}"></div>` : ''}
-                        <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center shrink-0 z-10 ${stepClass(s.done)} font-bold text-sm">
-                            ${s.done ? '✓' : (idx+1)}
-                        </div>
-                        <div>
-                            <div class="font-bold text-slate-800 ${s.done?'':'text-opacity-50'}">${s.label}</div>
-                            <div class="text-xs text-slate-500 mt-1">${s.desc}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            html += `</div>`;
-            resDiv.innerHTML = html;
-        });
+    async function downloadImage(id, type) {
+      const rec = recordsCache.find(r => r.id === id);
+      if(!rec) return;
+      const dataUrl = await generateCanvasImg(rec, type);
+      if(!dataUrl) return;
+      const a = document.createElement('a');
+      a.href = dataUrl; a.download = `${type}_${rec.fullName}.png`;
+      a.click();
+    }
 
-        // Staff Auth
-        $('staffLoginBtn')?.addEventListener('click', () => {
-            if($('staffPass').value === 'tprun2026') {
-                $('staffPass').value = '';
-                showView('view-staffDash');
-                initStaffDash();
-            } else {
-                showToast('รหัสผ่านไม่ถูกต้อง', true);
-            }
-        });
-
-        // Staff Dashboard Logic
-        function initStaffDash() {
-            loadConfig();
-            loadRecords();
-            setupActionPanel('shirt', 'แจกเสื้อ (Shirt)', 'shirtClaimed');
-            setupActionPanel('checkin', 'เช็คอิน (Check-in)', 'checkIn');
-            setupActionPanel('cert', 'แจกเกียรติบัตร', 'certClaimed');
-            renderOverview();
-            
-            document.querySelectorAll('.staff-tab').forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    document.querySelectorAll('.staff-tab').forEach(t=>t.classList.remove('active', 'bg-slate-800', 'text-white'));
-                    document.querySelectorAll('.staff-panel').forEach(p=>p.classList.add('hidden'));
-                    
-                    const panelId = 'panel-' + e.target.dataset.panel;
-                    e.target.classList.add('active', 'bg-slate-800', 'text-white');
-                    $(panelId).classList.remove('hidden');
-                    
-                    if(panelId === 'panel-overview') renderOverview();
-                    if(panelId === 'panel-payment') renderPayment();
-                    if(panelId === 'panel-all') renderAll();
-                });
-            });
-            
-            $('saveConfigBtn').addEventListener('click', saveConfig);
-            document.querySelectorAll('.btn-refresh').forEach(b => b.addEventListener('click', () => {
-                loadRecords(); showToast("อัปเดตข้อมูลล่าสุดแล้ว");
-                if(!$('panel-overview').classList.contains('hidden')) renderOverview();
-                if(!$('panel-payment').classList.contains('hidden')) renderPayment();
-                if(!$('panel-all').classList.contains('hidden')) renderAll();
-            }));
-            
-            $('exportCsvBtn')?.addEventListener('click', exportCSV);
-        }
-
-        // Auto Generate BIB logic: [Gender M/F][AgeGroup A-F][Number 0001+]
-        function generateBib(rec) {
-            const genderChar = rec.gender === 'ชาย' ? 'M' : 'F';
-            const ageChar = rec.ageGroupCode || 'X';
-            // find highest number in this category
-            const prefix = genderChar + ageChar;
-            let maxNum = 0;
-            recordsCache.forEach(r => {
-                if (r.bib && r.bib.startsWith(prefix)) {
-                    const num = parseInt(r.bib.substring(2));
-                    if (!isNaN(num) && num > maxNum) maxNum = num;
-                }
-            });
-            const nextNum = String(maxNum + 1).padStart(4, '0');
-            return prefix + nextNum;
-        }
-
-        function renderOverview() {
-            const total = recordsCache.length;
-            const verified = recordsCache.filter(r=>r.status==='verified').length;
-            const income = recordsCache.filter(r=>r.status==='verified').reduce((sum, r)=>sum+r.amount, 0);
-            
-            $('statGrid').innerHTML = `
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-slate-500 text-sm font-bold">ผู้สมัครรวม</div><div class="text-3xl font-black text-slate-800">${total}</div></div>
-                <div class="bg-white p-4 rounded-xl border border-emerald-200 shadow-sm bg-emerald-50"><div class="text-emerald-600 text-sm font-bold">ยืนยันแล้ว</div><div class="text-3xl font-black text-emerald-700">${verified}</div></div>
-                <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-sm bg-amber-50"><div class="text-amber-600 text-sm font-bold">รอตรวจสอบ</div><div class="text-3xl font-black text-amber-700">${total-verified}</div></div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm"><div class="text-slate-500 text-sm font-bold">ยอดเงินโอน (บาท)</div><div class="text-3xl font-black text-slate-800">${income.toLocaleString()}</div></div>
-            `;
-        }
-
-        function renderPayment() {
-            const tbody = $('paymentTableBody');
-            tbody.innerHTML = '';
-            const pending = recordsCache.filter(r => r.status === 'pending');
-            if (pending.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">ไม่มีสลิปที่รอตรวจสอบ</td></tr>`;
-                return;
-            }
-            pending.forEach(rec => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50';
-                tr.innerHTML = `
-                    <td class="p-4 text-xs">${new Date(rec.timestamp).toLocaleString('th-TH')}</td>
-                    <td class="p-4 font-bold text-slate-700">${escapeHtml(rec.fullName)}<br><span class="text-xs font-normal text-slate-400">${rec.phone}</span></td>
-                    <td class="p-4">${rec.distance}</td>
-                    <td class="p-4 text-tp-main font-bold">${rec.amount}</td>
-                    <td class="p-4"><button class="btn-slip px-3 py-1 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 text-xs" data-src="${rec.slip}">ดูสลิป</button></td>
-                    <td class="p-4"><button class="btn-verify px-4 py-1.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 text-xs font-bold shadow-sm" data-id="${rec.id}">อนุมัติ & ออก BIB</button></td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            // Bind events
-            document.querySelectorAll('.btn-slip').forEach(b => b.addEventListener('click', (e) => {
-                $('modalImgSrc').src = e.target.dataset.src;
-                $('imageModal').classList.remove('hidden');
-                $('imageModal').classList.add('flex');
-            }));
-            
-            document.querySelectorAll('.btn-verify').forEach(b => b.addEventListener('click', (e) => {
-                const id = e.target.dataset.id;
-                const rec = recordsCache.find(r => r.id === id);
-                if(rec) {
-                    rec.status = 'verified';
-                    rec.bib = generateBib(rec); // Auto generate BIB
-                    saveRecords();
-                    showToast(`อนุมัติสำเร็จ! ออก BIB: ${rec.bib}`);
-                    renderPayment();
-                }
-            }));
-        }
-
-        function renderAll() {
-            const tbody = $('allTableBody');
-            tbody.innerHTML = '';
-            if (recordsCache.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">ไม่มีข้อมูล</td></tr>`;
-                return;
-            }
-            recordsCache.forEach(rec => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50';
-                const statusBadge = rec.status === 'verified' ? '<span class="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">ยืนยันแล้ว</span>' : '<span class="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold">รอตรวจ</span>';
-                
-                tr.innerHTML = `
-                    <td class="p-4 font-mono font-bold text-slate-700">${rec.bib || '-'}</td>
-                    <td class="p-4">${escapeHtml(rec.fullName)}</td>
-                    <td class="p-4">${rec.distance}</td>
-                    <td class="p-4">${rec.shirtSize}</td>
-                    <td class="p-4">${statusBadge}</td>
-                    <td class="p-4 text-center"><button class="btn-details px-3 py-1 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 text-xs" data-id="${rec.id}">👁️ ดูข้อมูล</button></td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            document.querySelectorAll('.btn-details').forEach(b => b.addEventListener('click', (e) => {
-                const id = e.target.dataset.id;
-                const rec = recordsCache.find(r => r.id === id);
-                if(rec) {
-                    $('detailsContent').innerHTML = `
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><span class="text-slate-500">Ref ID:</span> <span class="font-bold">${rec.id}</span></div>
-                            <div><span class="text-slate-500">สถานะ:</span> <span class="font-bold">${rec.status==='verified'?'ยืนยันแล้ว':'รอตรวจสลิป'}</span></div>
-                            <div><span class="text-slate-500">ชื่อ-สกุล:</span> <span class="font-bold">${escapeHtml(rec.fullName)}</span></div>
-                            <div><span class="text-slate-500">บัตรประชาชน:</span> <span class="font-bold">${rec.idCard}</span></div>
-                            <div><span class="text-slate-500">วันเกิด:</span> <span class="font-bold">${rec.birthDate} (อายุ ${rec.age} ปี / รุ่น ${rec.ageGroupCode})</span></div>
-                            <div><span class="text-slate-500">เพศ/กรุ๊ปเลือด:</span> <span class="font-bold">${rec.gender} / ${rec.blood}</span></div>
-                            <div><span class="text-slate-500">เบอร์โทร:</span> <span class="font-bold">${rec.phone}</span></div>
-                            <div><span class="text-slate-500">โรคประจำตัว:</span> <span class="font-bold text-red-600">${escapeHtml(rec.medical)}</span></div>
-                            <div class="col-span-2 bg-slate-50 p-3 rounded-lg"><span class="text-slate-500">ฉุกเฉิน:</span> <span class="font-bold">${escapeHtml(rec.emName)} (${rec.emPhone})</span></div>
-                            <div><span class="text-slate-500">ระยะ/เสื้อ:</span> <span class="font-bold">${rec.distance} KM / ไซส์ ${rec.shirtSize}</span></div>
-                            <div><span class="text-slate-500">BIB:</span> <span class="font-bold text-tp-main">${rec.bib || '-'}</span></div>
-                            <div class="col-span-2 pt-2 border-t">
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2"><input type="checkbox" disabled ${rec.shirtClaimed?'checked':''}> รับเสื้อแล้ว</label>
-                                    <label class="flex items-center gap-2"><input type="checkbox" disabled ${rec.checkIn?'checked':''}> เช็คอิน</label>
-                                    <label class="flex items-center gap-2"><input type="checkbox" disabled ${rec.certClaimed?'checked':''}> เกียรติบัตร</label>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    $('detailsModal').classList.remove('hidden');
-                    $('detailsModal').classList.add('flex');
-                }
-            }));
-        }
-
-        // Shared function for Action Panels (Shirt, Checkin, Cert)
-        function setupActionPanel(panelId, title, flagKey) {
-            const container = $('panel-' + panelId);
-            const template = $('actionPanelTemplate').content.cloneNode(true);
-            template.querySelector('.panel-title').innerText = title;
-            container.appendChild(template);
-            
-            const input = container.querySelector('.search-input');
-            const btn = container.querySelector('.search-btn');
-            const resDiv = container.querySelector('.action-result');
-
-            const doSearch = () => {
-                const q = input.value.trim().toLowerCase();
-                if(!q) return;
-                
-                const results = recordsCache.filter(r => 
-                    r.status === 'verified' && (
-                    r.fullName.toLowerCase().includes(q) || 
-                    r.idCard.includes(q) || 
-                    r.phone.includes(q) ||
-                    (r.bib && r.bib.toLowerCase().includes(q)))
-                ).slice(0, 5); // top 5
-                
-                if(results.length === 0) {
-                    resDiv.innerHTML = `<div class="p-4 text-center text-slate-500">ไม่พบข้อมูล หรือยังไม่ได้รับการอนุมัติสลิป</div>`;
-                    return;
-                }
-
-                let html = '<div class="space-y-4">';
-                results.forEach(r => {
-                    const isDone = r[flagKey];
-                    html += `
-                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex justify-between items-center">
-                            <div>
-                                <div class="font-bold text-slate-800">${escapeHtml(r.fullName)} <span class="text-tp-main ml-2 font-mono">${r.bib}</span></div>
-                                <div class="text-sm text-slate-500">ระยะ ${r.distance} | เสื้อ ${r.shirtSize} | ${r.phone}</div>
-                            </div>
-                            <button class="btn-toggle-action px-6 py-2 rounded-lg font-bold text-sm ${isDone ? 'bg-slate-100 text-slate-400' : 'bg-tp-main text-white hover:bg-emerald-600'}" data-id="${r.id}" data-key="${flagKey}">
-                                ${isDone ? 'ยกเลิก (ทำแล้ว)' : 'ยืนยัน'}
-                            </button>
-                        </div>
-                    `;
-                });
-                html += '</div>';
-                resDiv.innerHTML = html;
-
-                resDiv.querySelectorAll('.btn-toggle-action').forEach(b => b.addEventListener('click', (e) => {
-                    const id = e.target.dataset.id;
-                    const key = e.target.dataset.key;
-                    const rec = recordsCache.find(x => x.id === id);
-                    if(rec) {
-                        rec[key] = !rec[key];
-                        saveRecords();
-                        showToast("อัปเดตสถานะแล้ว");
-                        doSearch(); // reload result
-                    }
-                }));
-            };
-
-            btn.addEventListener('click', doSearch);
-            input.addEventListener('keypress', (e) => { if(e.key === 'Enter') doSearch(); });
-        }
-
-        // CSV Export function (with BOM for Excel Thai support)
-        function exportCSV() {
-            if (recordsCache.length === 0) { showToast("ไม่มีข้อมูลให้ส่งออก", true); return; }
-            
-            const headers = ["RefID", "เวลาสมัคร", "สถานะ", "BIB", "ชื่อ-นามสกุล", "บัตรประชาชน", "วันเกิด", "อายุ", "รุ่นอายุ", "เพศ", "กรุ๊ปเลือด", "เบอร์โทร", "โรคประจำตัว", "ผู้ติดต่อฉุกเฉิน", "เบอร์ฉุกเฉิน", "ระยะวิ่ง", "ไซส์เสื้อ", "ยอดชำระ", "รับเสื้อแล้ว", "เช็คอินแล้ว", "รับเกียรติบัตรแล้ว"];
-            
-            let csvContent = "\uFEFF"; // UTF-8 BOM
-            csvContent += headers.join(",") + "\n";
-            
-            recordsCache.forEach(r => {
-                const row = [
-                    r.id, r.timestamp, r.status, r.bib || "", 
-                    `"${r.fullName}"`, `="${r.idCard}"`, r.birthDate, r.age, r.ageGroupStr, r.gender, r.blood, 
-                    `="${r.phone}"`, `"${r.medical}"`, `"${r.emName}"`, `="${r.emPhone}"`, 
-                    r.distance, r.shirtSize, r.amount, 
-                    r.shirtClaimed?"Y":"N", r.checkIn?"Y":"N", r.certClaimed?"Y":"N"
-                ];
-                csvContent += row.join(",") + "\n";
-            });
-            
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", `tprun2026_export_${new Date().toISOString().slice(0,10)}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Close Modals
-        document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', () => {
-                $('imageModal').classList.add('hidden');
-                $('imageModal').classList.remove('flex');
-                $('detailsModal').classList.add('hidden');
-                $('detailsModal').classList.remove('flex');
-            });
-        });
-
-        // Initialize Home view as default
-        window.onload = () => {
-            loadConfig();
-            showView('view-home');
+    async function generateCanvasImg(record, type) {
+      return new Promise((resolve) => {
+        const bgUrl = type === 'bib' ? config.bibBg : config.certBg;
+        if(!bgUrl) { showToast('ยังไม่ได้ตั้งค่าภาพพื้นหลังในระบบ', 'error'); resolve(null); return; }
+        
+        const img = new Image();
+        img.onload = () => {
+          const cvs = document.createElement('canvas');
+          cvs.width = img.width; cvs.height = img.height;
+          const ctx = cvs.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          
+          if(type === 'bib') {
+            const c = config.bibConf;
+            ctx.fillStyle = c.c;
+            ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
+            ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
+            ctx.fillText(record.bibNumber || 'XXXX', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
+          } else {
+            const c = config.certConf;
+            ctx.fillStyle = c.c;
+            ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
+            ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
+          }
+          resolve(cvs.toDataURL('image/png'));
         };
+        img.onerror = () => { showToast('โหลดภาพพื้นหลังล้มเหลว', 'error'); resolve(null); };
+        img.src = bgUrl;
+      });
+    }
 
-    </script>
+    /* ================= ADMIN LOGIC ================= */
+    
+    document.getElementById('staffSectionSelect').addEventListener('change', function() {
+      document.querySelectorAll('.staff-panel').forEach(el => el.classList.add('hidden'));
+      const panel = document.getElementById('panel-' + this.value);
+      panel.classList.remove('hidden');
+      panel.classList.add('animate-[fadeIn_0.3s_ease-out]');
+      
+      if(this.value === 'overview') renderAdminOverview();
+      if(this.value === 'payment') renderAdminPayment();
+      if(this.value === 'all') renderAdminAll();
+      if(this.value === 'settings') fillAdminSettings();
+    });
+
+    function showImg(src) {
+      document.getElementById('imgModalSrc').src = src;
+      const m = document.getElementById('imgModal');
+      m.classList.remove('hidden');
+      setTimeout(() => { m.classList.remove('opacity-0'); document.getElementById('imgModalSrc').classList.remove('scale-95'); }, 10);
+    }
+    function closeImgModal() {
+      const m = document.getElementById('imgModal');
+      m.classList.add('opacity-0'); document.getElementById('imgModalSrc').classList.add('scale-95');
+      setTimeout(() => m.classList.add('hidden'), 300);
+    }
+
+    function generateBibNumber(gender, gCode, records) {
+      const pfx = (gender === 'ชาย' ? 'M' : 'F') + gCode;
+      const count = records.filter(r => r.bibNumber && r.bibNumber.startsWith(pfx)).length;
+      return pfx + String(count + 1).padStart(4, '0');
+    }
+
+    async function renderAdminOverview() {
+      const records = await loadAllRecords();
+      const verified = records.filter(r=>r.verified).length;
+      const rev = records.filter(r=>r.verified).reduce((s,r)=>s+Number(r.amount),0);
+      
+      document.getElementById('statGrid').innerHTML = `
+        <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100"><div class="text-blue-500 font-bold mb-2"><i class="fa-solid fa-users"></i> ผู้สมัครทั้งหมด</div><div class="text-4xl font-black text-blue-900">${records.length}</div></div>
+        <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100"><div class="text-emerald-500 font-bold mb-2"><i class="fa-solid fa-check-circle"></i> ยืนยันแล้ว</div><div class="text-4xl font-black text-emerald-900">${verified}</div></div>
+        <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100"><div class="text-amber-500 font-bold mb-2"><i class="fa-solid fa-clock"></i> รอตรวจสลิป</div><div class="text-4xl font-black text-amber-900">${records.length-verified}</div></div>
+        <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100"><div class="text-indigo-500 font-bold mb-2"><i class="fa-solid fa-coins"></i> ยอดรวม (บาท)</div><div class="text-4xl font-black text-indigo-900">${rev.toLocaleString()}</div></div>
+      `;
+      
+      const counts = {"5":0, "10":0, "VIP":0};
+      records.forEach(r => counts[r.distance] = (counts[r.distance]||0)+1);
+      document.getElementById('distBreakdown').innerHTML = `
+        <div class="px-5 py-2.5 bg-slate-50 rounded-xl font-bold text-slate-700 border border-slate-200 shadow-sm"><i class="fa-solid fa-person-walking"></i> 5KM: ${counts["5"]} คน</div>
+        <div class="px-5 py-2.5 bg-slate-50 rounded-xl font-bold text-slate-700 border border-slate-200 shadow-sm"><i class="fa-solid fa-person-running"></i> 10KM: ${counts["10"]} คน</div>
+        <div class="px-5 py-2.5 bg-amber-50 rounded-xl font-bold text-amber-700 border border-amber-200 shadow-sm"><i class="fa-solid fa-crown"></i> VIP: ${counts["VIP"]} คน</div>
+      `;
+    }
+
+    async function renderAdminPayment() {
+      const records = (await loadAllRecords()).filter(r => !r.verified);
+      const tb = document.getElementById('tbPayment');
+      tb.innerHTML = '';
+      if(!records.length) { tb.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold"><i class="fa-solid fa-inbox text-3xl block mb-2"></i> ไม่มีรายการรอตรวจสอบ</td></tr>'; return; }
+      
+      records.forEach(r => {
+        tb.innerHTML += `
+          <tr class="hover:bg-slate-50/50 transition-colors">
+            <td class="p-5">${formatDT(r.ts)}</td>
+            <td class="p-5 font-bold text-slate-800">${r.fullName}</td>
+            <td class="p-5">${r.distance}</td>
+            <td class="p-5 font-black text-emerald-600">${r.amount}</td>
+            <td class="p-5"><button onclick="showImg('${r.slip}')" class="text-blue-500 hover:text-blue-700 font-bold bg-blue-50 px-3 py-1 rounded-lg transition-colors"><i class="fa-solid fa-image"></i> ดูสลิป</button></td>
+            <td class="p-5"><button onclick="verifyPayment('${r.id}')" class="px-5 py-2 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 shadow-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-check"></i> ยืนยัน</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    async function verifyPayment(id) {
+      Swal.fire({
+        title: 'ยืนยันการชำระเงิน?',
+        text: "ระบบจะสร้างหมายเลข BIB ให้อัตโนมัติ",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#cbd5e1',
+        confirmButtonText: 'ใช่, ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const r = recordsCache.find(x => x.id === id);
+          if(!r) return;
+          r.verified = true; r.vTs = new Date().toISOString();
+          r.bibNumber = generateBibNumber(r.gender, r.ageGroupCode, recordsCache);
+          await saveRecord(r);
+          Swal.fire({ icon: 'success', title: 'ยืนยันสำเร็จ', text: `สร้าง BIB: ${r.bibNumber} แล้ว`, timer: 2000, showConfirmButton: false });
+          renderAdminPayment();
+        }
+      })
+    }
+
+    async function renderAdminAll() {
+      const records = await loadAllRecords();
+      const tb = document.getElementById('tbAll');
+      tb.innerHTML = '';
+      records.forEach((r, i) => {
+        tb.innerHTML += `
+          <tr class="hover:bg-slate-50/50 transition-colors">
+            <td class="p-5 text-slate-400 font-bold">${i+1}</td>
+            <td class="p-5 font-bold text-slate-800">${r.fullName}</td>
+            <td class="p-5"><span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-600">${r.ageGroupCode}</span> / ${r.distance}</td>
+            <td class="p-5 font-black text-brand-600">${r.bibNumber || '-'}</td>
+            <td class="p-5 text-center"><button onclick="showDetail('${r.id}')" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 hover:bg-brand-50 hover:text-brand-600 font-bold transition-colors shadow-sm"><i class="fa-solid fa-eye"></i></button></td>
+          </tr>
+        `;
+      });
+    }
+
+    async function adminSearch(type) {
+      const q = document.getElementById('srch' + type.charAt(0).toUpperCase() + type.slice(1)).value.trim().toLowerCase();
+      const res = document.getElementById('res' + type.charAt(0).toUpperCase() + type.slice(1));
+      if(!q) return;
+      const records = recordsCache;
+      const matches = records.filter(r => r.fullName.toLowerCase().includes(q) || r.idCard.includes(q) || r.phone.includes(q));
+      
+      if(!matches.length) { res.innerHTML = '<div class="text-slate-400 mt-4 font-bold"><i class="fa-solid fa-circle-exclamation"></i> ไม่พบข้อมูล</div>'; return; }
+      
+      let map = {
+        'shirt': { key: 'shirtGet', ts: 'sTs', label: 'แจกเสื้อ', icon: 'fa-shirt', extra: r => `ไซส์: ${r.shirt}` },
+        'checkin': { key: 'checkin', ts: 'cTs', label: 'เช็คอิน', icon: 'fa-map-pin', extra: r => `BIB: ${r.bibNumber||'-'}` },
+        'cert': { key: 'certGet', ts: 'ceTs', label: 'แจกเกียรติบัตร', icon: 'fa-certificate', extra: r => `BIB: ${r.bibNumber||'-'}` }
+      };
+      let cfg = map[type];
+      
+      res.innerHTML = matches.map(r => `
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 mt-4 flex justify-between items-center shadow-sm">
+          <div>
+            <div class="font-black text-slate-800 text-lg">${r.fullName}</div>
+            <div class="font-medium text-slate-500">${cfg.extra(r)} | โทร: ${r.phone}</div>
+          </div>
+          ${r[cfg.key] ? 
+            `<div class="font-bold text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> ${cfg.label}แล้ว</div>` : 
+            `<button onclick="actionUpdate('${r.id}','${cfg.key}','${cfg.ts}')" class="px-5 py-2.5 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid ${cfg.icon}"></i> ยืนยัน${cfg.label}</button>`
+          }
+        </div>
+      `).join('');
+    }
+
+    async function actionUpdate(id, key, tsKey) {
+      const r = recordsCache.find(x => x.id === id);
+      if(!r) return;
+      
+      Swal.fire({
+        title: 'ยืนยันการทำรายการ?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#1e293b',
+        cancelButtonColor: '#cbd5e1',
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
+      }).then(async (result) => {
+        if(result.isConfirmed) {
+          r[key] = true; r[tsKey] = new Date().toISOString();
+          await saveRecord(r);
+          showToast('อัปเดตข้อมูลสำเร็จ');
+          document.querySelectorAll('[id^="srch"]').forEach(el => { if(el.value) el.nextElementSibling.click(); });
+        }
+      });
+    }
+
+    function showDetail(id) {
+      const r = recordsCache.find(x => x.id === id);
+      if(!r) return;
+      
+      const kv = (k, v) => `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-50"><span class="text-xs font-bold text-slate-400 block uppercase tracking-wider mb-1">${k}</span><span class="font-black text-slate-700">${v||'-'}</span></div>`;
+      
+      document.getElementById('detailContent').innerHTML = `
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+          ${kv('ID อ้างอิง', r.id)} ${kv('วันที่สมัคร', formatDT(r.ts))} ${kv('BIB Number', r.bibNumber)}
+          ${kv('ชื่อ-นามสกุล', r.fullName)} ${kv('เลขบัตร', r.idCard)} ${kv('เบอร์โทร', r.phone)}
+          ${kv('เพศ', r.gender)} ${kv('อายุ / รุ่น', r.age + ' / ' + r.ageGroupCode)} ${kv('กรุ๊ปเลือด', r.blood)}
+          ${kv('ระยะวิ่ง', r.distance)} ${kv('ไซส์เสื้อ', r.shirt)} ${kv('ยอดเงิน', r.amount + ' บ.')}
+          ${kv('โรคประจำตัว', r.med)} ${kv('ติดต่อฉุกเฉิน', r.emName)} ${kv('เบอร์ฉุกเฉิน', r.emPhone)}
+        </div>
+      `;
+      
+      document.getElementById('detailActions').innerHTML = `
+        <button onclick="showImg('${r.slip}')" class="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-300 transition-colors flex items-center gap-2"><i class="fa-solid fa-image"></i> ดูสลิป</button>
+        ${r.bibNumber ? `<button onclick="downloadImage('${r.id}','bib')" class="px-5 py-2.5 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid fa-print"></i> พิมพ์ BIB</button>` : ''}
+        ${r.certGet ? `<button onclick="downloadImage('${r.id}','cert')" class="px-5 py-2.5 bg-amber-500 text-white rounded-xl font-bold hover:bg-amber-600 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid fa-award"></i> พิมพ์เกียรติบัตร</button>` : ''}
+      `;
+      
+      const m = document.getElementById('detailModal');
+      const mc = document.getElementById('detailModalContent');
+      m.classList.remove('hidden');
+      setTimeout(() => { m.classList.remove('opacity-0'); mc.classList.remove('scale-95'); }, 10);
+    }
+    
+    function closeDetailModal() {
+      const m = document.getElementById('detailModal');
+      const mc = document.getElementById('detailModalContent');
+      m.classList.add('opacity-0'); mc.classList.add('scale-95');
+      setTimeout(() => m.classList.add('hidden'), 300);
+    }
+
+    function exportToCSV() {
+      if(!recordsCache.length) { showToast('ไม่มีข้อมูล', 'error'); return; }
+      const cols = ["id","ts","idCard","fullName","dob","age","ageGroupCode","gender","blood","phone","med","emName","emPhone","distance","shirt","amount","verified","bibNumber","shirtGet","checkin","certGet"];
+      const th = ["รหัส","วันที่สมัคร","เลขบัตร","ชื่อ","วันเกิด","อายุ","รุ่น","เพศ","เลือด","โทร","โรค","ชื่อฉุกเฉิน","โทรฉุกเฉิน","ระยะ","ไซส์เสื้อ","ยอดชำระ","โอนแล้ว","BIB","รับเสื้อ","เช็คอิน","เกียรติบัตร"];
+      
+      let csv = '\uFEFF' + th.join(',') + '\n';
+      recordsCache.forEach(r => { csv += cols.map(c => `"${String(r[c]||'').replace(/"/g, '""')}"`).join(',') + '\n'; });
+      
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8;'}));
+      a.download = `TP_RUN_DATA_${Date.now()}.csv`;
+      a.click();
+    }
+
+    function fillAdminSettings() {
+      document.getElementById('cfgGas').value = config.gasUrl || '';
+      document.getElementById('cfgTitle').value = config.eventName || '';
+      document.getElementById('cfgSlogan').value = config.slogan || '';
+      document.getElementById('cfgP5').value = config.price5 || '';
+      document.getElementById('cfgP10').value = config.price10 || '';
+      document.getElementById('cfgPVIP').value = config.priceVIP || '';
+      
+      document.getElementById('cBNX').value = config.bibConf.nx; document.getElementById('cBNY').value = config.bibConf.ny;
+      document.getElementById('cBBX').value = config.bibConf.bx; document.getElementById('cBBY').value = config.bibConf.by;
+      document.getElementById('cBC').value = config.bibConf.c; document.getElementById('cBS').value = config.bibConf.s;
+      
+      document.getElementById('cCNX').value = config.certConf.nx; document.getElementById('cCNY').value = config.certConf.ny;
+      document.getElementById('cCC').value = config.certConf.c; document.getElementById('cCS').value = config.certConf.s;
+    }
+
+    async function saveAdminConfig() {
+      const btn = document.querySelector('button[onclick="saveAdminConfig()"]');
+      const origHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
+      btn.disabled = true;
+
+      config.gasUrl = document.getElementById('cfgGas').value.trim();
+      config.eventName = document.getElementById('cfgTitle').value.trim();
+      config.slogan = document.getElementById('cfgSlogan').value.trim();
+      config.price5 = Number(document.getElementById('cfgP5').value) || 400;
+      config.price10 = Number(document.getElementById('cfgP10').value) || 500;
+      config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
+      
+      config.bibConf = {
+        nx: Number(document.getElementById('cBNX').value)||50, ny: Number(document.getElementById('cBNY').value)||50,
+        bx: Number(document.getElementById('cBBX').value)||50, by: Number(document.getElementById('cBBY').value)||70,
+        c: document.getElementById('cBC').value||'#000', s: Number(document.getElementById('cBS').value)||80
+      };
+      config.certConf = {
+        nx: Number(document.getElementById('cCNX').value)||50, ny: Number(document.getElementById('cCNY').value)||50,
+        c: document.getElementById('cCC').value||'#000', s: Number(document.getElementById('cCS').value)||60
+      };
+
+      const logoF = document.getElementById('cfgLogo').files[0];
+      const homeBgF = document.getElementById('cfgHomeBg').files[0];
+      const bibF = document.getElementById('cfgBibBg').files[0];
+      const certF = document.getElementById('cfgCertBg').files[0];
+      
+      if(logoF) config.logoUrl = await compressImage(logoF, 400);
+      if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 1200);
+      if(bibF) config.bibBg = await compressImage(bibF, 1200);
+      if(certF) config.certBg = await compressImage(certF, 1200);
+
+      localStorage.setItem('tp_config', JSON.stringify(config));
+      applyConfigToUI();
+      
+      if(config.gasUrl) {
+        try {
+          await fetch(config.gasUrl, {
+            method: "POST", mode: "no-cors",
+            headers: {"Content-Type": "text/plain"},
+            body: JSON.stringify({action: "saveConfig", data: config})
+          });
+        } catch(e) {}
+      }
+      
+      btn.innerHTML = origHtml;
+      btn.disabled = false;
+      showToast('บันทึกการตั้งค่าแล้ว');
+    }
+
+    setInterval(() => { document.getElementById('dashTime').textContent = new Date().toLocaleString('th-TH'); }, 1000);
+
+    window.onload = () => {
+      loadConfigFromSheet();
+      document.getElementById('staffLoginBtn').addEventListener('click', () => {
+        if(document.getElementById('staffPass').value === STAFF_PASSCODE) {
+          document.getElementById('staffPass').value = '';
+          showView('staffDash');
+          document.getElementById('staffSectionSelect').value = 'overview';
+          renderAdminOverview();
+          showToast('เข้าสู่ระบบสำเร็จ');
+        } else {
+          showToast('รหัสผ่านไม่ถูกต้อง', 'error');
+        }
+      });
+      // Custom tailwind animation added here for dynamic views
+      const style = document.createElement('style');
+      style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }`;
+      document.head.appendChild(style);
+    };
+  </script>
 </body>
 </html>
