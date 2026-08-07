@@ -267,7 +267,10 @@
           
           <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <!-- 5KM -->
-            <div class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group" data-aos="fade-up" data-aos-delay="100">
+            <div id="card-5" class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group relative" data-aos="fade-up" data-aos-delay="100">
+              <div id="badge-pop-5" class="hidden absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 flex">
+                <i class="fa-solid fa-star"></i> ยอดนิยม
+              </div>
               <div class="w-20 h-20 bg-slate-100 text-slate-700 rounded-3xl flex items-center justify-center text-3xl font-black mb-8 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">5K</div>
               <h3 class="text-2xl font-black text-slate-800 mb-2">Fun Run</h3>
               <p class="text-slate-500 font-medium mb-8">เหมาะสำหรับครอบครัวและผู้เริ่มต้น</p>
@@ -283,8 +286,8 @@
             </div>
             
             <!-- 10KM (Popular) -->
-            <div class="glass-card p-10 rounded-[2.5rem] shadow-xl shadow-brand-500/15 border-2 border-brand-500 relative transform md:-translate-y-6 bg-white" data-aos="fade-up" data-aos-delay="200">
-              <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
+            <div id="card-10" class="glass-card p-10 rounded-[2.5rem] shadow-xl shadow-brand-500/15 border-2 border-brand-500 relative transform md:-translate-y-6 bg-white transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+              <div id="badge-pop-10" class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
                 <i class="fa-solid fa-star"></i> ยอดนิยม
               </div>
               <div class="w-20 h-20 bg-brand-100 text-brand-600 rounded-3xl flex items-center justify-center text-3xl font-black mb-8">10K</div>
@@ -303,7 +306,10 @@
             </div>
 
             <!-- VIP -->
-            <div class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group" data-aos="fade-up" data-aos-delay="300">
+            <div id="card-VIP" class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group relative" data-aos="fade-up" data-aos-delay="300">
+              <div id="badge-pop-VIP" class="hidden absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 flex">
+                <i class="fa-solid fa-star"></i> ยอดนิยม
+              </div>
               <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-3xl flex items-center justify-center text-2xl font-black mb-8 group-hover:bg-amber-200 transition-colors">VIP</div>
               <h3 class="text-2xl font-black text-slate-800 mb-2">VIP Run</h3>
               <p class="text-slate-500 font-medium mb-8">วิ่งระยะใดก็ได้ พร้อมสิทธิพิเศษสูงสุด</p>
@@ -318,6 +324,47 @@
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> เลือกระยะวิ่งได้ </li>
               </ul>
               <button onclick="showView('register')" class="w-full py-4 rounded-2xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">เลือกแพ็กเกจนี้</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Route Maps Section -->
+      <div class="py-24 bg-white relative z-20 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-black text-slate-900 mb-4">แผนที่เส้นทางการแข่งขัน</h2>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto">เส้นทางวิ่งระยะ 5KM และ 10KM (คลิกที่ภาพเพื่อขยายดูขนาดเต็ม)</p>
+          </div>
+          
+          <!-- สัดส่วน 75% ตามที่ต้องการ (กว้าง 75% และจัดกึ่งกลาง บน Desktop) -->
+          <div class="w-full md:w-[75%] mx-auto">
+            <div class="grid md:grid-cols-2 gap-10">
+              
+              <!-- 5KM Map -->
+              <div class="glass-card p-6 rounded-[2rem] shadow-soft text-center group hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div class="inline-block px-6 py-2 bg-slate-100 text-slate-700 font-black rounded-full mb-6 text-xl group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">ระยะ 5 KM</div>
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 relative cursor-pointer" onclick="showImg(this.querySelector('img').src)">
+                  <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/5 transition-colors z-10 flex items-center justify-center">
+                    <i class="fa-solid fa-magnifying-glass-plus text-slate-800 text-3xl opacity-0 group-hover:opacity-50 transition-opacity transform scale-50 group-hover:scale-100"></i>
+                  </div>
+                  <!-- สามารถเปลี่ยน src รูปภาพแผนที่ 5KM ของจริงที่นี่ -->
+                  <img id="mapImg5" src="https://placehold.co/800x800/f8fafc/64748b?text=Map+5KM" alt="5KM Route Map" class="w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+              </div>
+              
+              <!-- 10KM Map -->
+              <div class="glass-card p-6 rounded-[2rem] shadow-soft text-center group hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="inline-block px-6 py-2 bg-brand-50 text-brand-600 font-black rounded-full mb-6 text-xl">ระยะ 10 KM</div>
+                <div class="overflow-hidden rounded-2xl border border-brand-100 bg-emerald-50 relative cursor-pointer" onclick="showImg(this.querySelector('img').src)">
+                  <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/5 transition-colors z-10 flex items-center justify-center">
+                    <i class="fa-solid fa-magnifying-glass-plus text-brand-800 text-3xl opacity-0 group-hover:opacity-50 transition-opacity transform scale-50 group-hover:scale-100"></i>
+                  </div>
+                  <!-- สามารถเปลี่ยน src รูปภาพแผนที่ 10KM ของจริงที่นี่ -->
+                  <img id="mapImg10" src="https://placehold.co/800x800/ecfdf5/047857?text=Map+10KM" alt="10KM Route Map" class="w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -773,6 +820,15 @@
                   <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา VIP</label><input type="number" id="cfgPVIP"></div>
                 </div>
                 <div>
+                  <label class="block text-sm font-bold text-slate-600 mb-2">ระยะยอดนิยม (Popular Badge)</label>
+                  <select id="cfgPopular" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-brand-500">
+                    <option value="5">ระยะ 5 KM</option>
+                    <option value="10">ระยะ 10 KM</option>
+                    <option value="VIP">ระยะ VIP</option>
+                    <option value="none">ซ่อน (ไม่ต้องแสดง)</option>
+                  </select>
+                </div>
+                <div>
                   <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดโลโก้งาน (สี่เหลี่ยม)</label>
                   <input type="file" id="cfgLogo" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
                 </div>
@@ -780,53 +836,108 @@
                   <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดพื้นหลังหน้าแรก</label>
                   <input type="file" id="cfgHomeBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
                 </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">แผนที่ 5KM</label>
+                    <input type="file" id="cfgMap5" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">แผนที่ 10KM</label>
+                    <input type="file" id="cfgMap10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+                  </div>
+                </div>
               </div>
 
               <!-- Print Settings -->
               <div class="space-y-8">
                 <!-- BIB Setting -->
-                <div class="bg-blue-50/50 p-8 rounded-3xl border border-blue-100">
+                <div class="bg-blue-50/50 p-6 rounded-3xl border border-blue-100">
                   <h4 class="font-bold text-blue-800 text-lg flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-address-card"></i> ตั้งค่าแบบพิมพ์ BIB
+                    <i class="fa-solid fa-address-card"></i> ตั้งค่าแบบพิมพ์ BIB (พร้อมพรีวิว)
                   </h4>
-                  <div class="space-y-3 mb-5">
-                    <div>
-                      <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 5KM</label>
-                      <input type="file" id="cfgBibBg5" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                  
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-5">
+                    <div class="space-y-3">
+                      <div>
+                        <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 5KM</label>
+                        <input type="file" id="cfgBibBg5" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                      </div>
+                      <div>
+                        <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 10KM</label>
+                        <input type="file" id="cfgBibBg10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                      </div>
+                      <div>
+                        <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ VIP</label>
+                        <input type="file" id="cfgBibBgVIP" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                      </div>
+                      <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div><label class="text-xs font-bold text-blue-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="text-sm w-full p-1 border rounded"></div>
+                        <div><label class="text-xs font-bold text-blue-700 block mb-1">ขนาดอักษรหลัก (px)</label><input type="number" id="cBS" class="text-sm w-full p-1 border rounded"></div>
+                      </div>
                     </div>
-                    <div>
-                      <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 10KM</label>
-                      <input type="file" id="cfgBibBg10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
-                    </div>
-                    <div>
-                      <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ VIP</label>
-                      <input type="file" id="cfgBibBgVIP" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
+                    
+                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center relative min-h-[150px]">
+                      <div class="absolute inset-0 bg-slate-100 flex items-center justify-center text-slate-400 text-xs text-center p-4 z-0">
+                        เลือกภาพพื้นหลัง 5KM<br>เพื่อดูพรีวิวแบบเรียลไทม์
+                      </div>
+                      <div id="bibPreviewArea" class="w-full h-full bg-contain bg-no-repeat bg-center relative z-10 aspect-[4/3] max-h-[200px]">
+                        <span id="pvBibN" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">สมชาย ใจดี</span>
+                        <span id="pvBibB" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-black whitespace-nowrap">M1001</span>
+                        <span id="pvBibG" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">M</span>
+                        <span id="pvBibA" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">C</span>
+                      </div>
                     </div>
                   </div>
-                  <div class="grid grid-cols-2 gap-4">
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X ชื่อ (%)</label><input type="number" id="cBNX" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y ชื่อ (%)</label><input type="number" id="cBNY" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X เลข BIB (%)</label><input type="number" id="cBBX" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y เลข BIB (%)</label><input type="number" id="cBBY" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X เพศ M/F (%)</label><input type="number" id="cBGX" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y เพศ M/F (%)</label><input type="number" id="cBGY" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน X รุ่นอายุ (%)</label><input type="number" id="cBAX" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">แกน Y รุ่นอายุ (%)</label><input type="number" id="cBAY" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-blue-700 block mb-1">ขนาดอักษรหลัก (px)</label><input type="number" id="cBS" class="text-sm"></div>
+
+                  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex flex-col gap-1 border-r border-slate-100 pr-2">
+                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBN_show" checked> ชื่อ X/Y (%)</label>
+                      <div class="flex gap-1"><input type="number" id="cBNX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBNY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
+                    </div>
+                    <div class="flex flex-col gap-1 border-r border-slate-100 pr-2">
+                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBB_show" checked> BIB X/Y (%)</label>
+                      <div class="flex gap-1"><input type="number" id="cBBX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBBY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
+                    </div>
+                    <div class="flex flex-col gap-1 border-r border-slate-100 pr-2">
+                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBG_show" checked> เพศ X/Y (%)</label>
+                      <div class="flex gap-1"><input type="number" id="cBGX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBGY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBA_show" checked> รุ่นอายุ X/Y</label>
+                      <div class="flex gap-1"><input type="number" id="cBAX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBAY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
+                    </div>
                   </div>
                 </div>
                 <!-- Cert Setting -->
-                <div class="bg-amber-50/50 p-8 rounded-3xl border border-amber-100">
+                <div class="bg-amber-50/50 p-6 rounded-3xl border border-amber-100">
                   <h4 class="font-bold text-amber-800 text-lg flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-certificate"></i> ตั้งค่าเกียรติบัตร
+                    <i class="fa-solid fa-certificate"></i> ตั้งค่าเกียรติบัตร (พร้อมพรีวิว)
                   </h4>
-                  <input type="file" id="cfgCertBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer mb-5">
-                  <div class="grid grid-cols-2 gap-4">
-                    <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน X ชื่อ (%)</label><input type="number" id="cCNX" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน Y ชื่อ (%)</label><input type="number" id="cCNY" max="100" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-amber-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cCC" placeholder="#000000" class="text-sm"></div>
-                    <div><label class="text-xs font-bold text-amber-700 block mb-1">ขนาดอักษร (px)</label><input type="number" id="cCS" class="text-sm"></div>
+                  
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-5">
+                    <div class="space-y-3">
+                      <div>
+                        <label class="text-xs font-bold text-amber-700 block mb-1">อัปโหลดภาพพื้นหลัง</label>
+                        <input type="file" id="cfgCertBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer">
+                      </div>
+                      <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div><label class="text-xs font-bold text-amber-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cCC" placeholder="#000000" class="text-sm w-full p-1 border rounded"></div>
+                        <div><label class="text-xs font-bold text-amber-700 block mb-1">ขนาดอักษร (px)</label><input type="number" id="cCS" class="text-sm w-full p-1 border rounded"></div>
+                      </div>
+                      <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน X ชื่อ (%)</label><input type="number" id="cCNX" max="100" class="text-sm w-full p-1 border rounded"></div>
+                        <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน Y ชื่อ (%)</label><input type="number" id="cCNY" max="100" class="text-sm w-full p-1 border rounded"></div>
+                      </div>
+                    </div>
+                    
+                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center relative min-h-[150px]">
+                      <div class="absolute inset-0 bg-slate-100 flex items-center justify-center text-slate-400 text-xs text-center p-4 z-0">
+                        เลือกภาพเกียรติบัตร<br>เพื่อดูพรีวิว
+                      </div>
+                      <div id="certPreviewArea" class="w-full h-full bg-contain bg-no-repeat bg-center relative z-10 aspect-[4/3] max-h-[200px]">
+                        <span id="pvCertN" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">สมชาย ใจดี</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -872,7 +983,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // --- FIREBASE CONFIGURATION ---
+    // --- YOUR FIREBASE CONFIGURATION (STRICTLY MAINTAINED) ---
     const firebaseConfig = {
       apiKey: "AIzaSyBvHornDQGGWoGgHtf45q_BKXnES4bc46E",
       authDomain: "tprun-v2.firebaseapp.com",
@@ -895,7 +1006,8 @@
       eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
       price5: 400, price10: 500, priceVIP: 1000, 
       logoUrl: "", homeBgUrl: "", bibBg5: "", bibBg10: "", bibBgVIP: "", certBg: "",
-      bibConf: { nx: 50, ny: 40, bx: 50, by: 70, gx: 10, gy: 30, ax: 10, ay: 60, c: "#000000", s: 80 },
+      map5K: "", map10K: "", popularDist: "10",
+      bibConf: { showN: true, nx: 50, ny: 40, showB: true, bx: 50, by: 70, showG: true, gx: 10, gy: 30, showA: true, ax: 10, ay: 60, c: "#000000", s: 80 },
       certConf: { nx: 50, ny: 50, c: "#000000", s: 60 }
     };
 
@@ -1039,6 +1151,19 @@
         document.getElementById('heroBgImage').style.backgroundImage = `url(${config.homeBgUrl})`;
         document.getElementById('heroBgImage').style.opacity = '0.3';
       }
+      
+      if(config.map5K) document.getElementById('mapImg5').src = config.map5K;
+      if(config.map10K) document.getElementById('mapImg10').src = config.map10K;
+
+      ['5', '10', 'VIP'].forEach(d => {
+        document.getElementById('badge-pop-'+d)?.classList.add('hidden');
+        document.getElementById('card-'+d)?.classList.remove('border-2', 'border-brand-500', 'transform', 'md:-translate-y-6', 'bg-white');
+      });
+      const popD = config.popularDist || '10';
+      if(popD !== 'none' && document.getElementById('card-'+popD)) {
+        document.getElementById('badge-pop-'+popD)?.classList.remove('hidden');
+        document.getElementById('card-'+popD)?.classList.add('border-2', 'border-brand-500', 'transform', 'md:-translate-y-6', 'bg-white');
+      }
     }
 
     /* ================= FORM LOGIC ================= */
@@ -1122,7 +1247,7 @@
           shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
         };
 
-        // Save directly to Firestore Document (Under tp_run_db)
+        // Save directly to Firestore Document (Under user's tp_run_db collection)
         await setDoc(doc(db, "tp_run_db", "all_records", "registrations", rec.id), rec);
         recordsCache.push(rec); 
         
@@ -1243,13 +1368,23 @@
           if(type === 'bib') {
             const c = config.bibConf;
             ctx.fillStyle = c.c;
-            ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
-            ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
-            ctx.font = `bold ${c.s * 1.5}px "Noto Sans Thai Looped", sans-serif`;
-            ctx.fillText(record.bibNumber || 'XXXX', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
-            ctx.font = `bold ${c.s * 0.8}px "Noto Sans Thai Looped", sans-serif`;
-            if (c.gx && c.gy) ctx.fillText(record.gender === 'ชาย' ? 'M' : 'F', (c.gx/100)*cvs.width, (c.gy/100)*cvs.height);
-            if (c.ax && c.ay) ctx.fillText(record.ageGroupCode || '-', (c.ax/100)*cvs.width, (c.ay/100)*cvs.height);
+            
+            if(c.showN !== false) {
+              ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
+              ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
+            }
+            if(c.showB !== false) {
+              ctx.font = `bold ${c.s * 1.5}px "Noto Sans Thai Looped", sans-serif`;
+              ctx.fillText(record.bibNumber || 'XXXX', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
+            }
+            if(c.showG !== false && c.gx && c.gy) {
+              ctx.font = `bold ${c.s * 0.8}px "Noto Sans Thai Looped", sans-serif`;
+              ctx.fillText(record.gender === 'ชาย' ? 'M' : 'F', (c.gx/100)*cvs.width, (c.gy/100)*cvs.height);
+            }
+            if(c.showA !== false && c.ax && c.ay) {
+              ctx.font = `bold ${c.s * 0.8}px "Noto Sans Thai Looped", sans-serif`;
+              ctx.fillText(record.ageGroupCode || '-', (c.ax/100)*cvs.width, (c.ay/100)*cvs.height);
+            }
           } else {
             const c = config.certConf;
             ctx.fillStyle = c.c;
@@ -1485,6 +1620,12 @@
       document.getElementById('cfgP5').value = config.price5 || '';
       document.getElementById('cfgP10').value = config.price10 || '';
       document.getElementById('cfgPVIP').value = config.priceVIP || '';
+      document.getElementById('cfgPopular').value = config.popularDist || '10';
+      
+      document.getElementById('cBN_show').checked = config.bibConf.showN !== false;
+      document.getElementById('cBB_show').checked = config.bibConf.showB !== false;
+      document.getElementById('cBG_show').checked = config.bibConf.showG !== false;
+      document.getElementById('cBA_show').checked = config.bibConf.showA !== false;
       
       document.getElementById('cBNX').value = config.bibConf.nx; document.getElementById('cBNY').value = config.bibConf.ny;
       document.getElementById('cBBX').value = config.bibConf.bx; document.getElementById('cBBY').value = config.bibConf.by;
@@ -1494,6 +1635,56 @@
       
       document.getElementById('cCNX').value = config.certConf.nx; document.getElementById('cCNY').value = config.certConf.ny;
       document.getElementById('cCC').value = config.certConf.c; document.getElementById('cCS').value = config.certConf.s;
+      
+      updatePreview('bib');
+      updatePreview('cert');
+    }
+
+    /* ================= PREVIEW LOGIC ================= */
+    function updatePreview(type) {
+      if(type === 'bib') {
+        const bgFile = document.getElementById('cfgBibBg5').files[0];
+        const bgUrl = bgFile ? URL.createObjectURL(bgFile) : (config.bibBg5 || '');
+        const pvArea = document.getElementById('bibPreviewArea');
+        if(bgUrl) pvArea.style.backgroundImage = `url(${bgUrl})`;
+        
+        const c = document.getElementById('cBC').value || '#000';
+        const s = Number(document.getElementById('cBS').value) || 80;
+        const scale = 0.3; // Scale font for small preview
+        
+        const setEl = (id, showId, xId, yId, text, fs) => {
+          const el = document.getElementById(id);
+          if(!el) return;
+          if(document.getElementById(showId).checked) {
+            el.style.display = 'block';
+            el.style.left = (document.getElementById(xId).value || 0) + '%';
+            el.style.top = (document.getElementById(yId).value || 0) + '%';
+            el.style.color = c;
+            el.style.fontSize = (fs * scale) + 'px';
+            el.innerText = text;
+          } else {
+            el.style.display = 'none';
+          }
+        };
+        
+        setEl('pvBibN', 'cBN_show', 'cBNX', 'cBNY', 'สมชาย ใจดี', s);
+        setEl('pvBibB', 'cBB_show', 'cBBX', 'cBBY', 'M1001', s*1.5);
+        setEl('pvBibG', 'cBG_show', 'cBGX', 'cBGY', 'M', s*0.8);
+        setEl('pvBibA', 'cBA_show', 'cBAX', 'cBAY', 'C', s*0.8);
+      } else if(type === 'cert') {
+        const bgFile = document.getElementById('cfgCertBg').files[0];
+        const bgUrl = bgFile ? URL.createObjectURL(bgFile) : (config.certBg || '');
+        const pvArea = document.getElementById('certPreviewArea');
+        if(bgUrl) pvArea.style.backgroundImage = `url(${bgUrl})`;
+        
+        const el = document.getElementById('pvCertN');
+        if(el) {
+          el.style.left = (document.getElementById('cCNX').value || 50) + '%';
+          el.style.top = (document.getElementById('cCNY').value || 50) + '%';
+          el.style.color = document.getElementById('cCC').value || '#000';
+          el.style.fontSize = ((Number(document.getElementById('cCS').value)||60) * 0.3) + 'px';
+        }
+      }
     }
 
     async function saveAdminConfig() {
@@ -1508,11 +1699,16 @@
         config.price5 = Number(document.getElementById('cfgP5').value) || 400;
         config.price10 = Number(document.getElementById('cfgP10').value) || 500;
         config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
+        config.popularDist = document.getElementById('cfgPopular').value;
         
         config.bibConf = {
+          showN: document.getElementById('cBN_show').checked,
           nx: Number(document.getElementById('cBNX').value)||50, ny: Number(document.getElementById('cBNY').value)||50,
+          showB: document.getElementById('cBB_show').checked,
           bx: Number(document.getElementById('cBBX').value)||50, by: Number(document.getElementById('cBBY').value)||70,
+          showG: document.getElementById('cBG_show').checked,
           gx: Number(document.getElementById('cBGX').value)||20, gy: Number(document.getElementById('cBGY').value)||30,
+          showA: document.getElementById('cBA_show').checked,
           ax: Number(document.getElementById('cBAX').value)||20, ay: Number(document.getElementById('cBAY').value)||60,
           c: document.getElementById('cBC').value||'#000', s: Number(document.getElementById('cBS').value)||80
         };
@@ -1523,6 +1719,8 @@
 
         const logoF = document.getElementById('cfgLogo').files[0];
         const homeBgF = document.getElementById('cfgHomeBg').files[0];
+        const map5F = document.getElementById('cfgMap5').files[0];
+        const map10F = document.getElementById('cfgMap10').files[0];
         const bibF5 = document.getElementById('cfgBibBg5').files[0];
         const bibF10 = document.getElementById('cfgBibBg10').files[0];
         const bibFVIP = document.getElementById('cfgBibBgVIP').files[0];
@@ -1531,6 +1729,8 @@
         // Compress heavily to save directly to Firestore as Base64 (<1MB limit)
         if(logoF) config.logoUrl = await compressImage(logoF, 300);
         if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 800);
+        if(map5F) config.map5K = await compressImage(map5F, 800);
+        if(map10F) config.map10K = await compressImage(map10F, 800);
         if(bibF5) config.bibBg5 = await compressImage(bibF5, 800);
         if(bibF10) config.bibBg10 = await compressImage(bibF10, 800);
         if(bibFVIP) config.bibBgVIP = await compressImage(bibFVIP, 800);
@@ -1550,6 +1750,19 @@
     }
 
     setInterval(() => { document.getElementById('dashTime').textContent = new Date().toLocaleString('th-TH'); }, 1000);
+
+    // Bind preview events
+    const bibInputs = ['cBNX','cBNY','cBBX','cBBY','cBGX','cBGY','cBAX','cBAY','cBC','cBS','cBN_show','cBB_show','cBG_show','cBA_show','cfgBibBg5'];
+    bibInputs.forEach(id => {
+      document.getElementById(id)?.addEventListener('input', () => updatePreview('bib'));
+      document.getElementById(id)?.addEventListener('change', () => updatePreview('bib'));
+    });
+    
+    const certInputs = ['cCNX','cCNY','cCC','cCS','cfgCertBg'];
+    certInputs.forEach(id => {
+      document.getElementById(id)?.addEventListener('input', () => updatePreview('cert'));
+      document.getElementById(id)?.addEventListener('change', () => updatePreview('cert'));
+    });
 
     window.onload = () => {
       loadConfigFromFirebase();
