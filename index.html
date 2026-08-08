@@ -51,7 +51,8 @@
   </script>
   
   <style>
-    body { background-color: #f8fafc; color: #334155; overflow-x: hidden; }
+    /* ย่อขนาดหน้าเว็บเหลือ 70% ตามที่ต้องการ */
+    body { background-color: #f8fafc; color: #334155; overflow-x: hidden; zoom: 70%; }
     .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
     .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.6); }
     
@@ -59,7 +60,7 @@
     .view.active { display: block; opacity: 1; }
     
     /* Modern Inputs */
-    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], input[type="password"], select, textarea {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
       width: 100%; padding: 0.875rem 1.25rem; border-radius: 1rem; border: 1px solid #e2e8f0;
       background: #f8fafc; transition: all 0.3s ease; outline: none;
     }
@@ -98,53 +99,20 @@
 
     /* Custom Buttons */
     .btn-primary {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: all 0.3s ease;
     }
-    .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-      transform: translateY(-2px);
-    }
+    .btn-primary:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); transform: translateY(-2px); }
     .btn-secondary {
-      background: #fff;
-      color: #334155;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-      transition: all 0.3s ease;
+      background: #fff; color: #334155; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: all 0.3s ease;
     }
-    .btn-secondary:hover {
-      background: #f8fafc;
-      border-color: #cbd5e1;
-      transform: translateY(-2px);
-    }
-    .btn-accent {
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: white;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
-      transition: all 0.3s ease;
-    }
-    .btn-accent:hover {
-      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-      transform: translateY(-2px);
-    }
+    .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-2px); }
 
     /* Hero Background Overlay */
     .hero-overlay {
-      position: absolute; inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0.08;
-      z-index: 0;
-      transition: background-image 0.5s ease;
+      position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.08; z-index: 0; transition: background-image 0.5s ease;
     }
     .hero-pattern {
-      position: absolute; inset: 0;
-      background-image: radial-gradient(#10b981 1px, transparent 1px);
-      background-size: 30px 30px;
-      opacity: 0.1;
-      z-index: 1;
+      position: absolute; inset: 0; background-image: radial-gradient(#10b981 1px, transparent 1px); background-size: 30px 30px; opacity: 0.1; z-index: 1;
     }
 
     /* Custom scrollbar */
@@ -152,12 +120,11 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col font-sans">
 
+  <!-- Navbar -->
   <nav class="glass-nav fixed w-full z-40 top-0 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
@@ -213,6 +180,7 @@
     <div class="view active" id="view-home">
       <!-- Hero Section -->
       <div class="relative overflow-hidden bg-white min-h-[85vh] flex items-center" id="heroContainer">
+        <!-- Dynamic Background elements -->
         <div id="heroBgImage" class="hero-overlay"></div>
         <div class="hero-pattern"></div>
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-brand-300 blur-[100px] opacity-40 z-0 animate-pulse"></div>
@@ -243,6 +211,7 @@
             <div class="hidden lg:block relative" data-aos="fade-left" data-aos-delay="200">
               <div class="absolute inset-0 bg-gradient-to-tr from-brand-100 to-transparent rounded-[3rem] transform rotate-3 scale-105 z-0"></div>
               <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Runners" class="relative z-10 rounded-[3rem] shadow-2xl object-cover h-[600px] w-full border-8 border-white">
+              <!-- Floating Badge -->
               <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl z-20 flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
                 <div class="w-14 h-14 bg-accent-100 rounded-full flex items-center justify-center text-accent-600 text-2xl">
                   <i class="fa-solid fa-heart-pulse"></i>
@@ -251,6 +220,32 @@
                   <div class="text-sm text-slate-500 font-bold uppercase tracking-wider">สุขภาพดี</div>
                   <div class="text-xl font-black text-slate-800">เพื่อการกุศล</div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Route Maps (75% width) -->
+      <div class="py-24 bg-white relative z-20 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-black text-slate-900 mb-4">แผนที่เส้นทางการแข่งขัน</h2>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto">คลิกที่รูปภาพเพื่อขยายดูเส้นทางแบบเต็ม</p>
+          </div>
+          <div class="w-[75%] mx-auto grid md:grid-cols-2 gap-12">
+            <!-- 5KM Map -->
+            <div data-aos="fade-right" data-aos-delay="100">
+              <div class="bg-slate-50 rounded-[2rem] p-4 border border-slate-200 hover:shadow-xl transition-shadow duration-300">
+                <div class="text-center font-black text-xl text-slate-700 mb-3 bg-white py-2 rounded-xl border border-slate-100">5 KM - Fun Run</div>
+                <img id="map5k" src="https://placehold.co/600x800/e2e8f0/64748b?text=Map+5KM" alt="Map 5KM" class="w-full h-auto rounded-xl cursor-zoom-in object-cover" onclick="showImg(this.src)">
+              </div>
+            </div>
+            <!-- 10KM Map -->
+            <div data-aos="fade-left" data-aos-delay="200">
+              <div class="bg-brand-50 rounded-[2rem] p-4 border border-brand-100 hover:shadow-xl hover:shadow-brand-500/20 transition-shadow duration-300">
+                <div class="text-center font-black text-xl text-brand-700 mb-3 bg-white py-2 rounded-xl border border-brand-100">10 KM - Mini Marathon</div>
+                <img id="map10k" src="https://placehold.co/600x800/d1fae5/047857?text=Map+10KM" alt="Map 10KM" class="w-full h-auto rounded-xl cursor-zoom-in object-cover" onclick="showImg(this.src)">
               </div>
             </div>
           </div>
@@ -267,8 +262,8 @@
           
           <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <!-- 5KM -->
-            <div id="card-5" class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group relative" data-aos="fade-up" data-aos-delay="100">
-              <div id="badge-pop-5" class="hidden absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 flex">
+            <div class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group relative bg-white" data-aos="fade-up" data-aos-delay="100">
+              <div id="badge-5" class="pop-badge absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 hidden">
                 <i class="fa-solid fa-star"></i> ยอดนิยม
               </div>
               <div class="w-20 h-20 bg-slate-100 text-slate-700 rounded-3xl flex items-center justify-center text-3xl font-black mb-8 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">5K</div>
@@ -279,15 +274,15 @@
                 <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
               </div>
               <ul class="text-slate-600 space-y-4 mb-10 font-medium">
-                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เสื้อวิ่ง TP RUN 60 YEARS</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เสื้อวิ่งประจำงาน</li>
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> หมายเลขวิ่ง (BIB)</li>
               </ul>
               <button onclick="showView('register')" class="w-full py-4 rounded-2xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">เลือกระยะนี้</button>
             </div>
             
-            <!-- 10KM (Popular) -->
-            <div id="card-10" class="glass-card p-10 rounded-[2.5rem] shadow-xl shadow-brand-500/15 border-2 border-brand-500 relative transform md:-translate-y-6 bg-white transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
-              <div id="badge-pop-10" class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
+            <!-- 10KM -->
+            <div class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group relative bg-white" data-aos="fade-up" data-aos-delay="200">
+              <div id="badge-10" class="pop-badge absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
                 <i class="fa-solid fa-star"></i> ยอดนิยม
               </div>
               <div class="w-20 h-20 bg-brand-100 text-brand-600 rounded-3xl flex items-center justify-center text-3xl font-black mb-8">10K</div>
@@ -298,7 +293,7 @@
                 <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
               </div>
               <ul class="text-slate-600 space-y-4 mb-10 font-medium">
-                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เสื้อวิ่ง TP RUN 60 YEARS</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เสื้อวิ่งประจำงาน</li>
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> หมายเลขวิ่ง (BIB)</li>
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-brand-500 text-lg"></i> เหรียญหลังเข้าเส้นชัย</li>
               </ul>
@@ -306,8 +301,8 @@
             </div>
 
             <!-- VIP -->
-            <div id="card-VIP" class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group relative" data-aos="fade-up" data-aos-delay="300">
-              <div id="badge-pop-VIP" class="hidden absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 flex">
+            <div class="glass-card p-10 rounded-[2.5rem] shadow-soft hover:-translate-y-2 transition-transform duration-300 group relative bg-white" data-aos="fade-up" data-aos-delay="300">
+              <div id="badge-VIP" class="pop-badge absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 hidden">
                 <i class="fa-solid fa-star"></i> ยอดนิยม
               </div>
               <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-3xl flex items-center justify-center text-2xl font-black mb-8 group-hover:bg-amber-200 transition-colors">VIP</div>
@@ -318,53 +313,12 @@
                 <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
               </div>
               <ul class="text-slate-600 space-y-4 mb-10 font-medium">
-                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> เสื้อวิ่ง TP RUN 60 YEARS</li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> เสื้อวิ่งประจำงาน</li>
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> หมายเลขวิ่ง (BIB) VIP</li>
                 <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> เหรียญที่ระลึก </li>
-                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> เลือกระยะวิ่งได้ </li>
+                <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-amber-500 text-lg"></i> สามารถเลือกระยะวิ่งได้ </li>
               </ul>
               <button onclick="showView('register')" class="w-full py-4 rounded-2xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors">เลือกแพ็กเกจนี้</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Route Maps Section -->
-      <div class="py-24 bg-white relative z-20 border-t border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="text-4xl font-black text-slate-900 mb-4">แผนที่เส้นทางการแข่งขัน</h2>
-            <p class="text-lg text-slate-500 max-w-2xl mx-auto">เส้นทางวิ่งระยะ 5KM และ 10KM (คลิกที่ภาพเพื่อขยายดูขนาดเต็ม)</p>
-          </div>
-          
-          <!-- สัดส่วน 75% ตามที่ต้องการ (กว้าง 75% และจัดกึ่งกลาง บน Desktop) -->
-          <div class="w-full md:w-[75%] mx-auto">
-            <div class="grid md:grid-cols-2 gap-10">
-              
-              <!-- 5KM Map -->
-              <div class="glass-card p-6 rounded-[2rem] shadow-soft text-center group hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
-                <div class="inline-block px-6 py-2 bg-slate-100 text-slate-700 font-black rounded-full mb-6 text-xl group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">ระยะ 5 KM</div>
-                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 relative cursor-pointer" onclick="showImg(this.querySelector('img').src)">
-                  <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/5 transition-colors z-10 flex items-center justify-center">
-                    <i class="fa-solid fa-magnifying-glass-plus text-slate-800 text-3xl opacity-0 group-hover:opacity-50 transition-opacity transform scale-50 group-hover:scale-100"></i>
-                  </div>
-                  <!-- สามารถเปลี่ยน src รูปภาพแผนที่ 5KM ของจริงที่นี่ -->
-                  <img id="mapImg5" src="https://placehold.co/800x800/f8fafc/64748b?text=Map+5KM" alt="5KM Route Map" class="w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                </div>
-              </div>
-              
-              <!-- 10KM Map -->
-              <div class="glass-card p-6 rounded-[2rem] shadow-soft text-center group hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
-                <div class="inline-block px-6 py-2 bg-brand-50 text-brand-600 font-black rounded-full mb-6 text-xl">ระยะ 10 KM</div>
-                <div class="overflow-hidden rounded-2xl border border-brand-100 bg-emerald-50 relative cursor-pointer" onclick="showImg(this.querySelector('img').src)">
-                  <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/5 transition-colors z-10 flex items-center justify-center">
-                    <i class="fa-solid fa-magnifying-glass-plus text-brand-800 text-3xl opacity-0 group-hover:opacity-50 transition-opacity transform scale-50 group-hover:scale-100"></i>
-                  </div>
-                  <!-- สามารถเปลี่ยน src รูปภาพแผนที่ 10KM ของจริงที่นี่ -->
-                  <img id="mapImg10" src="https://placehold.co/800x800/ecfdf5/047857?text=Map+10KM" alt="10KM Route Map" class="w-full object-cover transition-transform duration-500 group-hover:scale-105">
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
@@ -380,14 +334,18 @@
         
         <div class="mb-10">
           <h2 class="text-4xl font-black text-slate-900 mb-3">แบบฟอร์มสมัครวิ่ง</h2>
-          <p class="text-slate-500 font-medium text-lg">กรุณากรอกข้อมูลให้ครบถ้วนและตรวจสอบความถูกต้อง</p>
+          <p class="text-slate-500 font-medium text-lg">กรุณากรอกข้อมูลให้ครบถ้วนและตรวจสอบความถูกต้อง เพื่อรักษาสิทธิประโยชน์ของท่าน</p>
         </div>
 
         <form id="regForm" class="space-y-10" novalidate>
+          
+          <!-- Section 1: Personal Info -->
           <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
             <div class="absolute top-0 left-0 w-2 h-full bg-brand-500"></div>
             <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-id-card"></i></div> 
+              <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-id-card"></i>
+              </div> 
               ข้อมูลส่วนตัว
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
@@ -432,10 +390,13 @@
             </div>
           </div>
 
+          <!-- Section 2: Contact & Med -->
           <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
             <div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
             <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-notes-medical"></i></div> 
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-notes-medical"></i>
+              </div> 
               ข้อมูลติดต่อและสุขภาพ
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
@@ -451,6 +412,10 @@
                 <label class="block font-bold text-slate-700 mb-2">โรคประจำตัว <span class="text-slate-400 font-normal ml-1">(หากไม่มีให้กรอก "ไม่มี")</span> <span class="text-red-500">*</span></label>
                 <input type="text" id="medical" placeholder="ระบุโรคประจำตัว" required>
               </div>
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">ผู้แนะนำ (ถ้ามี) <span class="text-slate-400 font-normal ml-1">(ชื่อ/ช่องทาง)</span></label>
+                <input type="text" id="referrer" placeholder="ระบุชื่อผู้แนะนำ">
+              </div>
               <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 sm:col-span-2 grid sm:grid-cols-2 gap-6">
                 <div>
                   <label class="block font-bold text-slate-700 mb-2">ผู้ติดต่อฉุกเฉิน <span class="text-red-500">*</span></label>
@@ -464,10 +429,13 @@
             </div>
           </div>
 
+          <!-- Section 3: Race Details -->
           <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
             <div class="absolute top-0 left-0 w-2 h-full bg-accent-500"></div>
             <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-accent-50 text-accent-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-shirt"></i></div> 
+              <div class="w-12 h-12 rounded-2xl bg-accent-50 text-accent-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-shirt"></i>
+              </div> 
               การแข่งขัน
             </h3>
             <div class="space-y-10">
@@ -505,10 +473,13 @@
             </div>
           </div>
 
+          <!-- Section 4: Payment -->
           <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
             <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
             <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-              <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-money-bill-transfer"></i></div> 
+              <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shadow-inner">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+              </div> 
               ชำระเงิน
             </h3>
             
@@ -563,6 +534,7 @@
         <p class="text-slate-500 mb-10 font-medium">ระบบได้รับข้อมูลของท่านเรียบร้อยแล้ว<br>กรุณารอเจ้าหน้าที่ตรวจสอบสลิป 1-2 วันทำการ</p>
         
         <div class="bg-white rounded-[2rem] shadow-xl overflow-hidden mb-10 text-left border border-slate-100 relative">
+          <!-- Ticket Notches -->
           <div class="absolute left-0 top-20 -ml-4 w-8 h-8 bg-[#f8fafc] rounded-full shadow-inner"></div>
           <div class="absolute right-0 top-20 -mr-4 w-8 h-8 bg-[#f8fafc] rounded-full shadow-inner"></div>
           
@@ -625,7 +597,9 @@
           </button>
         </div>
 
-        <div id="statusResult" class="hidden" data-aos="fade-up"></div>
+        <div id="statusResult" class="hidden" data-aos="fade-up">
+          <!-- Dynamic Content Here -->
+        </div>
       </div>
     </div>
 
@@ -650,13 +624,23 @@
     <div class="view" id="view-staffDash">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
+        <!-- Dropdown Admin Nav -->
         <div class="bg-white rounded-[1.5rem] shadow-sm p-4 mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 relative z-30 border border-slate-100">
           <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center font-black text-lg">
               <i class="fa-solid fa-user-shield"></i>
             </div>
             <div>
-              <div class="font-black text-slate-800 text-lg">แผงควบคุมหลัก</div>
+              <div class="font-black text-slate-800 text-lg flex items-center gap-3">
+                แผงควบคุมหลัก
+                <!-- Badges Status -->
+                <div id="fbStatus" class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 text-emerald-700 flex items-center gap-1 border border-emerald-200">
+                  <div class="w-2 h-2 bg-emerald-500 rounded-full"></div> ฐานข้อมูล (Firebase)
+                </div>
+                <div id="sheetStatus" class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-500 flex items-center gap-1 border border-slate-200">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> <span id="sheetStatusText">รอซิงค์...</span>
+                </div>
+              </div>
               <div class="text-sm text-slate-500 font-medium" id="dashTime"></div>
             </div>
           </div>
@@ -685,6 +669,7 @@
           </div>
         </div>
 
+        <!-- Dashboard Panels Container -->
         <div class="bg-white rounded-[2rem] shadow-sm p-6 sm:p-8 min-h-[60vh] border border-slate-100">
           
           <!-- Panel: Overview -->
@@ -724,9 +709,7 @@
 
           <!-- Panel: Shirt / Checkin / Cert -->
           <div id="panel-shirt" class="staff-panel hidden">
-            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
-              <i class="fa-solid fa-shirt text-blue-500"></i> แจกเสื้อ (Shirt)
-            </h3>
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3"><i class="fa-solid fa-shirt text-blue-500"></i> แจกเสื้อ (Shirt)</h3>
             <div class="flex gap-3 max-w-lg mb-8">
               <div class="relative flex-grow">
                 <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -737,9 +720,7 @@
             <div id="resShirt"></div>
           </div>
           <div id="panel-checkin" class="staff-panel hidden">
-            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
-              <i class="fa-solid fa-map-pin text-red-500"></i> เช็คอินวันแข่ง (Check-in)
-            </h3>
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3"><i class="fa-solid fa-map-pin text-red-500"></i> เช็คอินวันแข่ง (Check-in)</h3>
             <div class="flex gap-3 max-w-lg mb-8">
               <div class="relative flex-grow">
                 <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -750,9 +731,7 @@
             <div id="resCheckin"></div>
           </div>
           <div id="panel-cert" class="staff-panel hidden">
-            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
-              <i class="fa-solid fa-certificate text-amber-500"></i> แจกเกียรติบัตร (Certificate)
-            </h3>
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3"><i class="fa-solid fa-certificate text-amber-500"></i> แจกเกียรติบัตร (Certificate)</h3>
             <div class="flex gap-3 max-w-lg mb-8">
               <div class="relative flex-grow">
                 <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -799,150 +778,140 @@
             <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
               <i class="fa-solid fa-gear text-slate-500"></i> ตั้งค่าระบบ (Web Settings)
             </h3>
+            
             <div class="grid md:grid-cols-2 gap-10">
               
-              <!-- Core Settings -->
-              <div class="space-y-6 bg-slate-50 p-8 rounded-3xl border border-slate-100">
-                <h4 class="font-bold text-slate-800 text-lg flex items-center gap-2 mb-4">
-                  <i class="fa-solid fa-pen-to-square text-brand-500"></i> ข้อมูลหลัก
-                </h4>
-                <div>
-                  <label class="block text-sm font-bold text-slate-600 mb-2">ชื่องาน (Event Title)</label>
-                  <input type="text" id="cfgTitle">
-                </div>
-                <div>
-                  <label class="block text-sm font-bold text-slate-600 mb-2">สโลแกน (Slogan)</label>
-                  <textarea id="cfgSlogan" rows="2"></textarea>
-                </div>
-                <div class="grid grid-cols-3 gap-4">
-                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา 5K</label><input type="number" id="cfgP5"></div>
-                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา 10K</label><input type="number" id="cfgP10"></div>
-                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา VIP</label><input type="number" id="cfgPVIP"></div>
-                </div>
-                <div>
-                  <label class="block text-sm font-bold text-slate-600 mb-2">ระยะยอดนิยม (Popular Badge)</label>
-                  <select id="cfgPopular" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white outline-none focus:border-brand-500">
-                    <option value="5">ระยะ 5 KM</option>
-                    <option value="10">ระยะ 10 KM</option>
-                    <option value="VIP">ระยะ VIP</option>
-                    <option value="none">ซ่อน (ไม่ต้องแสดง)</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดโลโก้งาน (สี่เหลี่ยม)</label>
-                  <input type="file" id="cfgLogo" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
-                </div>
-                <div>
-                  <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดพื้นหลังหน้าแรก</label>
-                  <input type="file" id="cfgHomeBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
+              <!-- Column 1: Core, Maps, Footer -->
+              <div class="space-y-6">
+                <!-- Core Settings -->
+                <div class="space-y-6 bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                  <h4 class="font-bold text-slate-800 text-lg flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-pen-to-square text-brand-500"></i> ข้อมูลหลัก
+                  </h4>
                   <div>
-                    <label class="block text-sm font-bold text-slate-600 mb-2">แผนที่ 5KM</label>
-                    <input type="file" id="cfgMap5" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+                    <label class="block text-sm font-bold text-slate-600 mb-2">Google Apps Script URL (สำหรับสำรองข้อมูล)</label>
+                    <input type="text" id="cfgGas" placeholder="https://script.google.com/macros/s/.../exec">
                   </div>
                   <div>
-                    <label class="block text-sm font-bold text-slate-600 mb-2">แผนที่ 10KM</label>
-                    <input type="file" id="cfgMap10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+                    <label class="block text-sm font-bold text-slate-600 mb-2">ชื่องาน (Event Title)</label>
+                    <input type="text" id="cfgTitle">
                   </div>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">สโลแกน (Slogan)</label>
+                    <textarea id="cfgSlogan" rows="2"></textarea>
+                  </div>
+                  <div class="grid grid-cols-3 gap-4">
+                    <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา 5K</label><input type="number" id="cfgP5"></div>
+                    <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา 10K</label><input type="number" id="cfgP10"></div>
+                    <div><label class="block text-sm font-bold text-slate-600 mb-2">ราคา VIP</label><input type="number" id="cfgPVIP"></div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดโลโก้งาน (สี่เหลี่ยม)</label>
+                    <input type="file" id="cfgLogo" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดพื้นหลังหน้าแรก</label>
+                    <input type="file" id="cfgHomeBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-5 file:rounded-full file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                  </div>
+                </div>
+
+                <!-- Web Appearance Settings -->
+                <div class="space-y-6 bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                  <h4 class="font-bold text-slate-800 text-lg flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-map-location-dot text-brand-500"></i> ปรับแต่งหน้าแรก (แผนที่ & ป้าย)
+                  </h4>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดแผนที่ 5 KM</label>
+                    <input type="file" id="cfgMap5" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดแผนที่ 10 KM</label>
+                    <input type="file" id="cfgMap10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">ตำแหน่งป้าย "ยอดนิยม"</label>
+                    <select id="cfgPopBadge">
+                      <option value="5">ระยะ 5 KM</option>
+                      <option value="10">ระยะ 10 KM</option>
+                      <option value="VIP">ระยะ VIP</option>
+                      <option value="none">ซ่อนป้าย</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Footer Settings -->
+                <div class="space-y-6 bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                  <h4 class="font-bold text-slate-800 text-lg flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-shoe-prints text-brand-500"></i> ข้อมูลส่วนท้ายเว็บ (Footer)
+                  </h4>
+                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ชื่อองค์กร / หน่วยงาน</label><input type="text" id="cfgOrgName"></div>
+                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ที่อยู่ติดต่อ</label><textarea id="cfgAddress" rows="2"></textarea></div>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-bold text-slate-600 mb-2">เบอร์โทรศัพท์</label><input type="text" id="cfgPhone"></div>
+                    <div><label class="block text-sm font-bold text-slate-600 mb-2">อีเมล</label><input type="text" id="cfgEmail"></div>
+                  </div>
+                  <div><label class="block text-sm font-bold text-slate-600 mb-2">ชื่อเพจ Facebook</label><input type="text" id="cfgFacebook"></div>
                 </div>
               </div>
 
-              <!-- Print Settings -->
-              <div class="space-y-8">
-                <!-- BIB Setting -->
-                <div class="bg-blue-50/50 p-6 rounded-3xl border border-blue-100">
-                  <h4 class="font-bold text-blue-800 text-lg flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-address-card"></i> ตั้งค่าแบบพิมพ์ BIB (พร้อมพรีวิว)
+              <!-- Column 2: Live Editor & Print Settings -->
+              <div class="space-y-6">
+                <!-- Editor Box -->
+                <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 text-white">
+                  <h4 class="font-bold text-white text-lg flex items-center gap-2 mb-6">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> พรีวิวแบบพิมพ์ (Live Preview)
                   </h4>
+                  <div class="flex gap-2 mb-4 bg-slate-900 p-1 rounded-xl w-max">
+                    <button id="tabBib" onclick="switchEditor('bib')" class="px-6 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors">BIB 5K/10K</button>
+                    <button id="tabCert" onclick="switchEditor('cert')" class="px-6 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors">เกียรติบัตร</button>
+                  </div>
                   
-                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-5">
-                    <div class="space-y-3">
-                      <div>
-                        <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 5KM</label>
-                        <input type="file" id="cfgBibBg5" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
-                      </div>
-                      <div>
-                        <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ 10KM</label>
-                        <input type="file" id="cfgBibBg10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
-                      </div>
-                      <div>
-                        <label class="text-xs font-bold text-blue-700 block mb-1">ภาพพื้นหลังระยะ VIP</label>
-                        <input type="file" id="cfgBibBgVIP" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer">
-                      </div>
-                      <div class="grid grid-cols-2 gap-2 mt-2">
-                        <div><label class="text-xs font-bold text-blue-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="text-sm w-full p-1 border rounded"></div>
-                        <div><label class="text-xs font-bold text-blue-700 block mb-1">ขนาดอักษรหลัก (px)</label><input type="number" id="cBS" class="text-sm w-full p-1 border rounded"></div>
-                      </div>
-                    </div>
-                    
-                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center relative min-h-[150px]">
-                      <div class="absolute inset-0 bg-slate-100 flex items-center justify-center text-slate-400 text-xs text-center p-4 z-0">
-                        เลือกภาพพื้นหลัง 5KM<br>เพื่อดูพรีวิวแบบเรียลไทม์
-                      </div>
-                      <div id="bibPreviewArea" class="w-full h-full bg-contain bg-no-repeat bg-center relative z-10 aspect-[4/3] max-h-[200px]">
-                        <span id="pvBibN" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">สมชาย ใจดี</span>
-                        <span id="pvBibB" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-black whitespace-nowrap">M1001</span>
-                        <span id="pvBibG" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">M</span>
-                        <span id="pvBibA" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">C</span>
-                      </div>
-                    </div>
+                  <!-- Checkboxes for visibility -->
+                  <div class="flex flex-wrap gap-4 mb-4 text-sm font-bold text-slate-300">
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showName" checked onchange="updateLivePreview()"> แสดงชื่อ</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showBibNum" checked onchange="updateLivePreview()"> แสดงเลข BIB</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showGenderAge" checked onchange="updateLivePreview()"> แสดงเพศ/รุ่นอายุ</label>
                   </div>
 
-                  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                    <div class="flex flex-col gap-1 border-r border-slate-100 pr-2">
-                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBN_show" checked> ชื่อ X/Y (%)</label>
-                      <div class="flex gap-1"><input type="number" id="cBNX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBNY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
-                    </div>
-                    <div class="flex flex-col gap-1 border-r border-slate-100 pr-2">
-                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBB_show" checked> BIB X/Y (%)</label>
-                      <div class="flex gap-1"><input type="number" id="cBBX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBBY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
-                    </div>
-                    <div class="flex flex-col gap-1 border-r border-slate-100 pr-2">
-                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBG_show" checked> เพศ X/Y (%)</label>
-                      <div class="flex gap-1"><input type="number" id="cBGX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBGY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                      <label class="text-xs font-bold text-slate-800 flex items-center gap-1"><input type="checkbox" id="cBA_show" checked> รุ่นอายุ X/Y</label>
-                      <div class="flex gap-1"><input type="number" id="cBAX" max="100" class="text-sm w-full p-1 border rounded" placeholder="X"><input type="number" id="cBAY" max="100" class="text-sm w-full p-1 border rounded" placeholder="Y"></div>
-                    </div>
+                  <!-- Canvas Preview -->
+                  <div class="relative w-full aspect-[4/5] bg-slate-900 rounded-xl overflow-hidden border border-slate-600 mb-6 flex items-center justify-center">
+                    <canvas id="liveCanvas" class="max-w-full max-h-full object-contain"></canvas>
+                    <div id="noBgMsg" class="absolute text-slate-500 font-bold text-sm"><i class="fa-solid fa-image text-3xl block mb-2"></i>อัปโหลดพื้นหลังเพื่อเริ่มแก้ไข</div>
                   </div>
-                </div>
-                <!-- Cert Setting -->
-                <div class="bg-amber-50/50 p-6 rounded-3xl border border-amber-100">
-                  <h4 class="font-bold text-amber-800 text-lg flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-certificate"></i> ตั้งค่าเกียรติบัตร (พร้อมพรีวิว)
-                  </h4>
-                  
-                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-5">
-                    <div class="space-y-3">
-                      <div>
-                        <label class="text-xs font-bold text-amber-700 block mb-1">อัปโหลดภาพพื้นหลัง</label>
-                        <input type="file" id="cfgCertBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer">
-                      </div>
-                      <div class="grid grid-cols-2 gap-2 mt-2">
-                        <div><label class="text-xs font-bold text-amber-700 block mb-1">สีตัวอักษร (Hex)</label><input type="text" id="cCC" placeholder="#000000" class="text-sm w-full p-1 border rounded"></div>
-                        <div><label class="text-xs font-bold text-amber-700 block mb-1">ขนาดอักษร (px)</label><input type="number" id="cCS" class="text-sm w-full p-1 border rounded"></div>
-                      </div>
-                      <div class="grid grid-cols-2 gap-2 mt-2">
-                        <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน X ชื่อ (%)</label><input type="number" id="cCNX" max="100" class="text-sm w-full p-1 border rounded"></div>
-                        <div><label class="text-xs font-bold text-amber-700 block mb-1">แกน Y ชื่อ (%)</label><input type="number" id="cCNY" max="100" class="text-sm w-full p-1 border rounded"></div>
-                      </div>
-                    </div>
+
+                  <!-- Canvas Controls -->
+                  <div class="grid grid-cols-2 gap-4 bg-slate-900 p-4 rounded-xl">
+                    <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-2">พิกัด ชื่อ-นามสกุล</div>
+                    <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cBNX" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
+                    <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cBNY" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
                     
-                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center relative min-h-[150px]">
-                      <div class="absolute inset-0 bg-slate-100 flex items-center justify-center text-slate-400 text-xs text-center p-4 z-0">
-                        เลือกภาพเกียรติบัตร<br>เพื่อดูพรีวิว
-                      </div>
-                      <div id="certPreviewArea" class="w-full h-full bg-contain bg-no-repeat bg-center relative z-10 aspect-[4/3] max-h-[200px]">
-                        <span id="pvCertN" class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold whitespace-nowrap">สมชาย ใจดี</span>
-                      </div>
+                    <div id="ctrlBibOnly" class="col-span-2 grid grid-cols-2 gap-4">
+                      <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-2 mt-2">พิกัด เลข BIB / เพศ / รุ่น</div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cBBX" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cBBY" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
                     </div>
+
+                    <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-2 mt-2">รูปแบบตัวอักษร</div>
+                    <div><label class="text-xs text-slate-400 block mb-1">ขนาด (px)</label><input type="number" id="cBS" class="bg-slate-700 border-slate-600 text-white" oninput="updateLivePreview()"></div>
+                    <div><label class="text-xs text-slate-400 block mb-1">สี (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="bg-slate-700 border-slate-600 text-white" oninput="updateLivePreview()"></div>
                   </div>
                 </div>
+
+                <!-- Print Upload Backgrounds -->
+                <div class="space-y-4">
+                  <div class="bg-blue-50 p-6 rounded-3xl border border-blue-100">
+                    <label class="block text-sm font-bold text-blue-800 mb-2"><i class="fa-solid fa-address-card"></i> อัปโหลดพื้นหลัง BIB</label>
+                    <input type="file" id="cfgBibBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer" onchange="previewUpload(this, 'bibBg')">
+                  </div>
+                  <div class="bg-amber-50 p-6 rounded-3xl border border-amber-100">
+                    <label class="block text-sm font-bold text-amber-800 mb-2"><i class="fa-solid fa-certificate"></i> อัปโหลดพื้นหลังเกียรติบัตร</label>
+                    <input type="file" id="cfgCertBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer" onchange="previewUpload(this, 'certBg')">
+                  </div>
+                </div>
+
               </div>
-
             </div>
+
             <div class="mt-10 border-t border-slate-200 pt-8 flex justify-end">
               <button onclick="saveAdminConfig()" class="btn-primary px-10 py-4 rounded-2xl font-black text-lg flex items-center gap-3">
                 <i class="fa-solid fa-floppy-disk"></i> บันทึกการตั้งค่าระบบ
@@ -954,6 +923,53 @@
       </div>
     </div>
   </main>
+
+  <!-- Footer -->
+  <footer id="mainFooter" class="bg-slate-900 text-slate-300 py-12 relative z-20 border-t-4 border-brand-500 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Org Info -->
+        <div>
+          <h4 class="text-white font-black text-xl mb-4 flex items-center gap-2">
+            <i class="fa-solid fa-building-columns text-brand-500"></i> <span id="ftOrgName">โรงเรียนเทพพิทักษ์วิทยา</span>
+          </h4>
+          <p class="text-sm text-slate-400 mb-4 leading-relaxed" id="ftAddress">
+            123 หมู่ 4 ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000
+          </p>
+        </div>
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-bold text-lg mb-4">ติดต่อสอบถาม</h4>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-slate-500"></i> <span id="ftPhone">055-123-456</span></li>
+            <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-slate-500"></i> <span id="ftEmail">contact@tpschool.ac.th</span></li>
+            <li class="flex items-center gap-3"><i class="fa-brands fa-facebook text-slate-500"></i> <a href="#" class="hover:text-brand-400 transition-colors"><span id="ftFacebook">TP RUN Official</span></a></li>
+          </ul>
+        </div>
+        <!-- Legal Policies -->
+        <div>
+          <h4 class="text-white font-bold text-lg mb-4">นโยบายและเงื่อนไข</h4>
+          <ul class="space-y-3 text-sm text-slate-400">
+            <li class="cursor-pointer hover:text-white transition-colors flex items-center" onclick="showPolicy('pdpa')">
+              <i class="fa-solid fa-shield-halved text-brand-600 w-6"></i> นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)
+            </li>
+            <li class="cursor-pointer hover:text-white transition-colors flex items-center" onclick="showPolicy('terms')">
+              <i class="fa-solid fa-file-contract text-brand-600 w-6"></i> เงื่อนไขการเข้าร่วมกิจกรรม
+            </li>
+            <li class="cursor-pointer hover:text-white transition-colors flex items-center" onclick="showPolicy('refund')">
+              <i class="fa-solid fa-clock-rotate-left text-brand-600 w-6"></i> นโยบายการคืนเงิน (Non-refundable)
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-slate-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        <div>&copy; 2026 <span id="ftCopyrightOrg">โรงเรียนเทพพิทักษ์วิทยา</span>. All rights reserved.</div>
+        <div class="flex items-center gap-2">
+          <span>Powered by</span> <i class="fa-solid fa-bolt text-amber-500"></i> <span>Firebase Web Tech</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <!-- View Details Modal (Admin) -->
   <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
@@ -969,7 +985,29 @@
     </div>
   </div>
 
-  <!-- Image Viewer Modal (Slip) -->
+  <!-- Policy/Terms Modal -->
+  <div id="policyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-[70] flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+    <div class="bg-white w-full max-w-3xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-300" id="policyModalContent">
+      <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+        <h3 class="text-xl font-black text-slate-800 flex items-center gap-3" id="policyTitle">
+          <!-- Title populated by JS -->
+        </h3>
+        <button onclick="closePolicyModal()" class="text-slate-400 hover:text-slate-700 w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 transition-colors">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+      <div class="p-8 overflow-y-auto font-medium text-slate-600 leading-relaxed space-y-4" id="policyContent">
+        <!-- Content populated by JS -->
+      </div>
+      <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
+        <button onclick="closePolicyModal()" class="px-8 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">
+          รับทราบและปิดหน้าต่าง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Viewer Modal (Slip & Map) -->
   <div id="imgModal" class="fixed inset-0 bg-black/95 hidden z-[60] flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" onclick="closeImgModal()">
     <img id="imgModalSrc" class="max-w-full max-h-[90vh] rounded-xl object-contain transform scale-95 transition-transform duration-300">
     <button class="absolute top-6 right-6 text-white/50 hover:text-white text-4xl"><i class="fa-solid fa-xmark"></i></button>
@@ -978,12 +1016,11 @@
   <!-- AOS Animation JS -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+  <!-- FIREBASE MODULES -->
   <script type="module">
-    // --- FIREBASE IMPORTS (Firestore Only, NO Storage to save quotas) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // --- YOUR FIREBASE CONFIGURATION (STRICTLY MAINTAINED) ---
     const firebaseConfig = {
       apiKey: "AIzaSyBvHornDQGGWoGgHtf45q_BKXnES4bc46E",
       authDomain: "tprun-v2.firebaseapp.com",
@@ -997,19 +1034,45 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    window.db = db;
+    window.doc = doc; window.getDoc = getDoc; window.setDoc = setDoc; window.updateDoc = updateDoc;
+    window.collection = collection; window.getDocs = getDocs;
+
+    window.checkFirebaseConnection = async function() {
+      const fbSt = document.getElementById('fbStatus');
+      try {
+        await getDoc(doc(db, "tp_run_db", "global_settings"));
+        fbSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 text-emerald-700 flex items-center gap-1 border border-emerald-200";
+        fbSt.innerHTML = '<div class="w-2 h-2 bg-emerald-500 rounded-full"></div> ฐานข้อมูลเชื่อมต่อแล้ว';
+      } catch(e) {
+        fbSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-100 text-red-700 flex items-center gap-1 border border-red-200 animate-pulse";
+        fbSt.innerHTML = '<div class="w-2 h-2 bg-red-500 rounded-full"></div> การเชื่อมต่อขัดข้อง';
+        if(e.message.includes("permissions")) {
+          Swal.fire({ icon: 'error', title: 'ติดสิทธิ์การเข้าถึง Firebase', text: 'กรุณาตั้งค่า Rule ให้ครอบคลุมการอ่านเขียน' });
+        }
+      }
+    }
+  </script>
+
+  <!-- MAIN SCRIPT -->
+  <script>
     // Initialize AOS
     AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 
     const STAFF_PASSCODE = "tprun2026";
     let recordsCache = [];
     let config = {
+      gasUrl: "",
       eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
-      price5: 400, price10: 500, priceVIP: 1000, 
-      logoUrl: "", homeBgUrl: "", bibBg5: "", bibBg10: "", bibBgVIP: "", certBg: "",
-      map5K: "", map10K: "", popularDist: "10",
-      bibConf: { showN: true, nx: 50, ny: 40, showB: true, bx: 50, by: 70, showG: true, gx: 10, gy: 30, showA: true, ax: 10, ay: 60, c: "#000000", s: 80 },
-      certConf: { nx: 50, ny: 50, c: "#000000", s: 60 }
+      price5: 400, price10: 500, priceVIP: 1000,
+      logoUrl: "", homeBgUrl: "", map5Url: "", map10Url: "", popBadge: "10",
+      footer: { orgName: "โรงเรียนเทพพิทักษ์วิทยา", address: "123 หมู่ 4 ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000", phone: "055-123-456", email: "contact@tpschool.ac.th", facebook: "TP RUN Official" },
+      designs: {
+        bib: { bg: "", nx: 50, ny: 40, bx: 50, by: 70, c: "#000000", s: 60, sName: true, sBib: true, sGen: true },
+        cert: { bg: "", nx: 50, ny: 50, c: "#000000", s: 50, sName: true }
+      }
     };
+    let currentEditor = 'bib';
 
     const DOM = {
       vHome: document.getElementById('view-home'), vReg: document.getElementById('view-register'),
@@ -1017,56 +1080,101 @@
       vLog: document.getElementById('view-staffLogin'), vDash: document.getElementById('view-staffDash')
     };
 
-    /* ================= BIND GLOBAL FUNCTIONS ================= */
-    window.showView = showView;
-    window.toggleMobileMenu = toggleMobileMenu;
-    window.copyToClipboard = copyToClipboard;
-    window.downloadImage = downloadImage;
-    window.showImg = showImg;
-    window.closeImgModal = closeImgModal;
-    window.renderAdminOverview = renderAdminOverview;
-    window.renderAdminPayment = renderAdminPayment;
-    window.renderAdminAll = renderAdminAll;
-    window.adminSearch = adminSearch;
-    window.actionUpdate = actionUpdate;
-    window.showDetail = showDetail;
-    window.closeDetailModal = closeDetailModal;
-    window.exportToCSV = exportToCSV;
-    window.saveAdminConfig = saveAdminConfig;
-    window.verifyPayment = verifyPayment;
+    /* ================= LEGAL POLICIES DATA ================= */
+    const legalPolicies = {
+      pdpa: {
+        title: "นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)",
+        icon: "fa-shield-halved text-brand-500",
+        content: `
+          <h4 class="font-bold text-slate-800 text-lg mb-2">1. วัตถุประสงค์ในการเก็บรวบรวมข้อมูล</h4>
+          <p class="mb-4">คณะผู้จัดงานมีความจำเป็นต้องเก็บรวบรวมข้อมูลส่วนบุคคลของท่าน (เช่น ชื่อ-นามสกุล, เบอร์โทรศัพท์, เลขบัตรประชาชน, ข้อมูลสุขภาพ และกรุ๊ปเลือด) เพื่อใช้ในการยืนยันตัวตน, จัดเตรียมอุปกรณ์การแข่งขัน (BIB, เสื้อ), ติดต่อสื่อสารเรื่องการจัดงาน และเพื่อประโยชน์ในการปฐมพยาบาลหรือกรณีฉุกเฉินทางการแพทย์ในวันแข่งขัน</p>
+          
+          <h4 class="font-bold text-slate-800 text-lg mb-2">2. การรักษาความปลอดภัยของข้อมูล</h4>
+          <p class="mb-4">ข้อมูลของท่านจะถูกจัดเก็บอย่างปลอดภัยบนระบบฐานข้อมูลที่มีมาตรฐาน และจำกัดสิทธิ์การเข้าถึงเฉพาะเจ้าหน้าที่ที่เกี่ยวข้องกับการจัดงานเท่านั้น จะไม่มีการนำข้อมูลของท่านไปเปิดเผยแก่บุคคลที่สามเพื่อวัตถุประสงค์ทางการค้าโดยเด็ดขาด</p>
+          
+          <h4 class="font-bold text-slate-800 text-lg mb-2">3. การยินยอมให้ใช้ภาพถ่ายและวิดีโอ</h4>
+          <p class="mb-4">ผู้สมัครยินยอมให้ผู้จัดงาน ช่างภาพ และสื่อมวลชน บันทึกภาพถ่ายและวิดีโอของท่านในขณะเข้าร่วมกิจกรรม เพื่อใช้ในการประชาสัมพันธ์และโปรโมทกิจกรรมผ่านช่องทางต่างๆ ทั้งในปัจจุบันและอนาคต</p>
+          
+          <h4 class="font-bold text-slate-800 text-lg mb-2">4. สิทธิของเจ้าของข้อมูล</h4>
+          <p>ท่านมีสิทธิ์ที่จะขอแก้ไข หรือขอลบข้อมูลส่วนบุคคลของท่านออกจากระบบ อย่างไรก็ตาม การขอลบข้อมูลก่อนวันจัดการแข่งขัน อาจส่งผลให้ท่านถูกตัดสิทธิ์จากการเข้าร่วมกิจกรรมเนื่องจากไม่สามารถยืนยันตัวตนได้</p>
+        `
+      },
+      terms: {
+        title: "เงื่อนไขการเข้าร่วมกิจกรรม",
+        icon: "fa-file-contract text-brand-500",
+        content: `
+          <ul class="list-disc pl-5 space-y-3">
+            <li><strong>ความพร้อมด้านสุขภาพ:</strong> ผู้สมัครรับรองว่าตนเองมีสุขภาพร่างกายแข็งแรงสมบูรณ์เพียงพอสำหรับการวิ่งในระยะทางที่สมัคร และไม่มีโรคประจำตัวที่เป็นอันตรายต่อการออกกำลังกายอย่างหนัก</li>
+            <li><strong>การรับความเสี่ยง:</strong> ผู้สมัครเข้าใจและยอมรับความเสี่ยงที่อาจเกิดขึ้นจากการเข้าร่วมกิจกรรม เช่น อุบัติเหตุ, การบาดเจ็บ, หรือทรัพย์สินสูญหาย โดยคณะผู้จัดงานจะจัดเตรียมการปฐมพยาบาลเบื้องต้นไว้ให้ แต่จะไม่รับผิดชอบต่อความเสียหายที่เกินกว่าขอบเขตที่กฎหมายกำหนด</li>
+            <li><strong>กฎกติกาการแข่งขัน:</strong> ผู้เข้าร่วมจะต้องติดหมายเลขวิ่ง (BIB) ไว้ที่หน้าอกให้เห็นได้อย่างชัดเจน ห้ามพับ หรือดัดแปลงหมายเลขวิ่งโดยเด็ดขาด และต้องปฏิบัติตามคำแนะนำของเจ้าหน้าที่อย่างเคร่งครัด</li>
+            <li><strong>การถูกตัดสิทธิ์ (Disqualification):</strong> ผู้จัดงานขอสงวนสิทธิ์ในการเชิญผู้เข้าร่วมออกจากการแข่งขัน หากพบว่ามีพฤติกรรมที่ไม่เหมาะสม, ไม่ปฏิบัติตามกฎ, หรือใช้สารกระตุ้นใดๆ</li>
+          </ul>
+        `
+      },
+      refund: {
+        title: "นโยบายการคืนเงิน (Non-refundable)",
+        icon: "fa-clock-rotate-left text-brand-500",
+        content: `
+          <div class="bg-red-50 p-4 rounded-xl border border-red-100 text-red-800 mb-5 font-medium">
+            <i class="fa-solid fa-triangle-exclamation mr-2"></i> ค่าสมัครเข้าร่วมกิจกรรม <strong>ไม่สามารถขอคืนเงินได้ในทุกกรณี</strong> (Non-refundable)
+          </div>
+          <ul class="list-disc pl-5 space-y-3">
+            <li><strong>การโอนสิทธิ์:</strong> ทางผู้จัดงาน <u>ไม่อนุญาตให้มีการโอนสิทธิ์</u> (เปลี่ยนชื่อผู้สมัคร) หรือมอบหมายเลขวิ่ง (BIB) ให้บุคคลอื่นวิ่งแทนโดยเด็ดขาด เพื่อป้องกันความสับสนทางข้อมูลการแพทย์หากเกิดเหตุฉุกเฉิน หากตรวจพบจะถูกตัดสิทธิ์ทันที</li>
+            <li><strong>การเปลี่ยนระยะ/ไซส์เสื้อ:</strong> หลังจากที่ผู้สมัครได้กดยืนยันการชำระเงินและระบบได้ออกหมายเลข BIB แล้ว จะไม่สามารถแก้ไขระยะการวิ่ง และไซส์เสื้อได้ในภายหลัง</li>
+            <li><strong>กรณีเหตุสุดวิสัย:</strong> หากมีความจำเป็นต้องเลื่อน หรือยกเลิกการจัดกิจกรรมจากเหตุสุดวิสัย (Force Majeure) เช่น ภัยพิบัติทางธรรมชาติ, โรคระบาด, หรือคำสั่งจากหน่วยงานภาครัฐ ผู้จัดงานขอสงวนสิทธิ์ในการไม่คืนเงินค่าสมัคร แต่ผู้สมัครจะยังคงได้รับเสื้อและของที่ระลึกตามที่ได้สมัครไว้</li>
+          </ul>
+        `
+      }
+    };
 
-    /* ================= CORE LOGIC ================= */
+    function showPolicy(type) {
+      const data = legalPolicies[type];
+      if(!data) return;
+      
+      document.getElementById('policyTitle').innerHTML = `<i class="fa-solid ${data.icon}"></i> ${data.title}`;
+      document.getElementById('policyContent').innerHTML = data.content;
+      
+      const m = document.getElementById('policyModal');
+      const mc = document.getElementById('policyModalContent');
+      m.classList.remove('hidden');
+      setTimeout(() => { m.classList.remove('opacity-0'); mc.classList.remove('scale-95'); }, 10);
+    }
+
+    function closePolicyModal() {
+      const m = document.getElementById('policyModal');
+      const mc = document.getElementById('policyModalContent');
+      m.classList.add('opacity-0'); mc.classList.add('scale-95');
+      setTimeout(() => m.classList.add('hidden'), 300);
+    }
+    /* ======================================================= */
+
     function showToast(msg, type='success') {
-      const Toast = Swal.mixin({
-        toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true,
-        didOpen: (toast) => { toast.addEventListener('mouseenter', Swal.stopTimer); toast.addEventListener('mouseleave', Swal.resumeTimer); }
-      });
+      const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true });
       Toast.fire({ icon: type === 'error' ? 'error' : 'success', title: msg });
     }
 
     function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
 
     function showView(id) {
-      Object.values(DOM).forEach(v => {
-        v.classList.remove('active');
-        setTimeout(() => v.style.display = 'none', 400); 
-      });
+      Object.values(DOM).forEach(v => { v.classList.remove('active'); setTimeout(() => v.style.display = 'none', 400); });
       const target = document.getElementById('view-' + id);
       if(target) {
-        setTimeout(() => {
-          target.style.display = 'block';
-          setTimeout(() => target.classList.add('active'), 10);
-          window.scrollTo({top: 0, behavior: 'smooth'});
-        }, 400);
+        setTimeout(() => { target.style.display = 'block'; setTimeout(() => target.classList.add('active'), 10); window.scrollTo({top: 0, behavior: 'smooth'}); }, 400);
+      }
+      // Toggle Footer visibility
+      if (id === 'staffDash' || id === 'staffLogin') {
+        if(document.getElementById('mainFooter')) document.getElementById('mainFooter').classList.add('hidden');
+      } else {
+        if(document.getElementById('mainFooter')) document.getElementById('mainFooter').classList.remove('hidden');
       }
     }
 
     function formatDT(iso) {
       if(!iso) return "-";
-      return new Date(iso).toLocaleString("th-TH", {day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"});
+      const d = new Date(iso);
+      return d.toLocaleString("th-TH", {day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"});
     }
 
-    // Aggressive compression for Base64 saving direct to Firestore Database (max 1MB limit)
     async function compressImage(file, maxSize = 800) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -1078,13 +1186,7 @@
             const cvs = document.createElement('canvas');
             cvs.width = w; cvs.height = h;
             cvs.getContext('2d').drawImage(img,0,0,w,h);
-            
-            let mimeType = 'image/jpeg';
-            let quality = 0.6; // High compression
-            if (file.type === 'image/png' && maxSize <= 400) {
-              mimeType = 'image/png'; quality = 0.8;
-            }
-            resolve(cvs.toDataURL(mimeType, quality));
+            resolve(cvs.toDataURL(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.7)); // Compress Aggressively
           };
           img.src = e.target.result;
         };
@@ -1092,40 +1194,74 @@
       });
     }
 
-    /* ================= FIRESTORE DATA MANAGEMENT ================= */
+    /* ================= FIREBASE DATA LOGIC ================= */
+    
     async function loadAllRecords() {
+      if(!window.db) return [];
       try {
-        const querySnapshot = await getDocs(collection(db, "tp_run_db", "all_records", "registrations"));
+        const querySnapshot = await window.getDocs(window.collection(window.db, "tp_run_db", "all_records", "registrations"));
         const records = [];
         querySnapshot.forEach((doc) => { records.push(doc.data()); });
         records.sort((a,b) => new Date(b.ts) - new Date(a.ts));
         recordsCache = records;
         return records;
-      } catch (err) {
-        console.error("Error loading records:", err);
-        return recordsCache;
+      } catch (error) {
+        console.error("Error loading records", error); return [];
+      }
+    }
+
+    async function syncToSheet(rec) {
+      if(!config.gasUrl) return;
+      const shSt = document.getElementById('sheetStatus');
+      const shTxt = document.getElementById('sheetStatusText');
+      shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-700 flex items-center gap-1 border border-amber-200";
+      shTxt.textContent = "กำลังสำรองข้อมูล...";
+      
+      try {
+        const cleanRec = {...rec}; delete cleanRec.slip; 
+        await fetch(config.gasUrl, {
+          method: "POST", mode: "no-cors",
+          headers: {"Content-Type": "text/plain"},
+          body: JSON.stringify({action: "upsert", data: cleanRec})
+        });
+        shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-100 text-blue-700 flex items-center gap-1 border border-blue-200";
+        shTxt.textContent = "อัปเดต: " + new Date().toLocaleTimeString('th-TH');
+      } catch(e) {
+        shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-100 text-red-700 flex items-center gap-1 border border-red-200";
+        shTxt.textContent = "สำรองข้อมูลล้มเหลว";
+      }
+    }
+
+    async function saveRecord(rec) {
+      if(!window.db) return;
+      try {
+        await window.setDoc(window.doc(window.db, "tp_run_db", "all_records", "registrations", rec.id), rec);
+        const idx = recordsCache.findIndex(r => r.id === rec.id);
+        if(idx >= 0) recordsCache[idx] = rec; else recordsCache.push(rec);
+        syncToSheet(rec);
+      } catch (error) {
+        console.error("Error saving record", error);
+        if(error.message.includes("permissions")) showToast('คุณยังไม่ได้ปลดล็อค Firebase Rules', 'error');
+        else showToast('เกิดข้อผิดพลาดในการบันทึกข้อมูล', 'error');
       }
     }
 
     async function loadConfigFromFirebase() {
+      if(!window.db) return;
       try {
-        const docRef = doc(db, "tp_run_db", "global_settings");
-        const docSnap = await getDoc(docRef);
+        const docSnap = await window.getDoc(window.doc(window.db, "tp_run_db", "global_settings"));
         if (docSnap.exists()) {
-          config = { ...config, ...docSnap.data() };
+          config = {...config, ...docSnap.data()};
+          if(!config.footer) config.footer = { orgName: "โรงเรียนเทพพิทักษ์วิทยา", address: "123 หมู่ 4 ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000", phone: "055-123-456", email: "contact@tpschool.ac.th", facebook: "TP RUN Official" };
+          
+          // ระบบกู้คืนโครงสร้าง Designs หากข้อมูลเก่าหายไป หรือบันทึกผิดพลาด
+          if(!config.designs) config.designs = {};
+          if(!config.designs.bib) config.designs.bib = { bg: "", nx: 50, ny: 40, bx: 50, by: 70, c: "#000000", s: 60, sName: true, sBib: true, sGen: true };
+          if(!config.designs.cert) config.designs.cert = { bg: "", nx: 50, ny: 50, c: "#000000", s: 50, sName: true };
         }
-      } catch(e) {
-        console.error("Error loading config:", e);
-        if(e.code === 'permission-denied' || e.message.includes('permission')) {
-          Swal.fire({
-            icon: 'error',
-            title: 'ติดสิทธิ์การเข้าถึง Firebase',
-            html: 'กรุณาปลดล็อค <b>Firestore Rules</b> ให้ครอบคลุมทุกโฟลเดอร์',
-            confirmButtonColor: '#10b981'
-          });
-        }
-      } finally {
         applyConfigToUI();
+      } catch (error) {
+        console.error("Error loading config", error); applyConfigToUI();
       }
     }
 
@@ -1137,36 +1273,44 @@
       document.getElementById('lblPrice5').textContent = config.price5;
       document.getElementById('lblPrice10').textContent = config.price10;
       document.getElementById('lblPriceVIP').textContent = config.priceVIP;
+      
       document.getElementById('formPrice5').textContent = config.price5 + ' บาท';
       document.getElementById('formPrice10').textContent = config.price10 + ' บาท';
       document.getElementById('formPriceVIP').textContent = config.priceVIP + ' บาท';
 
+      const lContainer = document.getElementById('navLogoContainer');
       const lText = document.getElementById('navLogoText');
       const lImg = document.getElementById('navLogoImg');
-      if(config.logoUrl) {
-        lImg.src = config.logoUrl; lImg.classList.remove('hidden'); lText.classList.add('hidden');
-      }
+      if(config.logoUrl) { lImg.src = config.logoUrl; lImg.classList.remove('hidden'); lText.classList.add('hidden'); }
       
       if(config.homeBgUrl) {
         document.getElementById('heroBgImage').style.backgroundImage = `url(${config.homeBgUrl})`;
         document.getElementById('heroBgImage').style.opacity = '0.3';
       }
-      
-      if(config.map5K) document.getElementById('mapImg5').src = config.map5K;
-      if(config.map10K) document.getElementById('mapImg10').src = config.map10K;
 
-      ['5', '10', 'VIP'].forEach(d => {
-        document.getElementById('badge-pop-'+d)?.classList.add('hidden');
-        document.getElementById('card-'+d)?.classList.remove('border-2', 'border-brand-500', 'transform', 'md:-translate-y-6', 'bg-white');
-      });
-      const popD = config.popularDist || '10';
-      if(popD !== 'none' && document.getElementById('card-'+popD)) {
-        document.getElementById('badge-pop-'+popD)?.classList.remove('hidden');
-        document.getElementById('card-'+popD)?.classList.add('border-2', 'border-brand-500', 'transform', 'md:-translate-y-6', 'bg-white');
+      if(config.map5Url) document.getElementById('map5k').src = config.map5Url;
+      if(config.map10Url) document.getElementById('map10k').src = config.map10Url;
+
+      // Update Footer
+      if(config.footer) {
+        if(document.getElementById('ftOrgName')) document.getElementById('ftOrgName').textContent = config.footer.orgName;
+        if(document.getElementById('ftCopyrightOrg')) document.getElementById('ftCopyrightOrg').textContent = config.footer.orgName;
+        if(document.getElementById('ftAddress')) document.getElementById('ftAddress').textContent = config.footer.address;
+        if(document.getElementById('ftPhone')) document.getElementById('ftPhone').textContent = config.footer.phone;
+        if(document.getElementById('ftEmail')) document.getElementById('ftEmail').textContent = config.footer.email;
+        if(document.getElementById('ftFacebook')) document.getElementById('ftFacebook').textContent = config.footer.facebook;
+      }
+
+      // Handle Popular Badge
+      document.querySelectorAll('.pop-badge').forEach(el => el.classList.add('hidden'));
+      if(config.popBadge && config.popBadge !== 'none') {
+        const b = document.getElementById('badge-' + config.popBadge);
+        if(b) b.classList.remove('hidden');
       }
     }
 
     /* ================= FORM LOGIC ================= */
+    
     document.getElementById('birthDate').addEventListener('change', function() {
       const d = new Date(this.value);
       if(isNaN(d)) return;
@@ -1189,9 +1333,7 @@
     document.querySelectorAll('input[name="distance"]').forEach(el => {
       el.addEventListener('change', () => {
         let p = 0;
-        if(el.value === '5') p = config.price5;
-        if(el.value === '10') p = config.price10;
-        if(el.value === 'VIP') p = config.priceVIP;
+        if(el.value === '5') p = config.price5; if(el.value === '10') p = config.price10; if(el.value === 'VIP') p = config.priceVIP;
         document.getElementById('netTotal').textContent = p;
       });
     });
@@ -1200,7 +1342,7 @@
     document.getElementById('slipFile').addEventListener('change', async function() {
       if(!this.files[0]) return;
       if(this.files[0].size > 5*1024*1024) { showToast('ไฟล์ใหญ่เกินไป (สูงสุด 5MB)', 'error'); return; }
-      slipBase64 = await compressImage(this.files[0], 600); 
+      slipBase64 = await compressImage(this.files[0], 800);
       document.getElementById('uploadPrompt').classList.add('hidden');
       document.getElementById('slipPreview').src = slipBase64;
       document.getElementById('slipPreview').classList.remove('hidden');
@@ -1218,6 +1360,7 @@
       const dist = document.querySelector('input[name="distance"]:checked')?.value;
       const shirt = document.querySelector('input[name="shirtSize"]:checked')?.value;
       const med = document.getElementById('medical').value.trim();
+      const ref = document.getElementById('referrer').value.trim();
       const emN = document.getElementById('emName').value.trim();
       const emP = document.getElementById('emPhone').value.trim();
       
@@ -1226,74 +1369,51 @@
         return;
       }
       if(!slipBase64) { 
-        Swal.fire({ icon: 'warning', title: 'ขาดหลักฐานโอนเงิน', text: 'กรุณาแนบสลิปโอนเงิน', confirmButtonColor: '#10b981' });
-        return; 
+        Swal.fire({ icon: 'warning', title: 'ขาดหลักฐานโอนเงิน', text: 'กรุณาแนบสลิปโอนเงิน', confirmButtonColor: '#10b981' }); return; 
       }
 
       const btn = document.getElementById('submitBtn');
       btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
 
-      try {
-        let p = dist === '5' ? config.price5 : dist === '10' ? config.price10 : config.priceVIP;
-        const recId = 'TP' + Date.now().toString(36).toUpperCase();
+      let p = dist === '5' ? config.price5 : dist === '10' ? config.price10 : config.priceVIP;
+      const recId = 'TP' + Date.now().toString(36).toUpperCase();
 
-        const rec = {
-          id: recId, ts: new Date().toISOString(),
-          idCard: id, fullName: name, email: document.getElementById('email').value.trim(),
-          dob: dob, age: document.getElementById('age').value, ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
-          gender: gender, blood: blood, phone: phone, med: med, emName: emN, emPhone: emP,
-          distance: dist, shirt: shirt, amount: p, slip: slipBase64,
-          verified: false, vTs: null, bibNumber: null,
-          shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
-        };
+      const rec = {
+        id: recId, ts: new Date().toISOString(), idCard: id, fullName: name, email: document.getElementById('email').value.trim(),
+        dob: dob, age: document.getElementById('age').value, ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
+        gender: gender, blood: blood, phone: phone, med: med, referrer: ref, emName: emN, emPhone: emP,
+        distance: dist, shirt: shirt, amount: p, slip: slipBase64,
+        verified: false, vTs: null, bibNumber: null, shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
+      };
 
-        // Save directly to Firestore Document (Under user's tp_run_db collection)
-        await setDoc(doc(db, "tp_run_db", "all_records", "registrations", rec.id), rec);
-        recordsCache.push(rec); 
-        
-        this.reset();
-        slipBase64 = null;
-        document.getElementById('uploadPrompt').classList.remove('hidden');
-        document.getElementById('slipPreview').classList.add('hidden');
-        document.getElementById('age').value = ''; document.getElementById('ageGroupLabel').value = '';
-        document.getElementById('netTotal').textContent = '0';
-        
-        document.getElementById('successRefId').textContent = rec.id;
-        document.getElementById('successName').textContent = rec.fullName;
-        document.getElementById('successDist').textContent = rec.distance === 'VIP' ? 'VIP' : rec.distance + ' KM';
-        document.getElementById('successShirt').textContent = rec.shirt;
-        document.getElementById('successTotal').textContent = rec.amount + ' บาท';
-        showView('success');
+      await saveRecord(rec);
+      
+      this.reset(); slipBase64 = null;
+      document.getElementById('uploadPrompt').classList.remove('hidden'); document.getElementById('slipPreview').classList.add('hidden');
+      document.getElementById('age').value = ''; document.getElementById('ageGroupLabel').value = ''; document.getElementById('netTotal').textContent = '0';
+      btn.disabled = false; btn.innerHTML = 'ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
 
-      } catch (err) {
-        console.error(err);
-        showToast('เกิดข้อผิดพลาดในการบันทึกข้อมูล', 'error');
-      } finally {
-        btn.disabled = false; btn.innerHTML = 'ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
-      }
+      document.getElementById('successRefId').textContent = rec.id;
+      document.getElementById('successName').textContent = rec.fullName;
+      document.getElementById('successDist').textContent = rec.distance === 'VIP' ? 'VIP' : rec.distance + ' KM';
+      document.getElementById('successShirt').textContent = rec.shirt;
+      document.getElementById('successTotal').textContent = rec.amount + ' บาท';
+      showView('success');
     });
 
     function copyToClipboard(text) { navigator.clipboard.writeText(text).then(()=>showToast('คัดลอกเลขบัญชีแล้ว')); }
 
-    /* ================= STATUS CHECK & CANVAS ================= */
+    /* ================= STATUS CHECK ================= */
     document.getElementById('lkBtn').addEventListener('click', async () => {
       const id = document.getElementById('lkId').value.trim();
       const ph = document.getElementById('lkPhone').value.trim();
       if(!id || !ph) { showToast('กรุณากรอกเลขบัตรและเบอร์โทร', 'error'); return; }
       
-      const btn = document.getElementById('lkBtn');
-      const ogHtml = btn.innerHTML;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ค้นหาข้อมูล';
-      btn.disabled = true;
-
-      const records = await loadAllRecords(); 
+      const records = await loadAllRecords();
       const rec = records.find(r => r.idCard === id && r.phone === ph);
       const res = document.getElementById('statusResult');
       res.classList.remove('hidden');
       
-      btn.innerHTML = ogHtml;
-      btn.disabled = false;
-
       if(!rec) {
         res.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-50 rounded-[1.5rem] border border-slate-100 font-bold"><i class="fa-solid fa-triangle-exclamation text-3xl text-slate-300 mb-3 block"></i>ไม่พบข้อมูลการสมัคร โปรดตรวจสอบความถูกต้อง</div>`;
         return;
@@ -1338,58 +1458,32 @@
       if(!rec) return;
       const dataUrl = await generateCanvasImg(rec, type);
       if(!dataUrl) return;
-      const a = document.createElement('a');
-      a.href = dataUrl; a.download = `${type}_${rec.fullName}.png`;
-      a.click();
+      const a = document.createElement('a'); a.href = dataUrl; a.download = `${type}_${rec.fullName}.png`; a.click();
     }
 
     async function generateCanvasImg(record, type) {
       return new Promise((resolve) => {
-        let bgUrl = '';
-        if (type === 'bib') {
-          if (record.distance === '5' && config.bibBg5) bgUrl = config.bibBg5;
-          else if (record.distance === '10' && config.bibBg10) bgUrl = config.bibBg10;
-          else if (record.distance === 'VIP' && config.bibBgVIP) bgUrl = config.bibBgVIP;
-          else bgUrl = config.bibBg5 || config.bibBg10 || config.bibBgVIP;
-        } else {
-          bgUrl = config.certBg;
-        }
-
-        if(!bgUrl) { showToast('ยังไม่ได้ตั้งค่าภาพพื้นหลังในระบบ', 'error'); resolve(null); return; }
+        const bgUrl = config.designs[type].bg;
+        if(!bgUrl) { showToast('ยังไม่ได้ตั้งค่าภาพพื้นหลัง', 'error'); resolve(null); return; }
         
         const img = new Image();
         img.onload = () => {
-          const cvs = document.createElement('canvas');
-          cvs.width = img.width; cvs.height = img.height;
-          const ctx = cvs.getContext('2d');
-          ctx.drawImage(img, 0, 0);
+          const cvs = document.createElement('canvas'); cvs.width = img.width; cvs.height = img.height;
+          const ctx = cvs.getContext('2d'); ctx.drawImage(img, 0, 0);
           ctx.textAlign = "center"; ctx.textBaseline = "middle";
           
+          const c = config.designs[type];
+          ctx.fillStyle = c.c;
+          ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
+          
+          if(c.sName) ctx.fillText(record.fullName || 'ชื่อ นามสกุล', (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
           if(type === 'bib') {
-            const c = config.bibConf;
-            ctx.fillStyle = c.c;
-            
-            if(c.showN !== false) {
-              ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
-              ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
+            if(c.sBib) ctx.fillText(record.bibNumber || 'XX9999', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
+            if(c.sGen) {
+               ctx.font = `bold ${Math.floor(c.s*0.6)}px "Noto Sans Thai Looped", sans-serif`;
+               const genTxt = `${record.gender||'ชาย'} | ${record.ageGroupCode||'X'}`;
+               ctx.fillText(genTxt, (c.bx/100)*cvs.width, ((c.by/100)*cvs.height) + c.s);
             }
-            if(c.showB !== false) {
-              ctx.font = `bold ${c.s * 1.5}px "Noto Sans Thai Looped", sans-serif`;
-              ctx.fillText(record.bibNumber || 'XXXX', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
-            }
-            if(c.showG !== false && c.gx && c.gy) {
-              ctx.font = `bold ${c.s * 0.8}px "Noto Sans Thai Looped", sans-serif`;
-              ctx.fillText(record.gender === 'ชาย' ? 'M' : 'F', (c.gx/100)*cvs.width, (c.gy/100)*cvs.height);
-            }
-            if(c.showA !== false && c.ax && c.ay) {
-              ctx.font = `bold ${c.s * 0.8}px "Noto Sans Thai Looped", sans-serif`;
-              ctx.fillText(record.ageGroupCode || '-', (c.ax/100)*cvs.width, (c.ay/100)*cvs.height);
-            }
-          } else {
-            const c = config.certConf;
-            ctx.fillStyle = c.c;
-            ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
-            ctx.fillText(record.fullName, (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
           }
           resolve(cvs.toDataURL('image/png'));
         };
@@ -1399,6 +1493,7 @@
     }
 
     /* ================= ADMIN LOGIC ================= */
+    
     document.getElementById('staffSectionSelect').addEventListener('change', function() {
       document.querySelectorAll('.staff-panel').forEach(el => el.classList.add('hidden'));
       const panel = document.getElementById('panel-' + this.value);
@@ -1412,21 +1507,18 @@
     });
 
     function showImg(src) {
-      document.getElementById('imgModalSrc').src = src;
-      const m = document.getElementById('imgModal');
-      m.classList.remove('hidden');
+      document.getElementById('imgModalSrc').src = src; const m = document.getElementById('imgModal'); m.classList.remove('hidden');
       setTimeout(() => { m.classList.remove('opacity-0'); document.getElementById('imgModalSrc').classList.remove('scale-95'); }, 10);
     }
     function closeImgModal() {
-      const m = document.getElementById('imgModal');
-      m.classList.add('opacity-0'); document.getElementById('imgModalSrc').classList.add('scale-95');
+      const m = document.getElementById('imgModal'); m.classList.add('opacity-0'); document.getElementById('imgModalSrc').classList.add('scale-95');
       setTimeout(() => m.classList.add('hidden'), 300);
     }
 
     function generateBibNumber(gender, gCode, records) {
-      const pfx = (gender === 'ชาย' ? 'M' : 'F') + gCode;
+      const pfx = (gender === 'ชาย' ? 'M' : 'F') + (gCode || 'X');
       const count = records.filter(r => r.bibNumber && r.bibNumber.startsWith(pfx)).length;
-      return pfx + String(count + 1).padStart(3, '0');
+      return pfx + String(count + 1).padStart(4, '0');
     }
 
     async function renderAdminOverview() {
@@ -1440,7 +1532,6 @@
         <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100"><div class="text-amber-500 font-bold mb-2"><i class="fa-solid fa-clock"></i> รอตรวจสลิป</div><div class="text-4xl font-black text-amber-900">${records.length-verified}</div></div>
         <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100"><div class="text-indigo-500 font-bold mb-2"><i class="fa-solid fa-coins"></i> ยอดรวม (บาท)</div><div class="text-4xl font-black text-indigo-900">${rev.toLocaleString()}</div></div>
       `;
-      
       const counts = {"5":0, "10":0, "VIP":0};
       records.forEach(r => counts[r.distance] = (counts[r.distance]||0)+1);
       document.getElementById('distBreakdown').innerHTML = `
@@ -1452,17 +1543,14 @@
 
     async function renderAdminPayment() {
       const records = (await loadAllRecords()).filter(r => !r.verified);
-      const tb = document.getElementById('tbPayment');
-      tb.innerHTML = '';
+      const tb = document.getElementById('tbPayment'); tb.innerHTML = '';
       if(!records.length) { tb.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold"><i class="fa-solid fa-inbox text-3xl block mb-2"></i> ไม่มีรายการรอตรวจสอบ</td></tr>'; return; }
       
       records.forEach(r => {
         tb.innerHTML += `
           <tr class="hover:bg-slate-50/50 transition-colors">
-            <td class="p-5">${formatDT(r.ts)}</td>
-            <td class="p-5 font-bold text-slate-800">${r.fullName}</td>
-            <td class="p-5">${r.distance}</td>
-            <td class="p-5 font-black text-emerald-600">${r.amount}</td>
+            <td class="p-5">${formatDT(r.ts)}</td><td class="p-5 font-bold text-slate-800">${r.fullName}</td>
+            <td class="p-5">${r.distance}</td><td class="p-5 font-black text-emerald-600">${r.amount}</td>
             <td class="p-5"><button onclick="showImg('${r.slip}')" class="text-blue-500 hover:text-blue-700 font-bold bg-blue-50 px-3 py-1 rounded-lg transition-colors"><i class="fa-solid fa-image"></i> ดูสลิป</button></td>
             <td class="p-5"><button onclick="verifyPayment('${r.id}')" class="px-5 py-2 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 shadow-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-check"></i> ยืนยัน</button></td>
           </tr>
@@ -1472,39 +1560,27 @@
 
     async function verifyPayment(id) {
       Swal.fire({
-        title: 'ยืนยันการชำระเงิน?',
-        text: "ระบบจะสร้างหมายเลข BIB ให้อัตโนมัติ",
-        icon: 'question',
-        showCancelButton: true, confirmButtonColor: '#10b981', cancelButtonColor: '#cbd5e1',
-        confirmButtonText: 'ใช่, ยืนยัน', cancelButtonText: 'ยกเลิก'
+        title: 'ยืนยันการชำระเงิน?', text: "ระบบจะสร้างหมายเลข BIB ให้อัตโนมัติ", icon: 'question',
+        showCancelButton: true, confirmButtonColor: '#10b981', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ใช่, ยืนยัน', cancelButtonText: 'ยกเลิก'
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const r = recordsCache.find(x => x.id === id);
-          if(!r) return;
+          const r = recordsCache.find(x => x.id === id); if(!r) return;
           r.verified = true; r.vTs = new Date().toISOString();
           r.bibNumber = generateBibNumber(r.gender, r.ageGroupCode, recordsCache);
-          
-          try {
-            await updateDoc(doc(db, "tp_run_db", "all_records", "registrations", id), { verified: r.verified, vTs: r.vTs, bibNumber: r.bibNumber });
-            Swal.fire({ icon: 'success', title: 'ยืนยันสำเร็จ', text: `สร้าง BIB: ${r.bibNumber} แล้ว`, timer: 2000, showConfirmButton: false });
-            renderAdminPayment();
-          } catch(err) {
-            console.error(err);
-            showToast('เกิดข้อผิดพลาดในการอัปเดตข้อมูล', 'error');
-          }
+          await saveRecord(r);
+          Swal.fire({ icon: 'success', title: 'ยืนยันสำเร็จ', text: `สร้าง BIB: ${r.bibNumber} แล้ว`, timer: 2000, showConfirmButton: false });
+          renderAdminPayment();
         }
       })
     }
 
     async function renderAdminAll() {
       const records = await loadAllRecords();
-      const tb = document.getElementById('tbAll');
-      tb.innerHTML = '';
+      const tb = document.getElementById('tbAll'); tb.innerHTML = '';
       records.forEach((r, i) => {
         tb.innerHTML += `
           <tr class="hover:bg-slate-50/50 transition-colors">
-            <td class="p-5 text-slate-400 font-bold">${i+1}</td>
-            <td class="p-5 font-bold text-slate-800">${r.fullName}</td>
+            <td class="p-5 text-slate-400 font-bold">${i+1}</td><td class="p-5 font-bold text-slate-800">${r.fullName}</td>
             <td class="p-5"><span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-600">${r.ageGroupCode}</span> / ${r.distance}</td>
             <td class="p-5 font-black text-brand-600">${r.bibNumber || '-'}</td>
             <td class="p-5 text-center"><button onclick="showDetail('${r.id}')" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 hover:bg-brand-50 hover:text-brand-600 font-bold transition-colors shadow-sm"><i class="fa-solid fa-eye"></i></button></td>
@@ -1517,9 +1593,7 @@
       const q = document.getElementById('srch' + type.charAt(0).toUpperCase() + type.slice(1)).value.trim().toLowerCase();
       const res = document.getElementById('res' + type.charAt(0).toUpperCase() + type.slice(1));
       if(!q) return;
-      const records = recordsCache;
-      const matches = records.filter(r => r.fullName.toLowerCase().includes(q) || r.idCard.includes(q) || r.phone.includes(q));
-      
+      const matches = recordsCache.filter(r => r.fullName.toLowerCase().includes(q) || r.idCard.includes(q) || r.phone.includes(q));
       if(!matches.length) { res.innerHTML = '<div class="text-slate-400 mt-4 font-bold"><i class="fa-solid fa-circle-exclamation"></i> ไม่พบข้อมูล</div>'; return; }
       
       let map = {
@@ -1531,44 +1605,27 @@
       
       res.innerHTML = matches.map(r => `
         <div class="bg-white p-5 rounded-2xl border border-slate-100 mt-4 flex justify-between items-center shadow-sm">
-          <div>
-            <div class="font-black text-slate-800 text-lg">${r.fullName}</div>
-            <div class="font-medium text-slate-500">${cfg.extra(r)} | โทร: ${r.phone}</div>
-          </div>
-          ${r[cfg.key] ? 
-            `<div class="font-bold text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> ${cfg.label}แล้ว</div>` : 
-            `<button onclick="actionUpdate('${r.id}','${cfg.key}','${cfg.ts}')" class="px-5 py-2.5 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid ${cfg.icon}"></i> ยืนยัน${cfg.label}</button>`
-          }
+          <div><div class="font-black text-slate-800 text-lg">${r.fullName}</div><div class="font-medium text-slate-500">${cfg.extra(r)} | โทร: ${r.phone}</div></div>
+          ${r[cfg.key] ? `<div class="font-bold text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> ${cfg.label}แล้ว</div>` : 
+            `<button onclick="actionUpdate('${r.id}','${cfg.key}','${cfg.ts}')" class="px-5 py-2.5 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid ${cfg.icon}"></i> ยืนยัน${cfg.label}</button>`}
         </div>
       `).join('');
     }
 
     async function actionUpdate(id, key, tsKey) {
-      const r = recordsCache.find(x => x.id === id);
-      if(!r) return;
-      
+      const r = recordsCache.find(x => x.id === id); if(!r) return;
       Swal.fire({
-        title: 'ยืนยันการทำรายการ?', icon: 'question', showCancelButton: true,
-        confirmButtonColor: '#1e293b', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ยืนยัน', cancelButtonText: 'ยกเลิก'
+        title: 'ยืนยันการทำรายการ?', icon: 'question', showCancelButton: true, confirmButtonColor: '#1e293b', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ยืนยัน', cancelButtonText: 'ยกเลิก'
       }).then(async (result) => {
         if(result.isConfirmed) {
-          r[key] = true; r[tsKey] = new Date().toISOString();
-          try {
-            await updateDoc(doc(db, "tp_run_db", "all_records", "registrations", id), { [key]: r[key], [tsKey]: r[tsKey] });
-            showToast('อัปเดตข้อมูลสำเร็จ');
-            document.querySelectorAll('[id^="srch"]').forEach(el => { if(el.value) el.nextElementSibling.click(); });
-          } catch(err) {
-             console.error(err);
-             showToast('เกิดข้อผิดพลาดในการอัปเดต', 'error');
-          }
+          r[key] = true; r[tsKey] = new Date().toISOString(); await saveRecord(r); showToast('อัปเดตข้อมูลสำเร็จ');
+          document.querySelectorAll('[id^="srch"]').forEach(el => { if(el.value) el.nextElementSibling.click(); });
         }
       });
     }
 
     function showDetail(id) {
-      const r = recordsCache.find(x => x.id === id);
-      if(!r) return;
-      
+      const r = recordsCache.find(x => x.id === id); if(!r) return;
       const kv = (k, v) => `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-50"><span class="text-xs font-bold text-slate-400 block uppercase tracking-wider mb-1">${k}</span><span class="font-black text-slate-700">${v||'-'}</span></div>`;
       
       document.getElementById('detailContent').innerHTML = `
@@ -1577,7 +1634,7 @@
           ${kv('ชื่อ-นามสกุล', r.fullName)} ${kv('เลขบัตร', r.idCard)} ${kv('เบอร์โทร', r.phone)}
           ${kv('เพศ', r.gender)} ${kv('อายุ / รุ่น', r.age + ' / ' + r.ageGroupCode)} ${kv('กรุ๊ปเลือด', r.blood)}
           ${kv('ระยะวิ่ง', r.distance)} ${kv('ไซส์เสื้อ', r.shirt)} ${kv('ยอดเงิน', r.amount + ' บ.')}
-          ${kv('โรคประจำตัว', r.med)} ${kv('ติดต่อฉุกเฉิน', r.emName)} ${kv('เบอร์ฉุกเฉิน', r.emPhone)}
+          ${kv('โรคประจำตัว', r.med)} ${kv('ผู้แนะนำ', r.referrer)} ${kv('เบอร์ฉุกเฉิน', r.emPhone)}
         </div>
       `;
       
@@ -1586,197 +1643,169 @@
         ${r.bibNumber ? `<button onclick="downloadImage('${r.id}','bib')" class="px-5 py-2.5 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid fa-print"></i> พิมพ์ BIB</button>` : ''}
         ${r.certGet ? `<button onclick="downloadImage('${r.id}','cert')" class="px-5 py-2.5 bg-amber-500 text-white rounded-xl font-bold hover:bg-amber-600 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid fa-award"></i> พิมพ์เกียรติบัตร</button>` : ''}
       `;
-      
-      const m = document.getElementById('detailModal');
-      const mc = document.getElementById('detailModalContent');
-      m.classList.remove('hidden');
-      setTimeout(() => { m.classList.remove('opacity-0'); mc.classList.remove('scale-95'); }, 10);
+      const m = document.getElementById('detailModal'); const mc = document.getElementById('detailModalContent');
+      m.classList.remove('hidden'); setTimeout(() => { m.classList.remove('opacity-0'); mc.classList.remove('scale-95'); }, 10);
     }
     
     function closeDetailModal() {
-      const m = document.getElementById('detailModal');
-      const mc = document.getElementById('detailModalContent');
-      m.classList.add('opacity-0'); mc.classList.add('scale-95');
-      setTimeout(() => m.classList.add('hidden'), 300);
+      const m = document.getElementById('detailModal'); const mc = document.getElementById('detailModalContent');
+      m.classList.add('opacity-0'); mc.classList.add('scale-95'); setTimeout(() => m.classList.add('hidden'), 300);
     }
 
     function exportToCSV() {
       if(!recordsCache.length) { showToast('ไม่มีข้อมูล', 'error'); return; }
-      const cols = ["id","ts","idCard","fullName","dob","age","ageGroupCode","gender","blood","phone","med","emName","emPhone","distance","shirt","amount","verified","bibNumber","shirtGet","checkin","certGet"];
-      const th = ["รหัส","วันที่สมัคร","เลขบัตร","ชื่อ","วันเกิด","อายุ","รุ่น","เพศ","เลือด","โทร","โรค","ชื่อฉุกเฉิน","โทรฉุกเฉิน","ระยะ","ไซส์เสื้อ","ยอดชำระ","โอนแล้ว","BIB","รับเสื้อ","เช็คอิน","เกียรติบัตร"];
-      
+      const cols = ["id","ts","idCard","fullName","dob","age","ageGroupCode","gender","blood","phone","med","referrer","emName","emPhone","distance","shirt","amount","verified","bibNumber","shirtGet","checkin","certGet"];
+      const th = ["รหัส","วันที่สมัคร","เลขบัตร","ชื่อ","วันเกิด","อายุ","รุ่น","เพศ","เลือด","โทร","โรค","ผู้แนะนำ","ชื่อฉุกเฉิน","โทรฉุกเฉิน","ระยะ","ไซส์เสื้อ","ยอดชำระ","โอนแล้ว","BIB","รับเสื้อ","เช็คอิน","เกียรติบัตร"];
       let csv = '\uFEFF' + th.join(',') + '\n';
       recordsCache.forEach(r => { csv += cols.map(c => `"${String(r[c]||'').replace(/"/g, '""')}"`).join(',') + '\n'; });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8;'}));
+      a.download = `TP_RUN_DATA_${Date.now()}.csv`; a.click();
+    }
+
+    /* === SETTINGS & LIVE EDITOR === */
+    function switchEditor(type) {
+      currentEditor = type;
+      document.getElementById('tabBib').className = type === 'bib' ? "px-6 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors" : "px-6 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors";
+      document.getElementById('tabCert').className = type === 'cert' ? "px-6 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors" : "px-6 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors";
+      document.getElementById('ctrlBibOnly').style.display = type === 'bib' ? 'grid' : 'none';
+      loadEditorValues();
+    }
+
+    function loadEditorValues() {
+      if (!config.designs || !config.designs[currentEditor]) return;
+      const c = config.designs[currentEditor];
+      document.getElementById('cBNX').value = c.nx || 50; document.getElementById('cBNY').value = c.ny || 40;
+      document.getElementById('cBC').value = c.c || '#000000'; document.getElementById('cBS').value = c.s || 60;
+      document.getElementById('showName').checked = c.sName !== false;
+      if(currentEditor === 'bib') {
+        document.getElementById('cBBX').value = c.bx || 50; document.getElementById('cBBY').value = c.by || 70;
+        document.getElementById('showBibNum').checked = c.sBib !== false; document.getElementById('showGenderAge').checked = c.sGen !== false;
+      }
+      updateLivePreview();
+    }
+
+    async function updateLivePreview() {
+      if (!config.designs || !config.designs[currentEditor]) return;
+      const c = config.designs[currentEditor];
+      c.nx = Number(document.getElementById('cBNX').value) || 50; c.ny = Number(document.getElementById('cBNY').value) || 40;
+      c.c = document.getElementById('cBC').value; c.s = Number(document.getElementById('cBS').value) || 60;
+      c.sName = document.getElementById('showName').checked;
+      if(currentEditor === 'bib') {
+        c.bx = Number(document.getElementById('cBBX').value) || 50; c.by = Number(document.getElementById('cBBY').value) || 70;
+        c.sBib = document.getElementById('showBibNum').checked; c.sGen = document.getElementById('showGenderAge').checked;
+      }
       
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8;'}));
-      a.download = `TP_RUN_DATA_${Date.now()}.csv`;
-      a.click();
+      const cvs = document.getElementById('liveCanvas'); const ctx = cvs.getContext('2d');
+      const bgUrl = c.bg;
+      if(!bgUrl) {
+        ctx.clearRect(0,0,cvs.width,cvs.height); document.getElementById('noBgMsg').style.display = 'block'; return;
+      }
+      document.getElementById('noBgMsg').style.display = 'none';
+      
+      const img = new Image();
+      img.onload = () => {
+        cvs.width = img.width; cvs.height = img.height;
+        ctx.drawImage(img, 0, 0); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillStyle = c.c; ctx.font = `bold ${c.s}px "Noto Sans Thai Looped", sans-serif`;
+        if(c.sName) ctx.fillText("สมชาย ใจดีรันเนอร์", (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
+        if(currentEditor === 'bib') {
+          if(c.sBib) ctx.fillText("MX9999", (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
+          if(c.sGen) {
+             ctx.font = `bold ${Math.floor(c.s*0.6)}px "Noto Sans Thai Looped", sans-serif`;
+             ctx.fillText("ชาย | C", (c.bx/100)*cvs.width, ((c.by/100)*cvs.height) + c.s);
+          }
+        }
+      };
+      img.src = bgUrl;
+    }
+
+    async function previewUpload(input, key) {
+      if(!input.files[0]) return;
+      const b64 = await compressImage(input.files[0], 1200);
+      if(key === 'bibBg') config.designs.bib.bg = b64;
+      if(key === 'certBg') config.designs.cert.bg = b64;
+      if(currentEditor === key.replace('Bg','')) updateLivePreview();
+      showToast('อัปโหลดพื้นหลังจำลองแล้ว (ยังไม่บันทึก)');
     }
 
     function fillAdminSettings() {
+      document.getElementById('cfgGas').value = config.gasUrl || '';
       document.getElementById('cfgTitle').value = config.eventName || '';
       document.getElementById('cfgSlogan').value = config.slogan || '';
       document.getElementById('cfgP5').value = config.price5 || '';
       document.getElementById('cfgP10').value = config.price10 || '';
       document.getElementById('cfgPVIP').value = config.priceVIP || '';
-      document.getElementById('cfgPopular').value = config.popularDist || '10';
+      document.getElementById('cfgPopBadge').value = config.popBadge || 'none';
       
-      document.getElementById('cBN_show').checked = config.bibConf.showN !== false;
-      document.getElementById('cBB_show').checked = config.bibConf.showB !== false;
-      document.getElementById('cBG_show').checked = config.bibConf.showG !== false;
-      document.getElementById('cBA_show').checked = config.bibConf.showA !== false;
-      
-      document.getElementById('cBNX').value = config.bibConf.nx; document.getElementById('cBNY').value = config.bibConf.ny;
-      document.getElementById('cBBX').value = config.bibConf.bx; document.getElementById('cBBY').value = config.bibConf.by;
-      document.getElementById('cBGX').value = config.bibConf.gx; document.getElementById('cBGY').value = config.bibConf.gy;
-      document.getElementById('cBAX').value = config.bibConf.ax; document.getElementById('cBAY').value = config.bibConf.ay;
-      document.getElementById('cBC').value = config.bibConf.c; document.getElementById('cBS').value = config.bibConf.s;
-      
-      document.getElementById('cCNX').value = config.certConf.nx; document.getElementById('cCNY').value = config.certConf.ny;
-      document.getElementById('cCC').value = config.certConf.c; document.getElementById('cCS').value = config.certConf.s;
-      
-      updatePreview('bib');
-      updatePreview('cert');
-    }
-
-    /* ================= PREVIEW LOGIC ================= */
-    function updatePreview(type) {
-      if(type === 'bib') {
-        const bgFile = document.getElementById('cfgBibBg5').files[0];
-        const bgUrl = bgFile ? URL.createObjectURL(bgFile) : (config.bibBg5 || '');
-        const pvArea = document.getElementById('bibPreviewArea');
-        if(bgUrl) pvArea.style.backgroundImage = `url(${bgUrl})`;
-        
-        const c = document.getElementById('cBC').value || '#000';
-        const s = Number(document.getElementById('cBS').value) || 80;
-        const scale = 0.3; // Scale font for small preview
-        
-        const setEl = (id, showId, xId, yId, text, fs) => {
-          const el = document.getElementById(id);
-          if(!el) return;
-          if(document.getElementById(showId).checked) {
-            el.style.display = 'block';
-            el.style.left = (document.getElementById(xId).value || 0) + '%';
-            el.style.top = (document.getElementById(yId).value || 0) + '%';
-            el.style.color = c;
-            el.style.fontSize = (fs * scale) + 'px';
-            el.innerText = text;
-          } else {
-            el.style.display = 'none';
-          }
-        };
-        
-        setEl('pvBibN', 'cBN_show', 'cBNX', 'cBNY', 'สมชาย ใจดี', s);
-        setEl('pvBibB', 'cBB_show', 'cBBX', 'cBBY', 'M1001', s*1.5);
-        setEl('pvBibG', 'cBG_show', 'cBGX', 'cBGY', 'M', s*0.8);
-        setEl('pvBibA', 'cBA_show', 'cBAX', 'cBAY', 'C', s*0.8);
-      } else if(type === 'cert') {
-        const bgFile = document.getElementById('cfgCertBg').files[0];
-        const bgUrl = bgFile ? URL.createObjectURL(bgFile) : (config.certBg || '');
-        const pvArea = document.getElementById('certPreviewArea');
-        if(bgUrl) pvArea.style.backgroundImage = `url(${bgUrl})`;
-        
-        const el = document.getElementById('pvCertN');
-        if(el) {
-          el.style.left = (document.getElementById('cCNX').value || 50) + '%';
-          el.style.top = (document.getElementById('cCNY').value || 50) + '%';
-          el.style.color = document.getElementById('cCC').value || '#000';
-          el.style.fontSize = ((Number(document.getElementById('cCS').value)||60) * 0.3) + 'px';
-        }
+      if(config.footer) {
+        document.getElementById('cfgOrgName').value = config.footer.orgName || '';
+        document.getElementById('cfgAddress').value = config.footer.address || '';
+        document.getElementById('cfgPhone').value = config.footer.phone || '';
+        document.getElementById('cfgEmail').value = config.footer.email || '';
+        document.getElementById('cfgFacebook').value = config.footer.facebook || '';
       }
+      switchEditor('bib');
     }
 
     async function saveAdminConfig() {
       const btn = document.querySelector('button[onclick="saveAdminConfig()"]');
       const origHtml = btn.innerHTML;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
-      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...'; btn.disabled = true;
 
-      try {
-        config.eventName = document.getElementById('cfgTitle').value.trim();
-        config.slogan = document.getElementById('cfgSlogan').value.trim();
-        config.price5 = Number(document.getElementById('cfgP5').value) || 400;
-        config.price10 = Number(document.getElementById('cfgP10').value) || 500;
-        config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
-        config.popularDist = document.getElementById('cfgPopular').value;
-        
-        config.bibConf = {
-          showN: document.getElementById('cBN_show').checked,
-          nx: Number(document.getElementById('cBNX').value)||50, ny: Number(document.getElementById('cBNY').value)||50,
-          showB: document.getElementById('cBB_show').checked,
-          bx: Number(document.getElementById('cBBX').value)||50, by: Number(document.getElementById('cBBY').value)||70,
-          showG: document.getElementById('cBG_show').checked,
-          gx: Number(document.getElementById('cBGX').value)||20, gy: Number(document.getElementById('cBGY').value)||30,
-          showA: document.getElementById('cBA_show').checked,
-          ax: Number(document.getElementById('cBAX').value)||20, ay: Number(document.getElementById('cBAY').value)||60,
-          c: document.getElementById('cBC').value||'#000', s: Number(document.getElementById('cBS').value)||80
-        };
-        config.certConf = {
-          nx: Number(document.getElementById('cCNX').value)||50, ny: Number(document.getElementById('cCNY').value)||50,
-          c: document.getElementById('cCC').value||'#000', s: Number(document.getElementById('cCS').value)||60
-        };
+      config.gasUrl = document.getElementById('cfgGas').value.trim();
+      config.eventName = document.getElementById('cfgTitle').value.trim();
+      config.slogan = document.getElementById('cfgSlogan').value.trim();
+      config.price5 = Number(document.getElementById('cfgP5').value) || 400;
+      config.price10 = Number(document.getElementById('cfgP10').value) || 500;
+      config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
+      config.popBadge = document.getElementById('cfgPopBadge').value;
+      
+      config.footer = {
+        orgName: document.getElementById('cfgOrgName').value.trim(),
+        address: document.getElementById('cfgAddress').value.trim(),
+        phone: document.getElementById('cfgPhone').value.trim(),
+        email: document.getElementById('cfgEmail').value.trim(),
+        facebook: document.getElementById('cfgFacebook').value.trim()
+      };
 
-        const logoF = document.getElementById('cfgLogo').files[0];
-        const homeBgF = document.getElementById('cfgHomeBg').files[0];
-        const map5F = document.getElementById('cfgMap5').files[0];
-        const map10F = document.getElementById('cfgMap10').files[0];
-        const bibF5 = document.getElementById('cfgBibBg5').files[0];
-        const bibF10 = document.getElementById('cfgBibBg10').files[0];
-        const bibFVIP = document.getElementById('cfgBibBgVIP').files[0];
-        const certF = document.getElementById('cfgCertBg').files[0];
+      const logoF = document.getElementById('cfgLogo').files[0];
+      const homeBgF = document.getElementById('cfgHomeBg').files[0];
+      const map5F = document.getElementById('cfgMap5').files[0];
+      const map10F = document.getElementById('cfgMap10').files[0];
+      
+      if(logoF) config.logoUrl = await compressImage(logoF, 400);
+      if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 1200);
+      if(map5F) config.map5Url = await compressImage(map5F, 800);
+      if(map10F) config.map10Url = await compressImage(map10F, 800);
 
-        // Compress heavily to save directly to Firestore as Base64 (<1MB limit)
-        if(logoF) config.logoUrl = await compressImage(logoF, 300);
-        if(homeBgF) config.homeBgUrl = await compressImage(homeBgF, 800);
-        if(map5F) config.map5K = await compressImage(map5F, 800);
-        if(map10F) config.map10K = await compressImage(map10F, 800);
-        if(bibF5) config.bibBg5 = await compressImage(bibF5, 800);
-        if(bibF10) config.bibBg10 = await compressImage(bibF10, 800);
-        if(bibFVIP) config.bibBgVIP = await compressImage(bibFVIP, 800);
-        if(certF) config.certBg = await compressImage(certF, 800);
-
-        await setDoc(doc(db, "tp_run_db", "global_settings"), config);
-        applyConfigToUI();
-        showToast('บันทึกการตั้งค่าแล้ว');
-
-      } catch (err) {
-        console.error("Error saving config:", err);
-        showToast('เกิดข้อผิดพลาดในการบันทึก', 'error');
-      } finally {
-        btn.innerHTML = origHtml;
-        btn.disabled = false;
+      if(window.db) {
+        try {
+          await window.setDoc(window.doc(window.db, "tp_run_db", "global_settings"), config);
+          showToast('บันทึกการตั้งค่าแล้ว');
+        } catch(e) {
+          if(e.message.includes("permissions")) showToast('ตั้งค่าล้มเหลว: ติดสิทธิ์ Firebase Rules', 'error');
+          else showToast('เกิดข้อผิดพลาดในการบันทึก', 'error');
+        }
       }
+      applyConfigToUI();
+      btn.innerHTML = origHtml; btn.disabled = false;
     }
 
     setInterval(() => { document.getElementById('dashTime').textContent = new Date().toLocaleString('th-TH'); }, 1000);
 
-    // Bind preview events
-    const bibInputs = ['cBNX','cBNY','cBBX','cBBY','cBGX','cBGY','cBAX','cBAY','cBC','cBS','cBN_show','cBB_show','cBG_show','cBA_show','cfgBibBg5'];
-    bibInputs.forEach(id => {
-      document.getElementById(id)?.addEventListener('input', () => updatePreview('bib'));
-      document.getElementById(id)?.addEventListener('change', () => updatePreview('bib'));
-    });
-    
-    const certInputs = ['cCNX','cCNY','cCC','cCS','cfgCertBg'];
-    certInputs.forEach(id => {
-      document.getElementById(id)?.addEventListener('input', () => updatePreview('cert'));
-      document.getElementById(id)?.addEventListener('change', () => updatePreview('cert'));
-    });
-
     window.onload = () => {
+      if(window.checkFirebaseConnection) window.checkFirebaseConnection();
       loadConfigFromFirebase();
       document.getElementById('staffLoginBtn').addEventListener('click', () => {
         if(document.getElementById('staffPass').value === STAFF_PASSCODE) {
           document.getElementById('staffPass').value = '';
-          showView('staffDash');
-          document.getElementById('staffSectionSelect').value = 'overview';
-          renderAdminOverview();
+          showView('staffDash'); document.getElementById('staffSectionSelect').value = 'overview'; renderAdminOverview();
           showToast('เข้าสู่ระบบสำเร็จ');
-        } else {
-          showToast('รหัสผ่านไม่ถูกต้อง', 'error');
-        }
+        } else { showToast('รหัสผ่านไม่ถูกต้อง', 'error'); }
       });
+      const style = document.createElement('style');
+      style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }`;
+      document.head.appendChild(style);
     };
   </script>
 </body>
