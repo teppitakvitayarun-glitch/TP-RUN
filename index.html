@@ -5,22 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TP RUN 2026</title>
   
-  <!-- Fonts: Kanit (Headings) & Prompt (Body) -->
+  <!-- Fonts: Kanit (Headings), Prompt (Body), Grape Nuts (Stylized), Sarabun (BIB) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Prompt:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,600&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800;900&family=Prompt:wght@300;400;500;600;700&family=Grape+Nuts&family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
+
   <!-- AOS Animation CSS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  
-  <!-- QRCode.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -30,19 +27,22 @@
         extend: {
           fontFamily: {
             sans: ['"Prompt"', 'sans-serif'],
-            display: ['"Kanit"', 'sans-serif'],
-            credit1: ['"Playfair Display"', 'serif'],
-            credit2: ['"Montserrat"', 'sans-serif'],
+            heading: ['"Kanit"', 'sans-serif'],
+            handwriting: ['"Grape Nuts"', 'cursive'],
           },
           colors: {
-            brand: { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' },
-            accent: { 500: '#f97316', 600: '#ea580c' }
+            brand: {
+              50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af', 
+              400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c', 
+              800: '#9f1239', 900: '#881337',
+            },
+            accent: {
+              500: '#f59e0b', 600: '#d97706',
+            }
           },
           boxShadow: {
             'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
-            'glass': '0 4px 30px rgba(0, 0, 0, 0.05)',
-            'glow-brand': '0 0 20px rgba(20, 184, 166, 0.4)',
-            'glow-accent': '0 0 20px rgba(249, 115, 22, 0.4)',
+            'glow-brand': '0 0 20px rgba(225, 29, 72, 0.4)',
           }
         }
       }
@@ -50,11 +50,9 @@
   </script>
   
   <style>
-    /* ตั้งค่า Base Size เพื่อย่อส่วนหน้าเว็บ 70% แบบสมบูรณ์ */
     html { font-size: 70%; }
-    
     body { background-color: #f8fafc; color: #334155; overflow-x: hidden; }
-    h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Kanit', sans-serif; }
+    h1, h2, h3, h4, h5, h6, .font-black { font-family: 'Kanit', sans-serif; }
     
     .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
     .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.6); }
@@ -63,11 +61,11 @@
     .view.active { display: block; opacity: 1; }
     
     /* Modern Inputs */
-    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], input[type="password"], select, textarea {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"], select, textarea {
       width: 100%; padding: 0.875rem 1.25rem; border-radius: 1rem; border: 1px solid #e2e8f0;
       background: #f8fafc; transition: all 0.3s ease; outline: none; font-family: 'Prompt', sans-serif;
     }
-    input:focus, select:focus, textarea:focus { border-color: #14b8a6; background: #fff; box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1); }
+    input:focus, select:focus, textarea:focus { border-color: #e11d48; background: #fff; box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1); }
     input:disabled { background: #f1f5f9; color: #94a3b8; }
     
     /* Cute & Modern Radio Buttons */
@@ -80,8 +78,8 @@
     .radio-btn input { display: none; }
     .radio-btn:hover { border-color: #cbd5e1; transform: translateY(-2px); }
     .radio-btn:has(input:checked) { 
-      border-color: #14b8a6; background: #f0fdfa; color: #0f766e; 
-      transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 20px -10px rgba(20, 184, 166, 0.3); 
+      border-color: #e11d48; background: #fff1f2; color: #be123c; 
+      transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 20px -10px rgba(225, 29, 72, 0.3); 
     }
     
     /* Grid Cards for Selection */
@@ -93,40 +91,61 @@
     .grid-card input { display: none; }
     .grid-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
     .grid-card:has(input:checked) { 
-      border-color: #f97316; background: #fff7ed; 
-      transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 25px -8px rgba(249, 115, 22, 0.4); 
+      border-color: #f59e0b; background: #fffbeb; 
+      transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 25px -8px rgba(245, 158, 11, 0.4); 
     }
-    .grid-card .title { font-size: 1.125rem; font-weight: 700; color: #1e293b; transition: color 0.3s; }
-    .grid-card:has(input:checked) .title { color: #ea580c; }
+    .grid-card .title { font-size: 1.125rem; font-weight: 700; color: #1e293b; transition: color 0.3s; font-family: 'Kanit', sans-serif;}
+    .grid-card:has(input:checked) .title { color: #d97706; }
     .grid-card .sub { font-size: 0.875rem; color: #64748b; margin-top: 0.25rem; }
 
     /* Custom Buttons */
     .btn-primary {
-      background: linear-gradient(135deg, #14b8a6, #0d9488); color: white; box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3); transition: all 0.3s ease;
+      background: linear-gradient(135deg, #f43f5e, #e11d48); color: white; box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3); transition: all 0.3s ease;
     }
-    .btn-primary:hover { box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4); transform: translateY(-2px); }
+    .btn-primary:hover { box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4); transform: translateY(-2px); }
     .btn-secondary {
       background: #fff; color: #334155; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: all 0.3s ease;
     }
     .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; transform: translateY(-2px); }
 
-    /* Step Wizard Animation */
-    .step-pane { display: none; opacity: 0; transform: translateX(20px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-    .step-pane.active { display: block; opacity: 1; transform: translateX(0); }
-
     /* Hero Background Overlay */
     .hero-overlay {
-      position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.08; z-index: 0; transition: background-image 0.5s ease;
+      position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.15; z-index: 0; transition: background-image 0.5s ease;
     }
     .hero-pattern {
-      position: absolute; inset: 0; background-image: radial-gradient(#14b8a6 1px, transparent 1px); background-size: 30px 30px; opacity: 0.1; z-index: 1;
+      position: absolute; inset: 0; background-image: radial-gradient(#e11d48 1px, transparent 1px); background-size: 30px 30px; opacity: 0.05; z-index: 1;
     }
+
+    /* Multi-step Form */
+    .step-content { display: none; animation: fadeInRight 0.4s ease forwards; }
+    .step-content.active { display: block; }
+    @keyframes fadeInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    
+    .step-dot { transition: all 0.3s ease; }
+    .step-dot.active { background-color: #e11d48; color: white; border-color: #e11d48; transform: scale(1.1); box-shadow: 0 0 15px rgba(225,29,72,0.3); }
+    .step-dot.completed { background-color: #fecdd3; color: #be123c; border-color: #fda4af; }
+    .step-line { transition: width 0.4s ease; }
 
     /* Custom scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    /* Glowing Button Effect */
+    .btn-glow {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #f43f5e, #be123c);
+      box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.5), inset 0px 2px 4px rgba(255,255,255,0.3);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-glow:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 35px -5px rgba(225, 29, 72, 0.6), inset 0px 2px 4px rgba(255,255,255,0.4); }
+    .btn-glow::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-20deg); animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
   </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col font-sans">
@@ -138,10 +157,10 @@
         <!-- Logo -->
         <div class="flex items-center gap-4 cursor-pointer group" onclick="showView('home')">
           <div id="navLogoContainer" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-400 to-brand-600 text-white flex items-center justify-center font-black text-xl shadow-lg shadow-brand-500/30 overflow-hidden relative transition-transform group-hover:scale-105">
-            <span id="navLogoText" class="font-display">TP</span>
+            <span id="navLogoText">TP</span>
             <img id="navLogoImg" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Logo">
           </div>
-          <span class="font-display font-extrabold text-2xl text-slate-800 tracking-tight" id="navBrandName">TP RUN 2026</span>
+          <span class="font-black text-2xl text-slate-800 tracking-tight" id="navBrandName">TP RUN 2026</span>
         </div>
         
         <!-- Desktop Nav -->
@@ -153,7 +172,7 @@
             <i class="fa-solid fa-person-running"></i> สมัครวิ่ง
           </button>
           <div class="h-8 w-px bg-slate-200 mx-2"></div>
-          <button onclick="showView('staffLogin')" id="navStaffBtn" class="w-10 h-10 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="สำหรับเจ้าหน้าที่">
+          <button onclick="handleStaffLoginClick()" id="btnNavStaff" class="w-10 h-10 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" title="สำหรับเจ้าหน้าที่">
             <i class="fa-solid fa-shield-halved"></i>
           </button>
         </div>
@@ -175,7 +194,7 @@
       <button onclick="showView('register'); toggleMobileMenu()" class="w-full text-left px-5 py-4 rounded-2xl bg-brand-50 text-brand-700 font-bold hover:bg-brand-100 flex items-center gap-3">
         <i class="fa-solid fa-person-running"></i> สมัครวิ่งเลย
       </button>
-      <button onclick="showView('staffLogin'); toggleMobileMenu()" class="w-full text-left px-5 py-4 rounded-2xl text-slate-500 font-medium hover:bg-slate-50 flex items-center gap-3">
+      <button onclick="handleStaffLoginClick(); toggleMobileMenu()" id="btnNavStaffMob" class="w-full text-left px-5 py-4 rounded-2xl text-slate-500 font-medium hover:bg-slate-50 flex items-center gap-3">
         <i class="fa-solid fa-shield-halved text-slate-400"></i> สำหรับเจ้าหน้าที่
       </button>
     </div>
@@ -186,103 +205,61 @@
     <!-- ==================== HOME VIEW ==================== -->
     <div class="view active" id="view-home">
       <!-- Hero Section -->
-      <div class="relative overflow-hidden bg-white min-h-[85vh] flex items-center" id="heroContainer">
+      <div class="relative overflow-hidden bg-white min-h-[85vh] flex items-center justify-center text-center" id="heroContainer">
         <!-- Dynamic Background elements -->
         <div id="heroBgImage" class="hero-overlay"></div>
         <div class="hero-pattern"></div>
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-brand-300 blur-[100px] opacity-40 z-0 animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-accent-300 blur-[100px] opacity-30 z-0 animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-brand-300 blur-[120px] opacity-30 z-0 animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-accent-300 blur-[120px] opacity-20 z-0 animate-pulse" style="animation-delay: 2s;"></div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20">
-          <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <!-- ฝั่งซ้าย (ข้อความ) -->
-            <div data-aos="fade-right">
-              <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 text-brand-700 font-bold text-sm shadow-sm">
-                <i class="fa-solid fa-medal text-accent-500"></i> ฉลองครบรอบ 60 ปี โรงเรียนเทพพิทักษ์วิทยา
-              </div>
-              <h1 class="text-6xl sm:text-7xl lg:text-8xl font-display font-black text-slate-900 tracking-tight mb-6 leading-tight" id="homeTitle">
-                TP RUN <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-500 drop-shadow-sm">2026</span>
-              </h1>
-              <p class="text-xl sm:text-2xl text-slate-600 mb-10 leading-relaxed font-medium" id="homeSlogan">
-                “60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน” ขอเชิญร่วมเป็นส่วนหนึ่งของงานวิ่งการกุศลที่ยิ่งใหญ่ที่สุดแห่งปี
-              </p>
-              <div class="flex flex-col sm:flex-row gap-5">
-                <button onclick="showView('register')" class="btn-primary px-8 py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-3">
-                  สมัครวิ่งออนไลน์ <i class="fa-solid fa-arrow-right"></i>
-                </button>
-                <button onclick="showView('status')" class="btn-secondary px-8 py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-3">
-                  <i class="fa-solid fa-search"></i> ตรวจสอบสถานะ
-                </button>
-              </div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20">
+          <div data-aos="fade-up">
+            <div class="inline-flex items-center gap-2 mb-8 px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200 text-brand-700 font-bold text-sm shadow-sm">
+              <i class="fa-solid fa-medal text-accent-500"></i> ฉลองครบรอบ 60 ปี โรงเรียนเทพพิทักษ์วิทยา
             </div>
             
-            <!-- ฝั่งขวา (รูปภาพ/กราฟิก แบบใหม่สีสันสดใส) -->
-            <div class="hidden lg:block relative" data-aos="fade-left" data-aos-delay="200">
-              <!-- แสงออร่าด้านหลัง -->
-              <div class="absolute inset-0 bg-gradient-to-tr from-brand-400 via-emerald-300 to-accent-300 rounded-[3rem] transform rotate-3 scale-105 z-0 opacity-80 blur-lg animate-pulse" style="animation-duration: 4s;"></div>
-              
-              <!-- กรอบกระจกหลัก -->
-              <div class="relative z-10 bg-white/40 backdrop-blur-2xl rounded-[3rem] shadow-2xl border border-white/60 p-12 h-[600px] flex items-center justify-center overflow-hidden group">
-                <!-- วงกลมตกแต่งภายใน -->
-                <div class="absolute top-10 right-10 w-32 h-32 bg-white/30 rounded-full blur-xl"></div>
-                <div class="absolute bottom-10 left-10 w-40 h-40 bg-brand-300/30 rounded-full blur-2xl"></div>
-                
-                <!-- ไอคอนกราฟิกหลัก -->
-                <i class="fa-solid fa-person-running text-[12rem] text-brand-600/90 drop-shadow-2xl transform group-hover:scale-110 group-hover:-translate-y-4 transition-transform duration-500"></i>
-                
-                <!-- Floating Elements (ป้ายลอยตัว) -->
-                <!-- ป้ายสุขภาพดี -->
-                <div class="absolute top-12 left-8 bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-xl flex items-center gap-4 animate-[bounce_4s_ease-in-out_infinite] border border-white">
-                  <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center text-accent-600 text-xl shadow-inner">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                  </div>
-                  <div>
-                    <div class="text-xs text-slate-500 font-bold uppercase tracking-widest">สุขภาพดี</div>
-                    <div class="text-lg font-display font-black text-slate-800">เพื่อการกุศล</div>
-                  </div>
-                </div>
-
-                <!-- ป้ายระยะทาง -->
-                <div class="absolute bottom-16 right-8 bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-xl flex items-center gap-4 animate-[bounce_5s_ease-in-out_infinite] border border-white" style="animation-delay: 1s;">
-                  <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center text-brand-600 text-xl shadow-inner">
-                    <i class="fa-solid fa-route"></i>
-                  </div>
-                  <div>
-                    <div class="text-xs text-slate-500 font-bold uppercase tracking-widest">ระยะทาง</div>
-                    <div class="text-lg font-display font-black text-slate-800">5K & 10K</div>
-                  </div>
-                </div>
-
-                <!-- ป้ายปี 2026 -->
-                <div class="absolute top-20 right-12 bg-gradient-to-br from-brand-500 to-accent-500 text-white font-display font-black text-2xl px-5 py-3 rounded-2xl shadow-lg transform rotate-12 animate-[pulse_3s_ease-in-out_infinite]">
-                  2026
-                </div>
-              </div>
+            <!-- Grape Nuts Custom Font for Title -->
+            <h1 class="text-[5rem] sm:text-[7rem] md:text-[8rem] font-handwriting leading-none mb-4 transform -rotate-2 bg-clip-text text-transparent bg-gradient-to-br from-brand-600 to-accent-500 drop-shadow-sm pb-4" id="homeTitle">
+              TP RUN 60 YEARS<br>ONE JOURNEY
+            </h1>
+            
+            <p class="text-xl sm:text-2xl text-slate-600 mb-12 leading-relaxed font-medium max-w-2xl mx-auto" id="homeSlogan">
+              “60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน” ขอเชิญร่วมเป็นส่วนหนึ่งของงานวิ่งการกุศลที่ยิ่งใหญ่ที่สุดแห่งปี
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+              <!-- Glowing Button -->
+              <button onclick="showView('register')" class="btn-glow px-10 py-5 rounded-2xl font-black text-white text-xl flex justify-center items-center gap-3 group">
+                สมัครวิ่งออนไลน์ <i class="fa-solid fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+              </button>
+              <button onclick="showView('status')" class="btn-secondary px-8 py-5 rounded-2xl font-bold text-lg flex justify-center items-center gap-3">
+                <i class="fa-solid fa-search"></i> ตรวจสอบสถานะ
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Route Maps (75% width) -->
+      <!-- Route Maps -->
       <div class="py-24 bg-white relative z-20 border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="text-4xl font-display font-black text-slate-900 mb-4">แผนที่เส้นทางการแข่งขัน</h2>
+            <h2 class="text-4xl font-black text-slate-900 mb-4">แผนที่เส้นทางการแข่งขัน</h2>
             <p class="text-lg text-slate-500 max-w-2xl mx-auto">คลิกที่รูปภาพเพื่อขยายดูเส้นทางแบบเต็ม</p>
           </div>
-          <div class="w-full lg:w-[75%] mx-auto grid md:grid-cols-2 gap-12">
+          <div class="w-full lg:w-[80%] mx-auto grid md:grid-cols-2 gap-12">
             <!-- 5KM Map -->
             <div data-aos="fade-right" data-aos-delay="100">
               <div class="bg-slate-50 rounded-[2rem] p-4 border border-slate-200 hover:shadow-xl transition-shadow duration-300">
-                <div class="text-center font-display font-black text-xl text-slate-700 mb-3 bg-white py-2 rounded-xl border border-slate-100">5 KM - Fun Run</div>
+                <div class="text-center font-black text-xl text-slate-700 mb-3 bg-white py-2 rounded-xl border border-slate-100">5 KM - Fun Run</div>
                 <img id="map5k" src="https://placehold.co/600x800/e2e8f0/64748b?text=Map+5KM" alt="Map 5KM" class="w-full h-auto rounded-xl cursor-zoom-in object-cover" onclick="showImg(this.src)">
               </div>
             </div>
             <!-- 10KM Map -->
             <div data-aos="fade-left" data-aos-delay="200">
               <div class="bg-brand-50 rounded-[2rem] p-4 border border-brand-100 hover:shadow-xl hover:shadow-brand-500/20 transition-shadow duration-300">
-                <div class="text-center font-display font-black text-xl text-brand-700 mb-3 bg-white py-2 rounded-xl border border-brand-100">10 KM - Mini Marathon</div>
-                <img id="map10k" src="https://placehold.co/600x800/ccfbf1/0f766e?text=Map+10KM" alt="Map 10KM" class="w-full h-auto rounded-xl cursor-zoom-in object-cover" onclick="showImg(this.src)">
+                <div class="text-center font-black text-xl text-brand-700 mb-3 bg-white py-2 rounded-xl border border-brand-100">10 KM - Mini Marathon</div>
+                <img id="map10k" src="https://placehold.co/600x800/ffe4e6/be123c?text=Map+10KM" alt="Map 10KM" class="w-full h-auto rounded-xl cursor-zoom-in object-cover" onclick="showImg(this.src)">
               </div>
             </div>
           </div>
@@ -293,7 +270,7 @@
       <div class="py-24 bg-slate-50 relative z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="text-4xl font-display font-black text-slate-900 mb-4">ระยะการแข่งขันและค่าสมัคร</h2>
+            <h2 class="text-4xl font-black text-slate-900 mb-4">ระยะการแข่งขันและค่าสมัคร</h2>
             <p class="text-lg text-slate-500 max-w-2xl mx-auto">เลือกระยะทางที่เหมาะสมกับคุณ รายได้ส่วนหนึ่งหลังหักค่าใช้จ่ายนำไปสนับสนุนทุนการศึกษาและพัฒนาโรงเรียน</p>
           </div>
           
@@ -303,11 +280,11 @@
               <div id="badge-5" class="pop-badge absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 hidden">
                 <i class="fa-solid fa-star"></i> ยอดนิยม
               </div>
-              <div class="w-20 h-20 bg-slate-100 text-slate-700 rounded-3xl flex items-center justify-center text-3xl font-display font-black mb-8 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">5K</div>
-              <h3 class="text-2xl font-display font-black text-slate-800 mb-2">Fun Run</h3>
+              <div class="w-20 h-20 bg-slate-100 text-slate-700 rounded-3xl flex items-center justify-center text-3xl font-black mb-8 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">5K</div>
+              <h3 class="text-2xl font-black text-slate-800 mb-2">Fun Run</h3>
               <p class="text-slate-500 font-medium mb-8">เหมาะสำหรับครอบครัวและผู้เริ่มต้น</p>
               <div class="flex items-baseline mb-8">
-                <span class="text-5xl font-display font-black text-brand-600" id="lblPrice5">400</span>
+                <span class="text-5xl font-black text-brand-600" id="lblPrice5">400</span>
                 <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
               </div>
               <ul class="text-slate-600 space-y-4 mb-10 font-medium">
@@ -322,11 +299,11 @@
               <div id="badge-10" class="pop-badge absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg flex items-center gap-2">
                 <i class="fa-solid fa-star"></i> ยอดนิยม
               </div>
-              <div class="w-20 h-20 bg-brand-100 text-brand-600 rounded-3xl flex items-center justify-center text-3xl font-display font-black mb-8">10K</div>
-              <h3 class="text-2xl font-display font-black text-slate-800 mb-2">Mini Marathon</h3>
+              <div class="w-20 h-20 bg-brand-100 text-brand-600 rounded-3xl flex items-center justify-center text-3xl font-black mb-8">10K</div>
+              <h3 class="text-2xl font-black text-slate-800 mb-2">Mini Marathon</h3>
               <p class="text-slate-500 font-medium mb-8">ท้าทายขีดจำกัด สำหรับนักวิ่งทั่วไป</p>
               <div class="flex items-baseline mb-8">
-                <span class="text-5xl font-display font-black text-brand-600" id="lblPrice10">500</span>
+                <span class="text-5xl font-black text-brand-600" id="lblPrice10">500</span>
                 <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
               </div>
               <ul class="text-slate-600 space-y-4 mb-10 font-medium">
@@ -342,11 +319,11 @@
               <div id="badge-VIP" class="pop-badge absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg items-center gap-2 hidden">
                 <i class="fa-solid fa-star"></i> ยอดนิยม
               </div>
-              <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-3xl flex items-center justify-center text-2xl font-display font-black mb-8 group-hover:bg-amber-200 transition-colors">VIP</div>
-              <h3 class="text-2xl font-display font-black text-slate-800 mb-2">VIP Run</h3>
+              <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-3xl flex items-center justify-center text-2xl font-black mb-8 group-hover:bg-amber-200 transition-colors">VIP</div>
+              <h3 class="text-2xl font-black text-slate-800 mb-2">VIP Run</h3>
               <p class="text-slate-500 font-medium mb-8">วิ่งระยะใดก็ได้ พร้อมสิทธิพิเศษสูงสุด</p>
               <div class="flex items-baseline mb-8">
-                <span class="text-5xl font-display font-black text-amber-500" id="lblPriceVIP">1,000</span>
+                <span class="text-5xl font-black text-amber-500" id="lblPriceVIP">1,000</span>
                 <span class="text-xl text-slate-400 font-bold ml-2">บาท</span>
               </div>
               <ul class="text-slate-600 space-y-4 mb-10 font-medium">
@@ -362,272 +339,239 @@
       </div>
     </div>
 
-    <!-- ==================== REGISTER VIEW (Multi-Step Wizard) ==================== -->
+    <!-- ==================== REGISTER VIEW (MULTI-STEP) ==================== -->
     <div class="view" id="view-register">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex justify-between items-center mb-8">
-          <button onclick="showView('home')" class="text-brand-600 font-bold hover:text-brand-800 flex items-center gap-2 transition-colors">
-            <i class="fa-solid fa-arrow-left"></i> กลับหน้าแรก
-          </button>
-          
-          <!-- Staff Mode Badge -->
-          <div id="staffModeBadge" class="hidden bg-slate-800 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 shadow-lg animate-pulse">
-            <i class="fa-solid fa-shield-halved text-brand-400"></i> โหมดเจ้าหน้าที่ (ออก BIB ทันที)
-          </div>
-        </div>
+        <button onclick="showView('home')" class="text-brand-600 font-bold hover:text-brand-800 mb-8 flex items-center gap-2 transition-colors">
+          <i class="fa-solid fa-arrow-left"></i> กลับหน้าแรก
+        </button>
         
-        <div class="mb-10 text-center">
-          <h2 class="text-4xl font-display font-black text-slate-900 mb-3">แบบฟอร์มสมัครวิ่ง</h2>
-          <p class="text-slate-500 font-medium text-lg">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อรักษาสิทธิประโยชน์ของท่าน</p>
+        <div class="mb-10 flex justify-between items-end">
+          <div>
+            <h2 class="text-4xl font-black text-slate-900 mb-3">แบบฟอร์มสมัครวิ่ง</h2>
+            <p class="text-slate-500 font-medium text-lg">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อรักษาสิทธิ์ของท่าน</p>
+          </div>
+          <div id="adminRegBadge" class="hidden bg-emerald-100 text-emerald-700 px-4 py-2 rounded-xl font-bold flex items-center gap-2 border border-emerald-200 shadow-sm animate-pulse">
+            <i class="fa-solid fa-user-shield"></i> โหมดเจ้าหน้าที่ (ออก BIB อัตโนมัติ)
+          </div>
         </div>
 
         <!-- Progress Bar -->
-        <div class="mb-12 relative max-w-2xl mx-auto">
-          <div class="absolute top-1/2 left-0 w-full h-1 bg-slate-200 -translate-y-1/2 rounded-full z-0"></div>
-          <div id="progressLine" class="absolute top-1/2 left-0 w-0 h-1 bg-brand-500 -translate-y-1/2 rounded-full z-0 transition-all duration-500"></div>
+        <div class="mb-12 relative">
+          <div class="absolute top-1/2 left-0 w-full h-1.5 bg-slate-200 rounded-full -translate-y-1/2 z-0"></div>
+          <div id="progressLine" class="absolute top-1/2 left-0 h-1.5 bg-brand-500 rounded-full -translate-y-1/2 z-0 step-line" style="width: 0%;"></div>
           
-          <div class="flex justify-between relative z-10">
-            <!-- Step 1 -->
-            <div class="flex flex-col items-center gap-2 step-indicator active" data-step="1">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-brand-500 text-white border-4 border-white shadow-sm transition-colors duration-300" id="ind-1">1</div>
-              <span class="text-xs font-bold text-brand-600 transition-colors duration-300" id="ind-txt-1">ข้อมูลส่วนตัว</span>
+          <div class="relative z-10 flex justify-between">
+            <div class="flex flex-col items-center gap-2">
+              <div id="dot-1" class="w-12 h-12 rounded-full border-4 border-slate-200 bg-white text-slate-400 flex items-center justify-center font-bold text-lg step-dot active">1</div>
+              <span class="text-xs font-bold text-slate-500">ข้อมูลส่วนตัว</span>
             </div>
-            <!-- Step 2 -->
-            <div class="flex flex-col items-center gap-2 step-indicator" data-step="2">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-slate-200 text-slate-400 border-4 border-white shadow-sm transition-colors duration-300" id="ind-2">2</div>
-              <span class="text-xs font-bold text-slate-400 transition-colors duration-300" id="ind-txt-2">ติดต่อ/สุขภาพ</span>
+            <div class="flex flex-col items-center gap-2">
+              <div id="dot-2" class="w-12 h-12 rounded-full border-4 border-slate-200 bg-white text-slate-400 flex items-center justify-center font-bold text-lg step-dot">2</div>
+              <span class="text-xs font-bold text-slate-500">ติดต่อ/สุขภาพ</span>
             </div>
-            <!-- Step 3 -->
-            <div class="flex flex-col items-center gap-2 step-indicator" data-step="3">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-slate-200 text-slate-400 border-4 border-white shadow-sm transition-colors duration-300" id="ind-3">3</div>
-              <span class="text-xs font-bold text-slate-400 transition-colors duration-300" id="ind-txt-3">การแข่งขัน</span>
+            <div class="flex flex-col items-center gap-2">
+              <div id="dot-3" class="w-12 h-12 rounded-full border-4 border-slate-200 bg-white text-slate-400 flex items-center justify-center font-bold text-lg step-dot">3</div>
+              <span class="text-xs font-bold text-slate-500">การแข่งขัน</span>
             </div>
-            <!-- Step 4 -->
-            <div class="flex flex-col items-center gap-2 step-indicator" data-step="4">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-slate-200 text-slate-400 border-4 border-white shadow-sm transition-colors duration-300" id="ind-4">4</div>
-              <span class="text-xs font-bold text-slate-400 transition-colors duration-300" id="ind-txt-4">สรุป & ชำระเงิน</span>
+            <div class="flex flex-col items-center gap-2">
+              <div id="dot-4" class="w-12 h-12 rounded-full border-4 border-slate-200 bg-white text-slate-400 flex items-center justify-center font-bold text-lg step-dot">4</div>
+              <span class="text-xs font-bold text-slate-500">ชำระเงิน</span>
             </div>
           </div>
         </div>
 
-        <form id="regForm" novalidate>
+        <form id="regForm" class="bg-white p-8 sm:p-10 rounded-[2rem] shadow-soft border border-slate-100" novalidate>
           
           <!-- STEP 1: Personal Info -->
-          <div class="step-pane active" id="step-1">
-            <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
-              <div class="absolute top-0 left-0 w-2 h-full bg-brand-500"></div>
-              <h3 class="text-2xl font-display font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-id-card"></i></div> 
-                ข้อมูลส่วนตัว
-              </h3>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div class="sm:col-span-2 relative">
-                  <label class="block font-bold text-slate-700 mb-2">เลขบัตรประชาชน / พาสปอร์ต <span class="text-red-500">*</span></label>
-                  <div class="relative">
-                    <i class="fa-regular fa-address-card absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="idCard" placeholder="ไม่ต้องใส่ขีด (-)" class="pl-11" required>
-                  </div>
-                </div>
-                <div class="sm:col-span-2 relative">
-                  <label class="block font-bold text-slate-700 mb-2">ชื่อ - นามสกุล <span class="text-red-500">*</span></label>
-                  <div class="relative">
-                    <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="fullName" placeholder="เช่น นายสมชาย ใจดี" class="pl-11" required>
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-bold text-slate-700 mb-2">วันเกิด <span class="text-red-500">*</span></label>
-                  <input type="date" id="birthDate" required>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                  <div>
-                    <label class="block font-bold text-slate-700 mb-2">อายุ</label>
-                    <input type="text" id="age" disabled placeholder="-">
-                  </div>
-                  <div>
-                    <label class="block font-bold text-slate-700 mb-2">รุ่นอายุ</label>
-                    <input type="text" id="ageGroupLabel" disabled placeholder="-">
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-bold text-slate-700 mb-2">เพศ <span class="text-red-500">*</span></label>
-                  <div class="radio-btn-group">
-                    <label class="radio-btn"><input type="radio" name="gender" value="ชาย"> <i class="fa-solid fa-mars mr-2"></i> ชาย</label>
-                    <label class="radio-btn"><input type="radio" name="gender" value="หญิง"> <i class="fa-solid fa-venus mr-2"></i> หญิง</label>
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-bold text-slate-700 mb-2">กรุ๊ปเลือด <span class="text-red-500">*</span></label>
-                  <div class="radio-btn-group">
-                    <label class="radio-btn"><input type="radio" name="blood" value="A"> A</label>
-                    <label class="radio-btn"><input type="radio" name="blood" value="B"> B</label>
-                    <label class="radio-btn"><input type="radio" name="blood" value="O"> O</label>
-                    <label class="radio-btn"><input type="radio" name="blood" value="AB"> AB</label>
-                  </div>
+          <div id="step-1" class="step-content active">
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-id-card"></i></div> 
+              ข้อมูลส่วนตัว
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">เลขบัตรประชาชน / พาสปอร์ต <span class="text-brand-500">*</span></label>
+                <div class="relative">
+                  <i class="fa-regular fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                  <input type="text" id="idCard" class="pl-12" placeholder="ไม่ต้องใส่ขีด (-)" required>
                 </div>
               </div>
-              <div class="mt-10 flex justify-end">
-                <button type="button" onclick="nextStep(1)" class="btn-primary px-8 py-3 rounded-xl font-bold flex items-center gap-2">ถัดไป <i class="fa-solid fa-arrow-right"></i></button>
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">ชื่อ - นามสกุล <span class="text-brand-500">*</span></label>
+                <div class="relative">
+                  <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                  <input type="text" id="fullName" class="pl-12" placeholder="เช่น นายสมชาย ใจดี" required>
+                </div>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">วันเกิด <span class="text-brand-500">*</span></label>
+                <input type="date" id="birthDate" required>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-2">อายุ</label>
+                  <input type="text" id="age" disabled placeholder="อัตโนมัติ">
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-2">รุ่นอายุ</label>
+                  <input type="text" id="ageGroupLabel" disabled placeholder="อัตโนมัติ">
+                </div>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">เพศ <span class="text-brand-500">*</span></label>
+                <div class="radio-btn-group">
+                  <label class="radio-btn"><input type="radio" name="gender" value="ชาย"> <i class="fa-solid fa-mars mr-1"></i> ชาย</label>
+                  <label class="radio-btn"><input type="radio" name="gender" value="หญิง"> <i class="fa-solid fa-venus mr-1"></i> หญิง</label>
+                </div>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">กรุ๊ปเลือด <span class="text-brand-500">*</span></label>
+                <div class="radio-btn-group">
+                  <label class="radio-btn"><input type="radio" name="blood" value="A"> A</label>
+                  <label class="radio-btn"><input type="radio" name="blood" value="B"> B</label>
+                  <label class="radio-btn"><input type="radio" name="blood" value="O"> O</label>
+                  <label class="radio-btn"><input type="radio" name="blood" value="AB"> AB</label>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- STEP 2: Contact & Medical -->
-          <div class="step-pane" id="step-2">
-            <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
-              <div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
-              <h3 class="text-2xl font-display font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-notes-medical"></i></div> 
-                ข้อมูลติดต่อและสุขภาพ
-              </h3>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div>
-                  <label class="block font-bold text-slate-700 mb-2">เบอร์โทรศัพท์ <span class="text-red-500">*</span></label>
-                  <div class="relative">
-                    <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="tel" id="phone" placeholder="08xxxxxxxx" class="pl-11" required>
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-bold text-slate-700 mb-2">อีเมล (ถ้ามี)</label>
-                  <div class="relative">
-                    <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="email" id="email" placeholder="example@email.com" class="pl-11">
-                  </div>
-                </div>
-                <div class="sm:col-span-2">
-                  <label class="block font-bold text-slate-700 mb-2">โรคประจำตัว <span class="text-slate-400 font-normal ml-1">(หากไม่มีให้กรอก "ไม่มี")</span> <span class="text-red-500">*</span></label>
-                  <div class="relative">
-                    <i class="fa-solid fa-briefcase-medical absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="medical" placeholder="ระบุโรคประจำตัว" class="pl-11" required>
-                  </div>
-                </div>
-                <div class="sm:col-span-2">
-                  <label class="block font-bold text-slate-700 mb-2">ผู้แนะนำ (ถ้ามี) <span class="text-slate-400 font-normal ml-1">(ชื่อ/ช่องทาง)</span></label>
-                  <div class="relative">
-                    <i class="fa-solid fa-bullhorn absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="referrer" placeholder="ระบุชื่อผู้แนะนำ" class="pl-11">
-                  </div>
-                </div>
-                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 sm:col-span-2 grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label class="block font-bold text-slate-700 mb-2">ผู้ติดต่อฉุกเฉิน <span class="text-red-500">*</span></label>
-                    <input type="text" id="emName" placeholder="ระบุชื่อ" required>
-                  </div>
-                  <div>
-                    <label class="block font-bold text-slate-700 mb-2">เบอร์ติดต่อฉุกเฉิน <span class="text-red-500">*</span></label>
-                    <input type="tel" id="emPhone" placeholder="08xxxxxxxx" required>
-                  </div>
+          <!-- STEP 2: Contact & Med -->
+          <div id="step-2" class="step-content">
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-notes-medical"></i></div> 
+              ข้อมูลติดต่อและสุขภาพ
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">เบอร์โทรศัพท์ <span class="text-brand-500">*</span></label>
+                <div class="relative">
+                  <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                  <input type="tel" id="phone" class="pl-12" placeholder="08xxxxxxxx" required>
                 </div>
               </div>
-              <div class="mt-10 flex justify-between">
-                <button type="button" onclick="prevStep(2)" class="btn-secondary px-8 py-3 rounded-xl font-bold flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> ย้อนกลับ</button>
-                <button type="button" onclick="nextStep(2)" class="btn-primary px-8 py-3 rounded-xl font-bold flex items-center gap-2">ถัดไป <i class="fa-solid fa-arrow-right"></i></button>
+              <div>
+                <label class="block font-bold text-slate-700 mb-2">อีเมล (ถ้ามี)</label>
+                <div class="relative">
+                  <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                  <input type="email" id="email" class="pl-12" placeholder="example@email.com">
+                </div>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">โรคประจำตัว <span class="text-slate-400 font-normal ml-1">(หากไม่มีให้กรอก "ไม่มี")</span> <span class="text-brand-500">*</span></label>
+                <div class="relative">
+                  <i class="fa-solid fa-briefcase-medical absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                  <input type="text" id="medical" class="pl-12" placeholder="ระบุโรคประจำตัว" required>
+                </div>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block font-bold text-slate-700 mb-2">ผู้แนะนำ (ถ้ามี) <span class="text-slate-400 font-normal ml-1">(ชื่อ/ช่องทาง)</span></label>
+                <div class="relative">
+                  <i class="fa-solid fa-handshake absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                  <input type="text" id="referrer" class="pl-12" placeholder="ระบุชื่อผู้แนะนำ">
+                </div>
+              </div>
+              <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 sm:col-span-2 grid sm:grid-cols-2 gap-6 relative overflow-hidden">
+                <div class="absolute right-0 top-0 text-slate-200 text-6xl opacity-30 -mt-2 -mr-2"><i class="fa-solid fa-truck-medical"></i></div>
+                <div class="relative z-10">
+                  <label class="block font-bold text-slate-700 mb-2">ผู้ติดต่อฉุกเฉิน <span class="text-brand-500">*</span></label>
+                  <input type="text" id="emName" placeholder="ระบุชื่อญาติหรือเพื่อน" required>
+                </div>
+                <div class="relative z-10">
+                  <label class="block font-bold text-slate-700 mb-2">เบอร์ติดต่อฉุกเฉิน <span class="text-brand-500">*</span></label>
+                  <input type="tel" id="emPhone" placeholder="08xxxxxxxx" required>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- STEP 3: Race Details -->
-          <div class="step-pane" id="step-3">
-            <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
-              <div class="absolute top-0 left-0 w-2 h-full bg-accent-500"></div>
-              <h3 class="text-2xl font-display font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-accent-50 text-accent-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-shirt"></i></div> 
-                การแข่งขัน
-              </h3>
-              <div class="space-y-10">
-                <div>
-                  <label class="block font-bold text-slate-700 mb-4 text-lg">เลือกระยะวิ่ง <span class="text-red-500">*</span></label>
-                  <div class="grid-select sm:grid-cols-3 gap-4">
-                    <label class="grid-card"><input type="radio" name="distance" value="5"><span class="title">5 KM</span><span class="sub" id="formPrice5">400 บาท</span></label>
-                    <label class="grid-card"><input type="radio" name="distance" value="10"><span class="title">10 KM</span><span class="sub" id="formPrice10">500 บาท</span></label>
-                    <label class="grid-card"><input type="radio" name="distance" value="VIP"><span class="title">VIP</span><span class="sub" id="formPriceVIP">1000 บาท</span></label>
-                  </div>
-                </div>
-                
-                <div>
-                  <label class="block font-bold text-slate-700 mb-4 text-lg">ไซส์เสื้อ <span class="text-red-500">*</span></label>
-                  <div class="grid-select" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));">
-                    <!-- Kids -->
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="อก 26"><span class="title">เด็ก 26"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="อก 28"><span class="title">เด็ก 28"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="อก 30"><span class="title">เด็ก 30"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="อก 32"><span class="title">เด็ก 32"</span></label>
-                    <!-- Adults -->
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="SS (34)"><span class="title">SS</span><span class="sub">อก 34"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="S (36)"><span class="title">S</span><span class="sub">อก 36"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="M (38)"><span class="title">M</span><span class="sub">อก 38"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="L (40)"><span class="title">L</span><span class="sub">อก 40"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="XL (42)"><span class="title">XL</span><span class="sub">อก 42"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="2XL (44)"><span class="title">2XL</span><span class="sub">อก 44"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="3XL (46)"><span class="title">3XL</span><span class="sub">อก 46"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="4XL (48)"><span class="title">4XL</span><span class="sub">อก 48"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="5XL (50)"><span class="title">5XL</span><span class="sub">อก 50"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="6XL (52)"><span class="title">6XL</span><span class="sub">อก 52"</span></label>
-                    <label class="grid-card"><input type="radio" name="shirtSize" value="7XL (54)"><span class="title">7XL</span><span class="sub">อก 54"</span></label>
-                  </div>
+          <div id="step-3" class="step-content">
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-accent-50 text-accent-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-shirt"></i></div> 
+              การแข่งขัน
+            </h3>
+            <div class="space-y-10">
+              <div>
+                <label class="block font-bold text-slate-700 mb-4 text-lg">เลือกระยะวิ่ง <span class="text-brand-500">*</span></label>
+                <div class="grid-select sm:grid-cols-3 gap-4">
+                  <label class="grid-card"><input type="radio" name="distance" value="5"><span class="title">5 KM</span><span class="sub" id="formPrice5">400 บาท</span></label>
+                  <label class="grid-card"><input type="radio" name="distance" value="10"><span class="title">10 KM</span><span class="sub" id="formPrice10">500 บาท</span></label>
+                  <label class="grid-card"><input type="radio" name="distance" value="VIP"><span class="title">VIP</span><span class="sub" id="formPriceVIP">1000 บาท</span></label>
                 </div>
               </div>
-              <div class="mt-10 flex justify-between">
-                <button type="button" onclick="prevStep(3)" class="btn-secondary px-8 py-3 rounded-xl font-bold flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> ย้อนกลับ</button>
-                <button type="button" onclick="nextStep(3)" class="btn-primary px-8 py-3 rounded-xl font-bold flex items-center gap-2">ถัดไป <i class="fa-solid fa-arrow-right"></i></button>
+              
+              <div>
+                <label class="block font-bold text-slate-700 mb-4 text-lg">ไซส์เสื้อ <span class="text-brand-500">*</span></label>
+                <div class="grid-select" style="grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));">
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 26"><span class="title">เด็ก 26"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 28"><span class="title">เด็ก 28"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 30"><span class="title">เด็ก 30"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="อก 32"><span class="title">เด็ก 32"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="SS (34)"><span class="title">SS</span><span class="sub">อก 34"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="S (36)"><span class="title">S</span><span class="sub">อก 36"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="M (38)"><span class="title">M</span><span class="sub">อก 38"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="L (40)"><span class="title">L</span><span class="sub">อก 40"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="XL (42)"><span class="title">XL</span><span class="sub">อก 42"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="2XL (44)"><span class="title">2XL</span><span class="sub">อก 44"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="3XL (46)"><span class="title">3XL</span><span class="sub">อก 46"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="4XL (48)"><span class="title">4XL</span><span class="sub">อก 48"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="5XL (50)"><span class="title">5XL</span><span class="sub">อก 50"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="6XL (52)"><span class="title">6XL</span><span class="sub">อก 52"</span></label>
+                  <label class="grid-card"><input type="radio" name="shirtSize" value="7XL (54)"><span class="title">7XL</span><span class="sub">อก 54"</span></label>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- STEP 4: Summary & Payment -->
-          <div class="step-pane" id="step-4">
-            <div class="glass-card p-8 sm:p-10 rounded-[2rem] shadow-soft relative overflow-hidden" data-aos="fade-up">
-              <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
-              <h3 class="text-2xl font-display font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-money-bill-transfer"></i></div> 
-                สรุปยอดและการชำระเงิน
-              </h3>
-              
-              <div class="bg-gradient-to-r from-emerald-50 to-brand-50 rounded-[1.5rem] p-8 mb-8 border border-emerald-100 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm">
-                <div class="text-emerald-800 font-bold text-lg" id="paymentStatusText">ยอดที่ต้องชำระ (กรุณาเลือกระยะทางวิ่งก่อน)</div>
-                <div class="text-5xl font-display font-black text-emerald-600"><span id="totalAmount">0</span> <span class="text-xl font-bold text-emerald-700 ml-1">บาท</span></div>
-              </div>
+          <!-- STEP 4: Payment & Submit -->
+          <div id="step-4" class="step-content">
+            <h3 class="text-2xl font-black text-slate-800 border-b border-slate-100 pb-5 mb-8 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shadow-inner"><i class="fa-solid fa-money-bill-transfer"></i></div> 
+              ชำระเงิน
+            </h3>
+            
+            <div class="bg-gradient-to-r from-emerald-50 to-brand-50 rounded-[1.5rem] p-8 mb-8 border border-emerald-100 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-sm">
+              <div class="text-emerald-800 font-bold text-lg">ยอดที่ต้องชำระสุทธิ</div>
+              <div class="text-5xl font-black text-emerald-600"><span id="netTotal">0</span> <span class="text-xl font-bold text-emerald-700 ml-1">บาท</span></div>
+            </div>
 
-              <!-- Payment Details (Hidden for Staff, Visible for Users) -->
-              <div id="paymentDetailsArea">
-                <div class="bg-white rounded-[1.5rem] p-8 mb-8 border-2 border-dashed border-slate-200 text-center relative">
-                  <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-slate-100 px-4 py-1 rounded-full text-xs font-bold text-slate-500 border border-slate-200">บัญชีรับโอน</div>
-                  <div class="text-slate-500 font-medium mb-2 mt-2">ธนาคารกสิกรไทย</div>
-                  <div class="text-3xl font-display font-black text-slate-800 mb-2 tracking-wider">105-292872-5</div>
-                  <div class="text-slate-600 font-bold mb-6">โรงเรียนเทพพิทักษ์วิทยา</div>
-                  <button type="button" onclick="copyToClipboard('105-292872-5')" class="btn-secondary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 mx-auto">
-                    <i class="fa-regular fa-copy"></i> คัดลอกเลขบัญชี
-                  </button>
-                </div>
-
-                <div>
-                  <label class="block font-bold text-slate-700 mb-4 text-lg">แนบหลักฐานการโอนเงิน (สลิป) <span class="text-red-500">*</span></label>
-                  <div id="uploadArea" class="border-2 border-dashed border-slate-300 rounded-[1.5rem] p-10 text-center bg-slate-50 cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all relative group" onclick="document.getElementById('slipFile').click()">
-                    <input type="file" id="slipFile" accept="image/*" class="hidden">
-                    <div id="slipUploadPrompt" class="transition-transform group-hover:scale-105">
-                      <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-3xl text-brand-500">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                      </div>
-                      <div class="text-slate-700 font-bold text-lg">คลิกเพื่ออัปโหลดสลิป</div>
-                      <div class="text-slate-400 text-sm mt-2 font-medium">รองรับไฟล์ภาพ JPG, PNG ขนาดไม่เกิน 5MB</div>
-                    </div>
-                    <div id="slipPreviewContainer" class="hidden flex-col items-center">
-                       <img id="slipPreview" src="" class="max-h-72 rounded-2xl shadow-lg z-10 relative object-contain mb-4">
-                       <span class="text-sm font-bold text-brand-600"><i class="fa-solid fa-check-circle"></i> อัปโหลดสลิปเรียบร้อยแล้ว (คลิกเพื่อเปลี่ยน)</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-10 flex flex-col-reverse sm:flex-row justify-between gap-4 border-t border-slate-100 pt-8">
-                <button type="button" onclick="prevStep(4)" class="btn-secondary px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 w-full sm:w-auto"><i class="fa-solid fa-arrow-left"></i> ย้อนกลับ</button>
-                <button type="submit" id="submitBtn" class="btn-primary px-10 py-4 rounded-xl font-black text-xl flex items-center justify-center gap-3 w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed">
-                  ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>
+            <!-- Upload Slip Section (Hidden in Staff Mode) -->
+            <div id="paymentDetailsArea">
+              <div class="bg-white rounded-[1.5rem] p-8 mb-8 border-2 border-dashed border-slate-200 text-center relative">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-slate-100 px-4 py-1 rounded-full text-xs font-bold text-slate-500 border border-slate-200">บัญชีรับโอน</div>
+                <div class="text-slate-500 font-medium mb-2 mt-2">ธนาคารกสิกรไทย</div>
+                <div class="text-3xl font-black text-slate-800 mb-2 tracking-wider">105-292872-5</div>
+                <div class="text-slate-600 font-bold mb-6">โรงเรียนเทพพิทักษ์วิทยา</div>
+                <button type="button" onclick="copyToClipboard('105-292872-5')" class="btn-secondary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 mx-auto">
+                  <i class="fa-regular fa-copy"></i> คัดลอกเลขบัญชี
                 </button>
               </div>
-              <p class="text-center text-slate-400 text-sm mt-6 font-medium">เมื่อกดยืนยัน ถือว่าท่านยอมรับเงื่อนไขการสมัครและรับรองว่าข้อมูลถูกต้อง</p>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-4 text-lg">แนบหลักฐานการโอนเงิน (สลิป) <span class="text-brand-500">*</span></label>
+                <div id="uploadArea" class="border-2 border-dashed border-slate-300 rounded-[1.5rem] p-10 text-center bg-slate-50 cursor-pointer hover:bg-brand-50 hover:border-brand-300 transition-all relative group" onclick="document.getElementById('slipFile').click()">
+                  <input type="file" id="slipFile" accept="image/*" class="hidden">
+                  <div id="uploadPrompt" class="transition-transform group-hover:scale-105">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-3xl text-brand-500">
+                      <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <div class="text-slate-700 font-bold text-lg">คลิกเพื่ออัปโหลดสลิป</div>
+                    <div class="text-slate-400 text-sm mt-2 font-medium">รองรับไฟล์ภาพ JPG, PNG ขนาดไม่เกิน 5MB</div>
+                  </div>
+                  <img id="slipPreview" src="" class="hidden mx-auto max-h-72 rounded-2xl shadow-lg z-10 relative object-contain">
+                </div>
+              </div>
             </div>
+          </div>
+
+          <!-- Form Navigation -->
+          <div class="mt-10 pt-6 border-t border-slate-100 flex justify-between items-center gap-4">
+            <button type="button" id="btnPrev" onclick="prevStep()" class="btn-secondary px-8 py-4 rounded-2xl font-bold hidden flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> ย้อนกลับ</button>
+            <div class="flex-grow"></div>
+            <button type="button" id="btnNext" onclick="nextStep()" class="btn-primary px-10 py-4 rounded-2xl font-black text-lg flex items-center gap-2">ถัดไป <i class="fa-solid fa-arrow-right"></i></button>
+            <button type="submit" id="submitBtn" class="btn-glow px-12 py-4 rounded-2xl font-black text-xl text-white hidden flex items-center gap-3">ยืนยันสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i></button>
           </div>
         </form>
       </div>
@@ -639,8 +583,8 @@
         <div class="w-28 h-28 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-6xl mx-auto mb-8 shadow-inner">
           <i class="fa-solid fa-check"></i>
         </div>
-        <h2 class="text-4xl font-display font-black text-slate-800 mb-4">สมัครสำเร็จ!</h2>
-        <p class="text-slate-500 mb-10 font-medium" id="successSubtitle">ระบบได้รับข้อมูลของท่านเรียบร้อยแล้ว<br>กรุณารอเจ้าหน้าที่ตรวจสอบสลิป 1-2 วันทำการ</p>
+        <h2 class="text-4xl font-black text-slate-800 mb-4" id="succHead">สมัครสำเร็จ!</h2>
+        <p class="text-slate-500 mb-10 font-medium" id="succSub">ระบบได้รับข้อมูลของท่านเรียบร้อยแล้ว<br>กรุณารอเจ้าหน้าที่ตรวจสอบสลิป 1-2 วันทำการ</p>
         
         <div class="bg-white rounded-[2rem] shadow-xl overflow-hidden mb-10 text-left border border-slate-100 relative">
           <!-- Ticket Notches -->
@@ -665,7 +609,7 @@
               <span class="text-slate-800 font-bold text-right" id="successShirt"></span>
             </div>
             <div class="flex justify-between items-center pt-2">
-              <span class="text-slate-500 font-medium">ยอดเงิน</span>
+              <span class="text-slate-500 font-medium">ยอดโอน</span>
               <span class="text-brand-600 font-black text-xl text-right" id="successTotal"></span>
             </div>
           </div>
@@ -686,7 +630,7 @@
     <div class="view" id="view-status">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="text-center mb-12" data-aos="fade-down">
-          <h2 class="text-4xl font-display font-black text-slate-900 mb-4">ตรวจสอบสถานะ</h2>
+          <h2 class="text-4xl font-black text-slate-900 mb-4">ตรวจสอบสถานะ</h2>
           <p class="text-slate-500 font-medium text-lg">กรอกข้อมูลที่ใช้ในการสมัครเพื่อดูความคืบหน้า</p>
         </div>
 
@@ -694,11 +638,17 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             <div>
               <label class="block font-bold text-slate-700 mb-3">เลขบัตรประชาชน / พาสปอร์ต</label>
-              <input type="text" id="lkId" placeholder="กรอกให้ตรงกับตอนสมัคร">
+              <div class="relative">
+                <i class="fa-regular fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="lkId" class="pl-12" placeholder="กรอกให้ตรงกับตอนสมัคร">
+              </div>
             </div>
             <div>
               <label class="block font-bold text-slate-700 mb-3">เบอร์โทรศัพท์</label>
-              <input type="tel" id="lkPhone" placeholder="08xxxxxxxx">
+              <div class="relative">
+                 <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="tel" id="lkPhone" class="pl-12" placeholder="08xxxxxxxx">
+              </div>
             </div>
           </div>
           <button id="lkBtn" class="btn-primary w-full py-4 rounded-2xl font-bold text-lg flex justify-center items-center gap-2">
@@ -716,20 +666,14 @@
     <div class="view" id="view-staffLogin">
       <div class="min-h-[70vh] flex items-center justify-center px-4 py-12">
         <div class="glass-card p-10 rounded-[2rem] shadow-xl w-full max-w-md text-center" data-aos="zoom-in">
-          <div class="flex justify-end mb-4">
-             <button onclick="showView('home')" class="text-slate-400 hover:text-slate-700 transition-colors"><i class="fa-solid fa-xmark text-2xl"></i></button>
-          </div>
           <div class="w-20 h-20 bg-slate-800 text-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg text-3xl">
             <i class="fa-solid fa-lock"></i>
           </div>
-          <h2 class="text-3xl font-display font-black text-slate-800 mb-3">เจ้าหน้าที่ระบบ</h2>
+          <h2 class="text-3xl font-black text-slate-800 mb-3">เจ้าหน้าที่ระบบ</h2>
           <p class="text-slate-500 font-medium mb-10">กรุณาใส่รหัสผ่านเพื่อเข้าสู่แผงควบคุม</p>
           <input type="password" id="staffPass" placeholder="••••••••" class="text-center text-2xl tracking-[0.5em] mb-8 py-4 font-mono bg-slate-50" onkeypress="if(event.key==='Enter') document.getElementById('staffLoginBtn').click()">
-          <button id="staffLoginBtn" class="w-full py-4 rounded-2xl bg-slate-800 text-white font-bold hover:bg-slate-900 transition-colors flex justify-center items-center gap-2 mb-4">
+          <button id="staffLoginBtn" class="w-full py-4 rounded-2xl bg-slate-800 text-white font-bold hover:bg-slate-900 transition-colors flex justify-center items-center gap-2">
             เข้าสู่ระบบ <i class="fa-solid fa-arrow-right-to-bracket"></i>
-          </button>
-          <button onclick="showView('home')" class="w-full py-3 text-slate-500 font-bold hover:text-slate-800 transition-colors">
-            <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก
           </button>
         </div>
       </div>
@@ -746,7 +690,7 @@
               <i class="fa-solid fa-user-shield"></i>
             </div>
             <div>
-              <div class="font-display font-black text-slate-800 text-lg flex items-center gap-3">
+              <div class="font-black text-slate-800 text-lg flex items-center gap-3">
                 แผงควบคุมหลัก
                 <!-- Badges Status -->
                 <div id="fbStatus" class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 text-emerald-700 flex items-center gap-1 border border-emerald-200">
@@ -760,7 +704,7 @@
             </div>
           </div>
           
-          <div class="w-full sm:w-auto flex gap-3">
+          <div class="w-full sm:w-auto flex flex-wrap gap-3 items-center">
             <div class="relative w-full sm:w-64">
               <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
                 <i class="fa-solid fa-layer-group"></i>
@@ -768,19 +712,15 @@
               <select id="staffSectionSelect" class="bg-slate-50 border border-slate-200 text-slate-700 font-bold rounded-xl pl-10 pr-4 py-3 outline-none focus:border-brand-500 w-full cursor-pointer appearance-none">
                 <option value="overview">ภาพรวม (Overview)</option>
                 <option value="payment">ยืนยันการเงิน (Payment)</option>
-                <option value="shirt">แจกเสื้อ (Shirt)</option>
-                <option value="checkin">เช็คอิน (Check-in)</option>
-                <option value="cert">แจกเกียรติบัตร (Certificate)</option>
+                <option value="unified-scanner">สแกนเนอร์แจกของ (Scanner)</option>
                 <option value="all">รายชื่อทั้งหมด (All Users)</option>
                 <option value="settings">ตั้งค่าหน้าเว็บ (Settings)</option>
-                <option value="scanner">สแกนคิวอาร์โค้ด (QR Scan)</option>
               </select>
               <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
                 <i class="fa-solid fa-chevron-down text-xs"></i>
               </div>
             </div>
-            <!-- Logout Button -->
-            <button onclick="adminLogout()" class="px-5 py-3 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 font-bold transition-colors flex items-center gap-2" title="ออกจากระบบ">
+            <button onclick="handleLogout()" class="px-5 py-3 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 font-bold transition-colors flex items-center gap-2" title="ออกจากระบบ">
               <i class="fa-solid fa-power-off"></i> <span class="hidden sm:inline">ออก</span>
             </button>
           </div>
@@ -792,7 +732,7 @@
           <!-- Panel: Overview -->
           <div id="panel-overview" class="staff-panel hidden">
             <div class="flex justify-between items-center mb-8">
-              <h3 class="text-2xl font-display font-black text-slate-800 flex items-center gap-3">
+              <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3">
                 <i class="fa-solid fa-chart-pie text-brand-500"></i> สรุปข้อมูลภาพรวม
               </h3>
               <button onclick="renderAdminOverview()" class="text-brand-500 hover:text-brand-700 font-bold text-sm flex items-center gap-2 bg-brand-50 px-4 py-2 rounded-lg">
@@ -809,7 +749,7 @@
           <!-- Panel: Payment -->
           <div id="panel-payment" class="staff-panel hidden">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="text-2xl font-display font-black text-slate-800 flex items-center gap-3">
+              <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3">
                 <i class="fa-solid fa-money-check-dollar text-emerald-500"></i> ตรวจสอบการชำระเงิน
               </h3>
             </div>
@@ -817,73 +757,46 @@
             <div class="overflow-x-auto rounded-2xl border border-slate-100 shadow-sm">
               <table class="w-full text-left border-collapse whitespace-nowrap">
                 <thead class="bg-slate-50 text-slate-600 text-sm">
-                  <tr><th class="p-5 font-bold">วันที่สมัคร</th><th class="p-5 font-bold">ชื่อ-นามสกุล</th><th class="p-5 font-bold">ระยะ</th><th class="p-5 font-bold">ยอดโอน</th><th class="p-5 font-bold">สลิป</th><th class="p-5 font-bold">จัดการ</th></tr>
+                  <tr><th class="p-5 font-bold">วันที่สมัคร</th><th class="p-5 font-bold">ชื่อ-นามสกุล</th><th class="p-5 font-bold">ระยะ</th><th class="p-5 font-bold">ยอดโอน</th><th class="p-5 font-bold">สลิป</th><th class="p-5 font-bold text-center">จัดการ</th></tr>
                 </thead>
                 <tbody id="tbPayment" class="divide-y divide-slate-100 text-sm font-medium text-slate-700"></tbody>
               </table>
             </div>
           </div>
 
-          <!-- Panel: Shirt / Checkin / Cert -->
-          <div id="panel-shirt" class="staff-panel hidden">
-            <h3 class="text-2xl font-display font-black text-slate-800 mb-8 flex items-center gap-3"><i class="fa-solid fa-shirt text-blue-500"></i> แจกเสื้อ (Shirt)</h3>
-            <div class="flex gap-3 max-w-lg mb-8">
-              <div class="relative flex-grow">
-                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="srchShirt" placeholder="ค้นหา ชื่อ / เลขบัตร / เบอร์ / ID" class="pl-11 w-full bg-slate-50">
+          <!-- Panel: Unified Scanner -->
+          <div id="panel-unified-scanner" class="staff-panel hidden">
+            <div class="max-w-3xl mx-auto">
+              <div class="text-center mb-10">
+                <div class="w-20 h-20 bg-slate-800 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl text-3xl">
+                  <i class="fa-solid fa-barcode"></i>
+                </div>
+                <h3 class="text-3xl font-black text-slate-800 mb-2">ศูนย์สแกนเนอร์</h3>
+                <p class="text-slate-500 font-medium">ยิงบาร์โค้ด / คิวอาร์โค้ด หรือพิมพ์รหัส แล้วกด Enter</p>
               </div>
-              <button onclick="adminSearch('shirt')" class="px-6 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">ค้นหา</button>
-            </div>
-            <div id="resShirt"></div>
-          </div>
-          <div id="panel-checkin" class="staff-panel hidden">
-            <h3 class="text-2xl font-display font-black text-slate-800 mb-8 flex items-center gap-3"><i class="fa-solid fa-map-pin text-red-500"></i> เช็คอินวันแข่ง (Check-in)</h3>
-            <div class="flex gap-3 max-w-lg mb-8">
-              <div class="relative flex-grow">
-                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="srchCheckin" placeholder="ค้นหา ชื่อ / เลขบัตร / เบอร์ / ID" class="pl-11 w-full bg-slate-50">
+              
+              <div class="bg-slate-50 p-8 rounded-[2rem] border border-slate-200 shadow-inner mb-8">
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                  <label class="radio-btn"><input type="radio" name="scanMode" value="info" checked> <i class="fa-solid fa-eye text-blue-500 mr-2"></i> ดูข้อมูล</label>
+                  <label class="radio-btn"><input type="radio" name="scanMode" value="shirtGet"> <i class="fa-solid fa-shirt text-brand-500 mr-2"></i> แจกเสื้อ</label>
+                  <label class="radio-btn"><input type="radio" name="scanMode" value="checkin"> <i class="fa-solid fa-map-pin text-emerald-500 mr-2"></i> เช็คอิน</label>
+                  <label class="radio-btn"><input type="radio" name="scanMode" value="certGet"> <i class="fa-solid fa-certificate text-amber-500 mr-2"></i> แจกเกียรติบัตร</label>
+                </div>
+                
+                <div class="relative">
+                  <i class="fa-solid fa-keyboard absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 text-2xl"></i>
+                  <input type="text" id="scanInput" class="w-full pl-16 pr-6 py-5 text-2xl font-mono text-center tracking-widest bg-white border-2 border-slate-300 rounded-2xl shadow-sm focus:border-slate-800 focus:ring-0 placeholder:text-slate-300 placeholder:font-sans placeholder:tracking-normal placeholder:text-lg" placeholder="รหัส / BIB / เลขบัตรประชาชน" autofocus onkeypress="if(event.key==='Enter') unifiedScan()">
+                </div>
               </div>
-              <button onclick="adminSearch('checkin')" class="px-6 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">ค้นหา</button>
+              
+              <div id="scanResult" class="min-h-[200px]"></div>
             </div>
-            <div id="resCheckin"></div>
-          </div>
-          <div id="panel-cert" class="staff-panel hidden">
-            <h3 class="text-2xl font-display font-black text-slate-800 mb-8 flex items-center gap-3"><i class="fa-solid fa-certificate text-amber-500"></i> แจกเกียรติบัตร (Certificate)</h3>
-            <div class="flex gap-3 max-w-lg mb-8">
-              <div class="relative flex-grow">
-                <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="srchCert" placeholder="ค้นหา ชื่อ / เลขบัตร / เบอร์ / ID" class="pl-11 w-full bg-slate-50">
-              </div>
-              <button onclick="adminSearch('cert')" class="px-6 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">ค้นหา</button>
-            </div>
-            <div id="resCert"></div>
           </div>
 
-          <!-- Panel: Scanner -->
-          <div id="panel-scanner" class="staff-panel hidden">
-             <h3 class="text-2xl font-display font-black text-slate-800 mb-8 flex items-center gap-3"><i class="fa-solid fa-barcode text-slate-800"></i> สแกนคิวอาร์โค้ด / บาร์โค้ด</h3>
-             <div class="max-w-2xl bg-slate-50 p-8 rounded-3xl border border-slate-200">
-                <div class="mb-6">
-                   <label class="block font-bold text-slate-700 mb-3 text-lg">1. เลือกโหมดการสแกน</label>
-                   <div class="radio-btn-group">
-                      <label class="radio-btn"><input type="radio" name="scanMode" value="view" checked> 🔍 แค่ดูข้อมูล (ไม่ทำรายการ)</label>
-                      <label class="radio-btn"><input type="radio" name="scanMode" value="shirt"> 👕 แจกเสื้อ</label>
-                      <label class="radio-btn"><input type="radio" name="scanMode" value="checkin"> 📍 เช็คอินหน้างาน</label>
-                      <label class="radio-btn"><input type="radio" name="scanMode" value="cert"> 🎓 แจกเกียรติบัตร</label>
-                   </div>
-                </div>
-                <div class="mb-6">
-                   <label class="block font-bold text-slate-700 mb-3 text-lg">2. เอาเมาส์คลิกช่องนี้แล้วยิงสแกนเนอร์</label>
-                   <input type="text" id="scanInput" placeholder="คลิกที่นี่เพื่อพร้อมสแกน" class="text-center font-mono text-xl py-4 border-2 border-brand-300 focus:border-brand-500 bg-white">
-                   <p class="text-sm text-slate-500 mt-2 text-center font-medium">เมื่อยิงสแกนเนอร์ ระบบจะอ่านค่าและกด Enter ให้อัตโนมัติ</p>
-                </div>
-             </div>
-          </div>
-
-          <!-- Panel: All Users -->
+          <!-- Panel: All Users (Datatable) -->
           <div id="panel-all" class="staff-panel hidden">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-              <h3 class="text-2xl font-display font-black text-slate-800 flex items-center gap-3">
+              <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3">
                 <i class="fa-solid fa-users text-indigo-500"></i> รายชื่อผู้สมัครทั้งหมด
               </h3>
               <div class="flex gap-3">
@@ -891,29 +804,38 @@
                   <i class="fa-solid fa-rotate-right"></i> รีเฟรช
                 </button>
                 <button onclick="exportToCSV()" class="btn-primary px-5 py-2.5 rounded-xl font-bold flex items-center gap-2">
-                  <i class="fa-solid fa-file-excel"></i> โหลด Excel (CSV)
+                  <i class="fa-solid fa-file-excel"></i> โหลด Excel
                 </button>
               </div>
             </div>
-            <div class="overflow-x-auto rounded-2xl border border-slate-100 shadow-sm">
-              <table class="w-full text-left border-collapse whitespace-nowrap">
+            <div class="overflow-x-auto rounded-2xl border border-slate-100 shadow-sm relative">
+              <table class="w-full text-left border-collapse whitespace-nowrap min-w-max">
                 <thead class="bg-slate-50 text-slate-600 text-sm">
                   <tr>
-                    <th class="p-5 font-bold">ลำดับ</th>
-                    <th class="p-5 font-bold">ชื่อ-นามสกุล</th>
-                    <th class="p-5 font-bold">รุ่นอายุ / ระยะ</th>
-                    <th class="p-5 font-bold">BIB</th>
-                    <th class="p-5 font-bold text-center">ดูข้อมูล / จัดการ</th>
+                    <th class="p-4 font-bold border-b border-slate-200">ลำดับ</th>
+                    <th class="p-4 font-bold border-b border-slate-200">รหัสอ้างอิง</th>
+                    <th class="p-4 font-bold border-b border-slate-200">วันที่สมัคร</th>
+                    <th class="p-4 font-bold border-b border-slate-200">เลขบัตร</th>
+                    <th class="p-4 font-bold border-b border-slate-200">ชื่อ-นามสกุล</th>
+                    <th class="p-4 font-bold border-b border-slate-200">เพศ/อายุ</th>
+                    <th class="p-4 font-bold border-b border-slate-200">รุ่น</th>
+                    <th class="p-4 font-bold border-b border-slate-200">เบอร์โทร</th>
+                    <th class="p-4 font-bold border-b border-slate-200">ระยะ</th>
+                    <th class="p-4 font-bold border-b border-slate-200">ไซส์เสื้อ</th>
+                    <th class="p-4 font-bold border-b border-slate-200">ยอดเงิน</th>
+                    <th class="p-4 font-bold border-b border-slate-200">BIB Number</th>
+                    <th class="p-4 font-bold border-b border-slate-200">สถานะ</th>
+                    <th class="p-4 font-bold border-b border-slate-200 text-center sticky right-0 bg-slate-50 shadow-[-5px_0_10px_rgba(0,0,0,0.05)] z-10">จัดการ</th>
                   </tr>
                 </thead>
-                <tbody id="tbAll" class="divide-y divide-slate-100 text-sm font-medium text-slate-700"></tbody>
+                <tbody id="tbAll" class="divide-y divide-slate-100 text-sm font-medium text-slate-700 bg-white"></tbody>
               </table>
             </div>
           </div>
 
           <!-- Panel: Settings -->
           <div id="panel-settings" class="staff-panel hidden">
-            <h3 class="text-2xl font-display font-black text-slate-800 mb-8 flex items-center gap-3">
+            <h3 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
               <i class="fa-solid fa-gear text-slate-500"></i> ตั้งค่าระบบ (Web Settings)
             </h3>
             
@@ -956,7 +878,7 @@
                 <!-- Web Appearance Settings -->
                 <div class="space-y-6 bg-slate-50 p-8 rounded-3xl border border-slate-100">
                   <h4 class="font-bold text-slate-800 text-lg flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-map-location-dot text-brand-500"></i> ปรับแต่งหน้าแรก (แผนที่ & ป้าย)
+                    <i class="fa-solid fa-map-location-dot text-brand-500"></i> ปรับแต่งหน้าแรก (แผนที่)
                   </h4>
                   <div>
                     <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดแผนที่ 5 KM</label>
@@ -965,15 +887,6 @@
                   <div>
                     <label class="block text-sm font-bold text-slate-600 mb-2">อัปโหลดแผนที่ 10 KM</label>
                     <input type="file" id="cfgMap10" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
-                  </div>
-                  <div>
-                    <label class="block text-sm font-bold text-slate-600 mb-2">ตำแหน่งป้าย "ยอดนิยม"</label>
-                    <select id="cfgPopBadge">
-                      <option value="5">ระยะ 5 KM</option>
-                      <option value="10">ระยะ 10 KM</option>
-                      <option value="VIP">ระยะ VIP</option>
-                      <option value="none">ซ่อนป้าย</option>
-                    </select>
                   </div>
                 </div>
 
@@ -995,59 +908,76 @@
               <!-- Column 2: Live Editor & Print Settings -->
               <div class="space-y-6">
                 <!-- Editor Box -->
-                <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 text-white shadow-xl">
+                <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 text-white">
                   <h4 class="font-bold text-white text-lg flex items-center gap-2 mb-6">
-                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> พรีวิวแบบพิมพ์ (Live Preview)
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> พรีวิวและพิกัดการพิมพ์ (Sarabun Font)
                   </h4>
-                  <div class="flex gap-2 mb-4 bg-slate-900 p-1 rounded-xl w-max">
-                    <button id="tabBib" onclick="switchEditor('bib')" class="px-6 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors">BIB 5K/10K</button>
-                    <button id="tabCert" onclick="switchEditor('cert')" class="px-6 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors">เกียรติบัตร</button>
+                  <div class="flex flex-wrap gap-2 mb-4 bg-slate-900 p-2 rounded-xl">
+                    <button id="tabBib5" onclick="switchEditor('bib5')" class="flex-1 min-w-[80px] px-3 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors">BIB 5K</button>
+                    <button id="tabBib10" onclick="switchEditor('bib10')" class="flex-1 min-w-[80px] px-3 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors">BIB 10K</button>
+                    <button id="tabBibVIP" onclick="switchEditor('bibVIP')" class="flex-1 min-w-[80px] px-3 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors">BIB VIP</button>
+                    <button id="tabCert" onclick="switchEditor('cert')" class="flex-1 min-w-[80px] px-3 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors">เกียรติบัตร</button>
                   </div>
                   
                   <!-- Checkboxes for visibility -->
                   <div class="flex flex-wrap gap-4 mb-4 text-sm font-bold text-slate-300">
                     <label class="flex items-center gap-2"><input type="checkbox" id="showName" checked onchange="updateLivePreview()"> แสดงชื่อ</label>
-                    <label class="flex items-center gap-2 bib-only-opt"><input type="checkbox" id="showBibNum" checked onchange="updateLivePreview()"> แสดงเลข BIB</label>
-                    <label class="flex items-center gap-2 bib-only-opt"><input type="checkbox" id="showGenderAge" checked onchange="updateLivePreview()"> แสดงเพศ/รุ่นอายุ</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showBibNum" checked onchange="updateLivePreview()"> แสดงเลข BIB</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showGenderAge" checked onchange="updateLivePreview()"> แสดงรุ่น/ระยะ</label>
+                    <label class="flex items-center gap-2"><input type="checkbox" id="showQR" checked onchange="updateLivePreview()"> เปิดใช้ QR Code</label>
                   </div>
 
                   <!-- Canvas Preview -->
                   <div class="relative w-full aspect-[4/5] bg-slate-900 rounded-xl overflow-hidden border border-slate-600 mb-6 flex items-center justify-center">
                     <canvas id="liveCanvas" class="max-w-full max-h-full object-contain"></canvas>
-                    <div id="noBgMsg" class="absolute text-slate-500 font-bold text-sm"><i class="fa-solid fa-image text-3xl block mb-2"></i>อัปโหลดพื้นหลังเพื่อเริ่มแก้ไข</div>
+                    <div id="noBgMsg" class="absolute text-slate-500 font-bold text-sm text-center"><i class="fa-solid fa-image text-4xl block mb-2 opacity-50"></i>อัปโหลดพื้นหลังเพื่อเริ่มแก้ไข</div>
                   </div>
 
-                  <!-- Canvas Controls -->
-                  <div class="grid grid-cols-2 gap-4 bg-slate-900 p-4 rounded-xl">
-                    <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-2">พิกัด ชื่อ-นามสกุล</div>
-                    <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cBNX" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
-                    <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cBNY" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
+                  <!-- Canvas Controls (Independent) -->
+                  <div class="grid grid-cols-2 gap-x-6 gap-y-4 bg-slate-900 p-5 rounded-xl border border-slate-700">
+                    <!-- Name -->
+                    <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-1">📍 พิกัด: ชื่อ-นามสกุล</div>
+                    <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cBNX" min="0" max="100" class="w-full accent-brand-500" oninput="updateLivePreview()"></div>
+                    <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cBNY" min="0" max="100" class="w-full accent-brand-500" oninput="updateLivePreview()"></div>
                     
-                    <div id="ctrlBibOnly" class="col-span-2 grid grid-cols-2 gap-4">
-                      <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-2 mt-2">พิกัด เลข BIB / เพศ / รุ่น</div>
-                      <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cBBX" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
-                      <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cBBY" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
-                      
-                      <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-2 mt-2 flex items-center gap-2">พิกัดคิวอาร์โค้ด (QR) <input type="checkbox" id="showQR" checked onchange="updateLivePreview()"> เปิดใช้</div>
-                      <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cQRX" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
-                      <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cQRY" min="0" max="100" class="w-full" oninput="updateLivePreview()"></div>
-                      <div><label class="text-xs text-slate-400 block mb-1">ขนาด (px)</label><input type="number" id="cQRS" class="bg-slate-700 border-slate-600 text-white" oninput="updateLivePreview()"></div>
+                    <div id="ctrlBibOnly" class="col-span-2 grid grid-cols-2 gap-x-6 gap-y-4">
+                      <!-- BIB Num -->
+                      <div class="col-span-2 text-xs font-bold text-blue-400 border-b border-slate-700 pb-1 mt-2">📍 พิกัด: เลข BIB</div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cBBX" min="0" max="100" class="w-full accent-blue-500" oninput="updateLivePreview()"></div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cBBY" min="0" max="100" class="w-full accent-blue-500" oninput="updateLivePreview()"></div>
+                      <!-- Age/Dist -->
+                      <div class="col-span-2 text-xs font-bold text-emerald-400 border-b border-slate-700 pb-1 mt-2">📍 พิกัด: รุ่นอายุ / ระยะ</div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cBGX" min="0" max="100" class="w-full accent-emerald-500" oninput="updateLivePreview()"></div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cBGY" min="0" max="100" class="w-full accent-emerald-500" oninput="updateLivePreview()"></div>
+                      <!-- QR Code -->
+                      <div class="col-span-2 text-xs font-bold text-amber-400 border-b border-slate-700 pb-1 mt-2">📍 พิกัด: QR Code</div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน X (%)</label><input type="range" id="cQRX" min="0" max="100" class="w-full accent-amber-500" oninput="updateLivePreview()"></div>
+                      <div><label class="text-xs text-slate-400 block mb-1">แกน Y (%)</label><input type="range" id="cQRY" min="0" max="100" class="w-full accent-amber-500" oninput="updateLivePreview()"></div>
                     </div>
 
-                    <div class="col-span-2 text-xs font-bold text-brand-400 border-b border-slate-700 pb-2 mt-2">รูปแบบตัวอักษร</div>
-                    <div><label class="text-xs text-slate-400 block mb-1">ขนาด (px)</label><input type="number" id="cBS" class="bg-slate-700 border-slate-600 text-white" oninput="updateLivePreview()"></div>
-                    <div><label class="text-xs text-slate-400 block mb-1">สี (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="bg-slate-700 border-slate-600 text-white" oninput="updateLivePreview()"></div>
+                    <!-- Style -->
+                    <div class="col-span-2 text-xs font-bold text-purple-400 border-b border-slate-700 pb-1 mt-2">🎨 รูปแบบตัวอักษรหลัก</div>
+                    <div><label class="text-xs text-slate-400 block mb-1">ขนาด (px)</label><input type="number" id="cBS" class="bg-slate-800 border-slate-600 text-white rounded-lg p-2" oninput="updateLivePreview()"></div>
+                    <div><label class="text-xs text-slate-400 block mb-1">สี (Hex)</label><input type="text" id="cBC" placeholder="#000000" class="bg-slate-800 border-slate-600 text-white rounded-lg p-2" oninput="updateLivePreview()"></div>
                   </div>
                 </div>
 
-                <!-- Print Upload Backgrounds -->
+                <!-- Print Upload Backgrounds (Separate) -->
                 <div class="space-y-4">
+                  <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">1. พื้นหลัง BIB 5 KM</label>
+                    <input type="file" id="cfgBib5Bg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-slate-200 file:text-slate-700 hover:file:bg-slate-300 cursor-pointer" onchange="previewUpload(this, 'bib5Bg')">
+                  </div>
                   <div class="bg-blue-50 p-6 rounded-3xl border border-blue-100">
-                    <label class="block text-sm font-bold text-blue-800 mb-2"><i class="fa-solid fa-address-card"></i> อัปโหลดพื้นหลัง BIB</label>
-                    <input type="file" id="cfgBibBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer" onchange="previewUpload(this, 'bibBg')">
+                    <label class="block text-sm font-bold text-blue-800 mb-2">2. พื้นหลัง BIB 10 KM</label>
+                    <input type="file" id="cfgBib10Bg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer" onchange="previewUpload(this, 'bib10Bg')">
+                  </div>
+                  <div class="bg-purple-50 p-6 rounded-3xl border border-purple-100">
+                    <label class="block text-sm font-bold text-purple-800 mb-2">3. พื้นหลัง BIB VIP</label>
+                    <input type="file" id="cfgBibVIPBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 cursor-pointer" onchange="previewUpload(this, 'bibVIPBg')">
                   </div>
                   <div class="bg-amber-50 p-6 rounded-3xl border border-amber-100">
-                    <label class="block text-sm font-bold text-amber-800 mb-2"><i class="fa-solid fa-certificate"></i> อัปโหลดพื้นหลังเกียรติบัตร</label>
+                    <label class="block text-sm font-bold text-amber-800 mb-2">4. พื้นหลังเกียรติบัตร</label>
                     <input type="file" id="cfgCertBg" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200 cursor-pointer" onchange="previewUpload(this, 'certBg')">
                   </div>
                 </div>
@@ -1070,10 +1000,10 @@
   <!-- Footer -->
   <footer id="mainFooter" class="bg-slate-900 text-slate-300 py-12 relative z-20 border-t-4 border-brand-500 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Org Info -->
         <div>
-          <h4 class="text-white font-display font-black text-xl mb-4 flex items-center gap-2">
+          <h4 class="text-white font-black text-xl mb-4 flex items-center gap-2">
             <i class="fa-solid fa-building-columns text-brand-500"></i> <span id="ftOrgName">โรงเรียนเทพพิทักษ์วิทยา</span>
           </h4>
           <p class="text-sm text-slate-400 mb-4 leading-relaxed" id="ftAddress">
@@ -1082,7 +1012,7 @@
         </div>
         <!-- Contact -->
         <div>
-          <h4 class="text-white font-display font-bold text-lg mb-4">ติดต่อสอบถาม</h4>
+          <h4 class="text-white font-bold text-lg mb-4">ติดต่อสอบถาม</h4>
           <ul class="space-y-2 text-sm">
             <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-slate-500"></i> <span id="ftPhone">055-123-456</span></li>
             <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-slate-500"></i> <span id="ftEmail">contact@tpschool.ac.th</span></li>
@@ -1091,37 +1021,40 @@
         </div>
         <!-- Legal Policies -->
         <div>
-          <h4 class="text-white font-display font-bold text-lg mb-4">นโยบายและเงื่อนไข</h4>
+          <h4 class="text-white font-bold text-lg mb-4">นโยบายและเงื่อนไข</h4>
           <ul class="space-y-3 text-sm text-slate-400">
             <li class="cursor-pointer hover:text-white transition-colors flex items-center" onclick="showPolicy('pdpa')">
               <i class="fa-solid fa-shield-halved text-brand-600 w-6"></i> นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)
             </li>
             <li class="cursor-pointer hover:text-white transition-colors flex items-center" onclick="showPolicy('terms')">
-              <i class="fa-solid fa-file-contract text-brand-600 w-6"></i> เงื่อนไขการเข้าร่วมกิจกรรม
+              <i class="fa-solid fa-file-contract text-brand-600 w-6"></i> เงื่อนไขการเข้าร่วมและแพทย์
             </li>
             <li class="cursor-pointer hover:text-white transition-colors flex items-center" onclick="showPolicy('refund')">
-              <i class="fa-solid fa-clock-rotate-left text-brand-600 w-6"></i> นโยบายการคืนเงิน (Non-refundable)
+              <i class="fa-solid fa-clock-rotate-left text-brand-600 w-6"></i> นโยบายการคืนเงิน
             </li>
           </ul>
         </div>
       </div>
-      <!-- Developer Credit (One Line) -->
-      <div class="border-t border-slate-800 pt-8 flex justify-center text-sm text-slate-500 tracking-wide text-center">
-        <div>
-          &copy; 2026 <span id="ftCopyrightOrg">โรงเรียนเทพพิทักษ์วิทยา</span>. All rights reserved. <span class="mx-3 opacity-30">|</span> 
-          Powered by <i class="fa-solid fa-bolt text-amber-500 mx-1 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]"></i> Firebase <span class="mx-3 opacity-30">|</span> 
-          <span class="font-credit1 italic text-slate-400">Designed & Developed by</span> 
-          <span class="font-credit2 font-black ml-2 text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-500 tracking-wider">TeppitakCyber</span>
+      
+      <!-- Developer Credit Single Line -->
+      <div class="mt-12 pt-6 border-t border-slate-800 text-center">
+        <div class="inline-flex flex-wrap justify-center items-center gap-3 text-xs sm:text-sm text-slate-500 font-medium">
+          <span>&copy; 2026 <span id="ftCopyrightOrg" class="text-slate-400">โรงเรียนเทพพิทักษ์วิทยา</span>. All rights reserved.</span>
+          <span class="hidden sm:inline text-slate-700">|</span>
+          <span style="font-family: 'Playfair Display', serif; font-style: italic;">Designed & Developed by</span> 
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 800;" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-500">TeppitakCyber</span>
+          <span class="hidden sm:inline text-slate-700">|</span>
+          <span>ขับเคลื่อนด้วยเทคโนโลยี</span> <i class="fa-solid fa-bolt text-amber-500 drop-shadow-[0_0_5px_rgba(245,158,11,0.5)]"></i> <span class="text-slate-400">Firebase</span>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- View Details Modal (Admin) -->
+  <!-- View Details Modal (Admin Pro) -->
   <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-    <div class="bg-white w-full max-w-2xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-300" id="detailModalContent">
+    <div class="bg-white w-full max-w-3xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[95vh] transform scale-95 transition-transform duration-300" id="detailModalContent">
       <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-        <h3 class="text-xl font-display font-black text-slate-800 flex items-center gap-2"><i class="fa-solid fa-address-card text-brand-500"></i> ข้อมูลผู้สมัคร</h3>
+        <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3"><i class="fa-solid fa-address-card text-brand-500"></i> ข้อมูลผู้สมัคร</h3>
         <button onclick="closeDetailModal()" class="text-slate-400 hover:text-slate-700 w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 transition-colors">
           <i class="fa-solid fa-xmark text-xl"></i>
         </button>
@@ -1135,20 +1068,14 @@
   <div id="policyModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-[70] flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
     <div class="bg-white w-full max-w-3xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-300" id="policyModalContent">
       <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-        <h3 class="text-xl font-display font-black text-slate-800 flex items-center gap-3" id="policyTitle">
-          <!-- Title populated by JS -->
-        </h3>
+        <h3 class="text-xl font-black text-slate-800 flex items-center gap-3" id="policyTitle"></h3>
         <button onclick="closePolicyModal()" class="text-slate-400 hover:text-slate-700 w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200 transition-colors">
           <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>
-      <div class="p-8 overflow-y-auto font-medium text-slate-600 leading-relaxed space-y-4" id="policyContent">
-        <!-- Content populated by JS -->
-      </div>
+      <div class="p-8 overflow-y-auto font-medium text-slate-600 leading-relaxed space-y-4" id="policyContent"></div>
       <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
-        <button onclick="closePolicyModal()" class="px-8 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">
-          รับทราบและปิดหน้าต่าง
-        </button>
+        <button onclick="closePolicyModal()" class="px-8 py-3 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors">รับทราบและปิดหน้าต่าง</button>
       </div>
     </div>
   </div>
@@ -1165,7 +1092,7 @@
   <!-- FIREBASE MODULES -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, collection, addDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBvHornDQGGWoGgHtf45q_BKXnES4bc46E",
@@ -1181,7 +1108,7 @@
     const db = getFirestore(app);
 
     window.db = db;
-    window.doc = doc; window.getDoc = getDoc; window.setDoc = setDoc; window.updateDoc = updateDoc;
+    window.doc = doc; window.getDoc = getDoc; window.setDoc = setDoc; window.updateDoc = updateDoc; window.deleteDoc = deleteDoc;
     window.collection = collection; window.getDocs = getDocs;
 
     window.checkFirebaseConnection = async function() {
@@ -1193,9 +1120,6 @@
       } catch(e) {
         fbSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-100 text-red-700 flex items-center gap-1 border border-red-200 animate-pulse";
         fbSt.innerHTML = '<div class="w-2 h-2 bg-red-500 rounded-full"></div> การเชื่อมต่อขัดข้อง';
-        if(e.message.includes("permissions")) {
-          Swal.fire({ icon: 'error', title: 'ติดสิทธิ์การเข้าถึง Firebase', text: 'กรุณาตั้งค่า Rule ให้ครอบคลุมการอ่านเขียน' });
-        }
       }
     }
   </script>
@@ -1207,19 +1131,21 @@
 
     const STAFF_PASSCODE = "tprun2026";
     let recordsCache = [];
-    window.isStaff = false; // Persistent Login Flag
     let config = {
-      gasUrl: "",
-      eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
+      gasUrl: "", eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
       price5: 400, price10: 500, priceVIP: 1000,
-      logoUrl: "", homeBgUrl: "", map5Url: "", map10Url: "", popBadge: "10",
+      logoUrl: "", homeBgUrl: "", map5Url: "", map10Url: "",
       footer: { orgName: "โรงเรียนเทพพิทักษ์วิทยา", address: "123 หมู่ 4 ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000", phone: "055-123-456", email: "contact@tpschool.ac.th", facebook: "TP RUN Official" },
       designs: {
-        bib: { bg: "", nx: 50, ny: 40, bx: 50, by: 70, qrx: 85, qry: 80, qrs: 100, showQR: true, c: "#000000", s: 60, sName: true, sBib: true, sGen: true },
-        cert: { bg: "", nx: 50, ny: 50, c: "#000000", s: 50, sName: true }
+        bib5: { bg: "", nx: 50, ny: 25, bx: 50, by: 50, gx: 50, gy: 70, qx: 85, qy: 85, c: "#000000", s: 40, sName: true, sBib: true, sGen: true, sQR: true },
+        bib10: { bg: "", nx: 50, ny: 25, bx: 50, by: 50, gx: 50, gy: 70, qx: 85, qy: 85, c: "#000000", s: 40, sName: true, sBib: true, sGen: true, sQR: true },
+        bibVIP: { bg: "", nx: 50, ny: 25, bx: 50, by: 50, gx: 50, gy: 70, qx: 85, qy: 85, c: "#000000", s: 40, sName: true, sBib: true, sGen: true, sQR: true },
+        cert: { bg: "", nx: 50, ny: 50, c: "#000000", s: 40, sName: true }
       }
     };
-    let currentEditor = 'bib';
+    let currentEditor = 'bib5';
+    let currentStep = 1;
+    let isStaff = false;
 
     const DOM = {
       vHome: document.getElementById('view-home'), vReg: document.getElementById('view-register'),
@@ -1230,42 +1156,34 @@
     /* ================= LEGAL POLICIES DATA ================= */
     const legalPolicies = {
       pdpa: {
-        title: "นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)",
-        icon: "fa-shield-halved text-brand-500",
+        title: "นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)", icon: "fa-shield-halved text-brand-500",
         content: `
           <h4 class="font-bold text-slate-800 text-lg mb-2">1. วัตถุประสงค์ในการเก็บรวบรวมข้อมูล</h4>
-          <p class="mb-4">คณะผู้จัดงานมีความจำเป็นต้องเก็บรวบรวมข้อมูลส่วนบุคคลของท่าน (เช่น ชื่อ-นามสกุล, เบอร์โทรศัพท์, เลขบัตรประชาชน, ข้อมูลสุขภาพ และกรุ๊ปเลือด) เพื่อใช้ในการยืนยันตัวตน, จัดเตรียมอุปกรณ์การแข่งขัน (BIB, เสื้อ), ติดต่อสื่อสารเรื่องการจัดงาน และเพื่อประโยชน์ในการปฐมพยาบาลหรือกรณีฉุกเฉินทางการแพทย์ในวันแข่งขัน</p>
+          <p class="mb-4">คณะผู้จัดงานมีความจำเป็นต้องเก็บรวบรวมข้อมูลส่วนบุคคลของท่าน (เช่น ชื่อ-นามสกุล, เบอร์โทรศัพท์, เลขบัตรประชาชน, ข้อมูลสุขภาพ และกรุ๊ปเลือด) เพื่อใช้ในการยืนยันตัวตน, จัดเตรียมอุปกรณ์การแข่งขัน, ติดต่อสื่อสารเรื่องการจัดงาน และเพื่อประโยชน์ในการปฐมพยาบาลในวันแข่งขัน</p>
           <h4 class="font-bold text-slate-800 text-lg mb-2">2. การรักษาความปลอดภัยของข้อมูล</h4>
-          <p class="mb-4">ข้อมูลของท่านจะถูกจัดเก็บอย่างปลอดภัยบนระบบฐานข้อมูลที่มีมาตรฐาน และจำกัดสิทธิ์การเข้าถึงเฉพาะเจ้าหน้าที่ที่เกี่ยวข้องกับการจัดงานเท่านั้น จะไม่มีการนำข้อมูลของท่านไปเปิดเผยแก่บุคคลที่สามเพื่อวัตถุประสงค์ทางการค้าโดยเด็ดขาด</p>
-          <h4 class="font-bold text-slate-800 text-lg mb-2">3. การยินยอมให้ใช้ภาพถ่ายและวิดีโอ</h4>
-          <p class="mb-4">ผู้สมัครยินยอมให้ผู้จัดงาน ช่างภาพ และสื่อมวลชน บันทึกภาพถ่ายและวิดีโอของท่านในขณะเข้าร่วมกิจกรรม เพื่อใช้ในการประชาสัมพันธ์และโปรโมทกิจกรรมผ่านช่องทางต่างๆ ทั้งในปัจจุบันและอนาคต</p>
-          <h4 class="font-bold text-slate-800 text-lg mb-2">4. สิทธิของเจ้าของข้อมูล</h4>
-          <p>ท่านมีสิทธิ์ที่จะขอแก้ไข หรือขอลบข้อมูลส่วนบุคคลของท่านออกจากระบบ อย่างไรก็ตาม การขอลบข้อมูลก่อนวันจัดการแข่งขัน อาจส่งผลให้ท่านถูกตัดสิทธิ์จากการเข้าร่วมกิจกรรมเนื่องจากไม่สามารถยืนยันตัวตนได้</p>
+          <p class="mb-4">ข้อมูลของท่านจะถูกจัดเก็บอย่างปลอดภัย และจำกัดสิทธิ์การเข้าถึงเฉพาะเจ้าหน้าที่ที่เกี่ยวข้องกับการจัดงานเท่านั้น จะไม่มีการนำข้อมูลไปเปิดเผยแก่บุคคลที่สามเพื่อการค้าเด็ดขาด</p>
         `
       },
       terms: {
-        title: "เงื่อนไขการเข้าร่วมกิจกรรม",
-        icon: "fa-file-contract text-brand-500",
+        title: "เงื่อนไขการเข้าร่วมและการแพทย์", icon: "fa-file-contract text-brand-500",
         content: `
           <ul class="list-disc pl-5 space-y-3">
-            <li><strong>ความพร้อมด้านสุขภาพ:</strong> ผู้สมัครรับรองว่าตนเองมีสุขภาพร่างกายแข็งแรงสมบูรณ์เพียงพอสำหรับการวิ่งในระยะทางที่สมัคร และไม่มีโรคประจำตัวที่เป็นอันตรายต่อการออกกำลังกายอย่างหนัก</li>
-            <li><strong>การรับความเสี่ยง:</strong> ผู้สมัครเข้าใจและยอมรับความเสี่ยงที่อาจเกิดขึ้นจากการเข้าร่วมกิจกรรม เช่น อุบัติเหตุ, การบาดเจ็บ, หรือทรัพย์สินสูญหาย โดยคณะผู้จัดงานจะจัดเตรียมการปฐมพยาบาลเบื้องต้นไว้ให้ แต่จะไม่รับผิดชอบต่อความเสียหายที่เกินกว่าขอบเขตที่กฎหมายกำหนด</li>
-            <li><strong>กฎกติกาการแข่งขัน:</strong> ผู้เข้าร่วมจะต้องติดหมายเลขวิ่ง (BIB) ไว้ที่หน้าอกให้เห็นได้อย่างชัดเจน ห้ามพับ หรือดัดแปลงหมายเลขวิ่งโดยเด็ดขาด และต้องปฏิบัติตามคำแนะนำของเจ้าหน้าที่อย่างเคร่งครัด</li>
-            <li><strong>การถูกตัดสิทธิ์ (Disqualification):</strong> ผู้จัดงานขอสงวนสิทธิ์ในการเชิญผู้เข้าร่วมออกจากการแข่งขัน หากพบว่ามีพฤติกรรมที่ไม่เหมาะสม, ไม่ปฏิบัติตามกฎ, หรือใช้สารกระตุ้นใดๆ</li>
+            <li><strong>ความพร้อมด้านสุขภาพ:</strong> ผู้สมัครรับรองว่าตนเองมีสุขภาพร่างกายแข็งแรงสมบูรณ์เพียงพอ และได้แจ้งโรคประจำตัวที่เป็นความจริงทุกประการ</li>
+            <li><strong>การรับความเสี่ยง:</strong> ผู้สมัครยอมรับความเสี่ยงที่อาจเกิดขึ้นจากการแข่งขัน โดยผู้จัดงานมีหน่วยแพทย์ปฐมพยาบาลเบื้องต้น หากมีความจำเป็นต้องส่งต่อโรงพยาบาล ผู้เข้าร่วมจะรับผิดชอบค่าใช้จ่ายส่วนเกินเอง</li>
+            <li><strong>กฎกติกา:</strong> ต้องติดหมายเลขวิ่ง (BIB) ให้เห็นชัดเจน ห้ามพับหรือตัดแปลง และห้ามโอนสิทธิ์ให้ผู้อื่นวิ่งแทนเด็ดขาด</li>
           </ul>
         `
       },
       refund: {
-        title: "นโยบายการคืนเงิน (Non-refundable)",
-        icon: "fa-clock-rotate-left text-brand-500",
+        title: "นโยบายการคืนเงิน (Non-refundable)", icon: "fa-clock-rotate-left text-brand-500",
         content: `
           <div class="bg-red-50 p-4 rounded-xl border border-red-100 text-red-800 mb-5 font-medium">
             <i class="fa-solid fa-triangle-exclamation mr-2"></i> ค่าสมัครเข้าร่วมกิจกรรม <strong>ไม่สามารถขอคืนเงินได้ในทุกกรณี</strong> (Non-refundable)
           </div>
           <ul class="list-disc pl-5 space-y-3">
-            <li><strong>การโอนสิทธิ์:</strong> ทางผู้จัดงาน <u>ไม่อนุญาตให้มีการโอนสิทธิ์</u> (เปลี่ยนชื่อผู้สมัคร) หรือมอบหมายเลขวิ่ง (BIB) ให้บุคคลอื่นวิ่งแทนโดยเด็ดขาด เพื่อป้องกันความสับสนทางข้อมูลการแพทย์หากเกิดเหตุฉุกเฉิน หากตรวจพบจะถูกตัดสิทธิ์ทันที</li>
-            <li><strong>การเปลี่ยนระยะ/ไซส์เสื้อ:</strong> หลังจากที่ผู้สมัครได้กดยืนยันการชำระเงินและระบบได้ออกหมายเลข BIB แล้ว จะไม่สามารถแก้ไขระยะการวิ่ง และไซส์เสื้อได้ในภายหลัง</li>
-            <li><strong>กรณีเหตุสุดวิสัย:</strong> หากมีความจำเป็นต้องเลื่อน หรือยกเลิกการจัดกิจกรรมจากเหตุสุดวิสัย (Force Majeure) เช่น ภัยพิบัติทางธรรมชาติ, โรคระบาด, หรือคำสั่งจากหน่วยงานภาครัฐ ผู้จัดงานขอสงวนสิทธิ์ในการไม่คืนเงินค่าสมัคร แต่ผู้สมัครจะยังคงได้รับเสื้อและของที่ระลึกตามที่ได้สมัครไว้</li>
+            <li>ไม่อนุญาตให้มีการโอนสิทธิ์ (เปลี่ยนชื่อ) หรือมอบหมายเลขวิ่งให้ผู้อื่น เพื่อป้องกันความสับสนทางข้อมูลการแพทย์</li>
+            <li>ไม่สามารถเปลี่ยนระยะวิ่งหรือไซส์เสื้อได้ หลังจากระบบออกหมายเลข BIB แล้ว</li>
+            <li>กรณีเหตุสุดวิสัย (ภัยพิบัติ, โรคระบาด) ผู้จัดขอสงวนสิทธิ์ไม่คืนเงิน แต่ผู้สมัครจะได้รับเสื้อและของที่ระลึกตามปกติ</li>
           </ul>
         `
       }
@@ -1283,38 +1201,10 @@
       const m = document.getElementById('policyModal'); const mc = document.getElementById('policyModalContent');
       m.classList.add('opacity-0'); mc.classList.add('scale-95'); setTimeout(() => m.classList.add('hidden'), 300);
     }
-    /* ======================================================= */
 
     function showToast(msg, type='success') {
       const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true });
       Toast.fire({ icon: type === 'error' ? 'error' : 'success', title: msg });
-    }
-    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
-
-    function showView(id) {
-      if(id === 'register' && window.isStaff) {
-         document.getElementById('staffModeBadge').classList.remove('hidden');
-         document.getElementById('paymentDetailsArea').style.display = 'none'; // ซ่อนสำหรับแอดมิน
-         document.getElementById('paymentStatusText').innerHTML = '<i class="fa-solid fa-bolt text-amber-500"></i> โหมดแอดมิน: รับเงินสด/โอน (ไม่ต้องแนบสลิป)';
-      } else if (id === 'register') {
-         document.getElementById('staffModeBadge').classList.add('hidden');
-         document.getElementById('paymentDetailsArea').style.display = 'block'; // แสดงสำหรับผู้ใช้ทั่วไป
-         document.getElementById('paymentStatusText').innerText = 'ยอดที่ต้องชำระ';
-      }
-
-      Object.values(DOM).forEach(v => { v.classList.remove('active'); setTimeout(() => v.style.display = 'none', 400); });
-      const target = document.getElementById('view-' + id);
-      if(target) {
-        setTimeout(() => { target.style.display = 'block'; setTimeout(() => target.classList.add('active'), 10); window.scrollTo({top: 0, behavior: 'smooth'}); }, 400);
-      }
-      
-      if (id === 'staffDash' || id === 'staffLogin') {
-        if(document.getElementById('mainFooter')) document.getElementById('mainFooter').classList.add('hidden');
-      } else {
-        if(document.getElementById('mainFooter')) document.getElementById('mainFooter').classList.remove('hidden');
-      }
-      
-      if(id === 'register') { currentStep = 1; showStep(1); document.getElementById('regForm').reset(); slipBase64 = null; }
     }
 
     function formatDT(iso) {
@@ -1323,6 +1213,65 @@
       return d.toLocaleString("th-TH", {day:"2-digit",month:"short",year:"2-digit",hour:"2-digit",minute:"2-digit"});
     }
 
+    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+
+    function showView(id) {
+      Object.values(DOM).forEach(v => { v.classList.remove('active'); setTimeout(() => v.style.display = 'none', 400); });
+      const target = document.getElementById('view-' + id);
+      if(target) {
+        setTimeout(() => { target.style.display = 'block'; setTimeout(() => target.classList.add('active'), 10); window.scrollTo({top: 0, behavior: 'smooth'}); }, 400);
+      }
+      if (id === 'staffDash' || id === 'staffLogin') {
+        if(document.getElementById('mainFooter')) document.getElementById('mainFooter').classList.add('hidden');
+      } else {
+        if(document.getElementById('mainFooter')) document.getElementById('mainFooter').classList.remove('hidden');
+      }
+      // รีเซ็ตฟอร์มสมัครเมื่อเข้าหน้าแรก
+      if(id === 'home' || id === 'status') {
+        document.getElementById('regForm').reset();
+        currentStep = 1; updateStepUI(); slipBase64 = null;
+        if(document.getElementById('uploadPrompt')) document.getElementById('uploadPrompt').classList.remove('hidden');
+        if(document.getElementById('slipPreview')) document.getElementById('slipPreview').classList.add('hidden');
+      }
+    }
+
+    /* ================= LOGIN & AUTH ================= */
+    function checkLoginStatus() {
+      if(localStorage.getItem('tp_staff_logged') === 'true') {
+        isStaff = true;
+        document.getElementById('btnNavStaff').classList.add('text-emerald-500', 'bg-emerald-50');
+        document.getElementById('btnNavStaffMob').classList.add('text-emerald-500', 'bg-emerald-50');
+      } else {
+        isStaff = false;
+        document.getElementById('btnNavStaff').classList.remove('text-emerald-500', 'bg-emerald-50');
+        document.getElementById('btnNavStaffMob').classList.remove('text-emerald-500', 'bg-emerald-50');
+      }
+    }
+
+    function handleStaffLoginClick() {
+      if(isStaff) {
+        showView('staffDash'); document.getElementById('staffSectionSelect').value = 'overview'; renderAdminOverview();
+      } else {
+        showView('staffLogin');
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('tp_staff_logged');
+      isStaff = false; checkLoginStatus(); showView('home'); showToast('ออกจากระบบแล้ว');
+    }
+
+    document.getElementById('staffLoginBtn').addEventListener('click', () => {
+      if(document.getElementById('staffPass').value === STAFF_PASSCODE) {
+        document.getElementById('staffPass').value = '';
+        localStorage.setItem('tp_staff_logged', 'true');
+        isStaff = true; checkLoginStatus();
+        showView('staffDash'); document.getElementById('staffSectionSelect').value = 'overview'; renderAdminOverview();
+        showToast('เข้าสู่ระบบสำเร็จ');
+      } else { showToast('รหัสผ่านไม่ถูกต้อง', 'error'); }
+    });
+
+    /* ================= FIREBASE LOGIC ================= */
     async function compressImage(file, maxSize = 800) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -1341,81 +1290,62 @@
       });
     }
 
-    /* ================= FIREBASE DATA LOGIC ================= */
-    async function loadAllRecords() {
-      if(!window.db) return [];
-      try {
-        const querySnapshot = await window.getDocs(window.collection(window.db, "tp_run_db", "all_records", "registrations"));
-        const records = [];
-        querySnapshot.forEach((doc) => { records.push(doc.data()); });
-        records.sort((a,b) => new Date(b.ts) - new Date(a.ts));
-        recordsCache = records;
-        return records;
-      } catch (error) { console.error("Error loading records", error); return []; }
-    }
-
-    async function syncToSheet(rec) {
-      if(!config.gasUrl) return;
-      const shSt = document.getElementById('sheetStatus'); const shTxt = document.getElementById('sheetStatusText');
-      shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-700 flex items-center gap-1 border border-amber-200";
-      shTxt.textContent = "กำลังสำรองข้อมูล...";
-      try {
-        const cleanRec = {...rec}; delete cleanRec.slip; 
-        await fetch(config.gasUrl, { method: "POST", mode: "no-cors", headers: {"Content-Type": "text/plain"}, body: JSON.stringify({action: "upsert", data: cleanRec}) });
-        shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-100 text-blue-700 flex items-center gap-1 border border-blue-200";
-        shTxt.textContent = "อัปเดต: " + new Date().toLocaleTimeString('th-TH');
-      } catch(e) {
-        shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-100 text-red-700 flex items-center gap-1 border border-red-200";
-        shTxt.textContent = "สำรองข้อมูลล้มเหลว";
-      }
-    }
-
-    async function saveRecord(rec) {
-      if(!window.db) return;
-      try {
-        await window.setDoc(window.doc(window.db, "tp_run_db", "all_records", "registrations", rec.id), rec);
-        const idx = recordsCache.findIndex(r => r.id === rec.id);
-        if(idx >= 0) recordsCache[idx] = rec; else recordsCache.push(rec);
-        syncToSheet(rec);
-      } catch (error) {
-        console.error("Error saving record", error);
-        if(error.message.includes("permissions")) showToast('คุณยังไม่ได้ปลดล็อค Firebase Rules', 'error');
-        else showToast('เกิดข้อผิดพลาดในการบันทึกข้อมูล', 'error');
-      }
-    }
-
     async function loadConfigFromFirebase() {
       if(!window.db) return;
       try {
-        const docSnap = await window.getDoc(window.doc(window.db, "tp_run_db", "global_settings"));
+        const [docSnap, bib5Snap, bib10Snap, bibVIPSnap, certSnap, logoSnap, homeBgSnap, map5Snap, map10Snap] = await Promise.all([
+          window.getDoc(window.doc(window.db, "tp_run_db", "global_settings")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_bib5")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_bib10")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_bibVIP")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_cert")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_logo")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_homeBg")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_map5")),
+          window.getDoc(window.doc(window.db, "tp_run_db", "asset_map10"))
+        ]);
+
         if (docSnap.exists()) {
           config = {...config, ...docSnap.data()};
           if(!config.footer) config.footer = { orgName: "โรงเรียนเทพพิทักษ์วิทยา", address: "123 หมู่ 4 ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000", phone: "055-123-456", email: "contact@tpschool.ac.th", facebook: "TP RUN Official" };
-          
           if(!config.designs) config.designs = {};
-          if(!config.designs.bib) config.designs.bib = { bg: "", nx: 50, ny: 40, bx: 50, by: 70, qrx: 85, qry: 80, qrs: 100, showQR: true, c: "#000000", s: 60, sName: true, sBib: true, sGen: true };
-          if(!config.designs.cert) config.designs.cert = { bg: "", nx: 50, ny: 50, c: "#000000", s: 50, sName: true };
+          if(!config.designs.bib5) config.designs.bib5 = { bg: "", nx: 50, ny: 25, bx: 50, by: 50, gx: 50, gy: 70, qx: 85, qy: 85, c: "#000000", s: 40, sName: true, sBib: true, sGen: true, sQR: true };
+          if(!config.designs.bib10) config.designs.bib10 = { bg: "", nx: 50, ny: 25, bx: 50, by: 50, gx: 50, gy: 70, qx: 85, qy: 85, c: "#000000", s: 40, sName: true, sBib: true, sGen: true, sQR: true };
+          if(!config.designs.bibVIP) config.designs.bibVIP = { bg: "", nx: 50, ny: 25, bx: 50, by: 50, gx: 50, gy: 70, qx: 85, qy: 85, c: "#000000", s: 40, sName: true, sBib: true, sGen: true, sQR: true };
+          if(!config.designs.cert) config.designs.cert = { bg: "", nx: 50, ny: 50, c: "#000000", s: 40, sName: true };
         }
+
+        if(bib5Snap.exists()) config.designs.bib5.bg = bib5Snap.data().data;
+        if(bib10Snap.exists()) config.designs.bib10.bg = bib10Snap.data().data;
+        if(bibVIPSnap.exists()) config.designs.bibVIP.bg = bibVIPSnap.data().data;
+        if(certSnap.exists()) config.designs.cert.bg = certSnap.data().data;
+        if(logoSnap.exists()) config.logoUrl = logoSnap.data().data;
+        if(homeBgSnap.exists()) config.homeBgUrl = homeBgSnap.data().data;
+        if(map5Snap.exists()) config.map5Url = map5Snap.data().data;
+        if(map10Snap.exists()) config.map10Url = map10Snap.data().data;
+
         applyConfigToUI();
-      } catch (error) { console.error("Error loading config", error); applyConfigToUI(); }
+      } catch (error) { applyConfigToUI(); }
     }
 
     function applyConfigToUI() {
       document.getElementById('navBrandName').textContent = config.eventName;
-      document.getElementById('homeTitle').innerHTML = config.eventName.replace('2026', '<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-accent-500 drop-shadow-sm">2026</span>');
       document.getElementById('homeSlogan').textContent = config.slogan;
       
       document.getElementById('lblPrice5').textContent = config.price5;
       document.getElementById('lblPrice10').textContent = config.price10;
       document.getElementById('lblPriceVIP').textContent = config.priceVIP;
-      
       document.getElementById('formPrice5').textContent = config.price5 + ' บาท';
       document.getElementById('formPrice10').textContent = config.price10 + ' บาท';
       document.getElementById('formPriceVIP').textContent = config.priceVIP + ' บาท';
 
-      const lContainer = document.getElementById('navLogoContainer'); const lText = document.getElementById('navLogoText'); const lImg = document.getElementById('navLogoImg');
+      const lText = document.getElementById('navLogoText');
+      const lImg = document.getElementById('navLogoImg');
       if(config.logoUrl) { lImg.src = config.logoUrl; lImg.classList.remove('hidden'); lText.classList.add('hidden'); }
-      if(config.homeBgUrl) { document.getElementById('heroBgImage').style.backgroundImage = `url(${config.homeBgUrl})`; document.getElementById('heroBgImage').style.opacity = '0.3'; }
+      
+      if(config.homeBgUrl) {
+        document.getElementById('heroBgImage').style.backgroundImage = `url(${config.homeBgUrl})`;
+      }
       if(config.map5Url) document.getElementById('map5k').src = config.map5Url;
       if(config.map10Url) document.getElementById('map10k').src = config.map10Url;
 
@@ -1427,70 +1357,55 @@
         if(document.getElementById('ftEmail')) document.getElementById('ftEmail').textContent = config.footer.email;
         if(document.getElementById('ftFacebook')) document.getElementById('ftFacebook').textContent = config.footer.facebook;
       }
+    }
 
-      document.querySelectorAll('.pop-badge').forEach(el => el.classList.add('hidden'));
-      if(config.popBadge && config.popBadge !== 'none') {
-        const b = document.getElementById('badge-' + config.popBadge);
-        if(b) b.classList.remove('hidden');
+    async function loadAllRecords() {
+      if(!window.db) return [];
+      try {
+        const querySnapshot = await window.getDocs(window.collection(window.db, "tp_run_db", "all_records", "registrations"));
+        const records = [];
+        querySnapshot.forEach((doc) => { records.push(doc.data()); });
+        records.sort((a,b) => new Date(b.ts) - new Date(a.ts));
+        recordsCache = records;
+        return records;
+      } catch (error) { return []; }
+    }
+
+    async function syncToSheet(rec) {
+      if(!config.gasUrl) return;
+      const shSt = document.getElementById('sheetStatus'); const shTxt = document.getElementById('sheetStatusText');
+      shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-700 flex items-center gap-1 border border-amber-200";
+      shTxt.textContent = "กำลังสำรอง...";
+      try {
+        const cleanRec = {...rec}; delete cleanRec.slip; 
+        await fetch(config.gasUrl, { method: "POST", mode: "no-cors", headers: {"Content-Type": "text/plain"}, body: JSON.stringify({action: "upsert", data: cleanRec}) });
+        shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-100 text-blue-700 flex items-center gap-1 border border-blue-200";
+        shTxt.textContent = "อัปเดต: " + new Date().toLocaleTimeString('th-TH');
+      } catch(e) {
+        shSt.className = "px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-100 text-red-700 flex items-center gap-1 border border-red-200";
+        shTxt.textContent = "สำรองล้มเหลว";
       }
     }
 
-    /* ================= MULTI-STEP FORM LOGIC ================= */
-    let currentStep = 1;
-    const totalSteps = 4;
-
-    function showStep(step) {
-      document.querySelectorAll('.step-pane').forEach((el, index) => {
-        if(index + 1 === step) { el.style.display = 'block'; setTimeout(()=> el.classList.add('active'), 50); }
-        else { el.classList.remove('active'); setTimeout(()=> el.style.display = 'none', 400); }
-      });
-      
-      document.querySelectorAll('.step-indicator').forEach((el, index) => {
-        const iNode = document.getElementById(`ind-${index+1}`);
-        const tNode = document.getElementById(`ind-txt-${index+1}`);
-        if(index + 1 < step) { // Passed
-           iNode.className = "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-brand-500 text-white border-4 border-white shadow-sm transition-colors duration-300";
-           iNode.innerHTML = '<i class="fa-solid fa-check"></i>';
-           tNode.className = "text-xs font-bold text-brand-600 transition-colors duration-300";
-        } else if (index + 1 === step) { // Current
-           iNode.className = "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-brand-500 text-white border-4 border-brand-100 shadow-sm transition-colors duration-300";
-           iNode.innerHTML = index + 1;
-           tNode.className = "text-xs font-bold text-brand-600 transition-colors duration-300";
-        } else { // Upcoming
-           iNode.className = "w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-slate-200 text-slate-400 border-4 border-white shadow-sm transition-colors duration-300";
-           iNode.innerHTML = index + 1;
-           tNode.className = "text-xs font-bold text-slate-400 transition-colors duration-300";
-        }
-      });
-      document.getElementById('progressLine').style.width = ((step - 1) / (totalSteps - 1)) * 100 + '%';
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-
-    function validateStep(step) {
-      let isValid = true;
-      if (step === 1) {
-        const reqIds = ['idCard', 'fullName', 'birthDate'];
-        reqIds.forEach(id => { if(!document.getElementById(id).value.trim()) isValid = false; });
-        if(!document.querySelector('input[name="gender"]:checked') || !document.querySelector('input[name="blood"]:checked')) isValid = false;
-      } else if (step === 2) {
-        const reqIds = ['phone', 'medical', 'emName', 'emPhone'];
-        reqIds.forEach(id => { if(!document.getElementById(id).value.trim()) isValid = false; });
-      } else if (step === 3) {
-        if(!document.querySelector('input[name="distance"]:checked') || !document.querySelector('input[name="shirtSize"]:checked')) isValid = false;
+    async function saveRecord(rec) {
+      if(!window.db) return;
+      try {
+        await window.setDoc(window.doc(window.db, "tp_run_db", "all_records", "registrations", rec.id), rec);
+        const idx = recordsCache.findIndex(r => r.id === rec.id);
+        if(idx >= 0) recordsCache[idx] = rec; else recordsCache.push(rec);
+        syncToSheet(rec);
+      } catch (error) {
+        if(error.message.includes("permissions")) showToast('ติดสิทธิ์ Firebase Rules', 'error');
+        else showToast('เกิดข้อผิดพลาดในการบันทึกข้อมูล', 'error');
       }
-      if(!isValid) Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบ', confirmButtonColor: '#14b8a6' });
-      return isValid;
     }
 
-    function nextStep(step) { if(validateStep(step)) { currentStep = step + 1; showStep(currentStep); } }
-    function prevStep(step) { currentStep = step - 1; showStep(currentStep); }
-
-    /* ================= FORM EVENT LISTENERS ================= */
+    /* ================= MULTI-STEP FORM ================= */
     document.getElementById('birthDate').addEventListener('change', function() {
       const d = new Date(this.value); if(isNaN(d)) return;
       let age = new Date().getFullYear() - d.getFullYear();
-      if(new Date().setFullYear(1970) < d.setFullYear(1970)) age--; age = Math.max(0, age);
-      document.getElementById('age').value = age + ' ปี';
+      if(new Date().setFullYear(1970) < d.setFullYear(1970)) age--;
+      age = Math.max(0, age); document.getElementById('age').value = age + ' ปี';
       
       let group = 'F (50 ปีขึ้นไป)', gCode = 'F';
       if(age <= 12) { group = 'A (ไม่เกิน 12 ปี)'; gCode = 'A'; }
@@ -1506,106 +1421,137 @@
       el.addEventListener('change', () => {
         let p = 0;
         if(el.value === '5') p = config.price5; if(el.value === '10') p = config.price10; if(el.value === 'VIP') p = config.priceVIP;
-        document.getElementById('totalAmount').textContent = p;
-        if(!window.isStaff) document.getElementById('paymentStatusText').innerText = 'ยอดที่ต้องชำระสุทธิ';
+        document.getElementById('netTotal').textContent = p;
       });
     });
 
     let slipBase64 = null;
-    document.getElementById('slipFile').addEventListener('change', async function() {
-      if(!this.files[0]) return;
-      if(this.files[0].size > 5*1024*1024) { showToast('ไฟล์ใหญ่เกินไป (สูงสุด 5MB)', 'error'); return; }
-      slipBase64 = await compressImage(this.files[0], 800);
-      document.getElementById('slipUploadPrompt').classList.add('hidden');
-      document.getElementById('slipPreview').src = slipBase64;
-      document.getElementById('slipPreviewContainer').classList.remove('hidden');
-      document.getElementById('slipPreviewContainer').classList.add('flex');
-    });
+    if(document.getElementById('slipFile')) {
+      document.getElementById('slipFile').addEventListener('change', async function() {
+        if(!this.files[0]) return;
+        if(this.files[0].size > 5*1024*1024) { showToast('ไฟล์ใหญ่เกินไป (สูงสุด 5MB)', 'error'); return; }
+        slipBase64 = await compressImage(this.files[0], 800);
+        document.getElementById('uploadPrompt').classList.add('hidden');
+        document.getElementById('slipPreview').src = slipBase64;
+        document.getElementById('slipPreview').classList.remove('hidden');
+      });
+    }
+
+    function updateStepUI() {
+      document.querySelectorAll('.step-content').forEach((el, idx) => {
+        if(idx + 1 === currentStep) { el.classList.add('active'); el.style.animation = 'fadeInRight 0.4s ease forwards'; } 
+        else { el.classList.remove('active'); el.style.animation = 'none'; }
+      });
+      document.querySelectorAll('.step-dot').forEach((el, idx) => {
+        el.className = 'w-12 h-12 rounded-full border-4 flex items-center justify-center font-bold text-lg step-dot transition-all';
+        if(idx + 1 < currentStep) el.classList.add('border-brand-300', 'bg-brand-100', 'text-brand-700', 'completed');
+        else if(idx + 1 === currentStep) el.classList.add('border-brand-500', 'bg-brand-500', 'text-white', 'shadow-glow-brand', 'scale-110');
+        else el.classList.add('border-slate-200', 'bg-white', 'text-slate-400');
+      });
+      document.getElementById('progressLine').style.width = ((currentStep - 1) / 3) * 100 + '%';
+      document.getElementById('btnPrev').style.display = currentStep === 1 ? 'none' : 'flex';
+      
+      if(currentStep === 4) {
+        document.getElementById('btnNext').style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'flex';
+        
+        // Staff Mode UI Update in Step 4
+        if(isStaff) {
+          document.getElementById('adminRegBadge').classList.remove('hidden');
+          document.getElementById('paymentDetailsArea').style.display = 'none';
+          document.getElementById('submitBtn').innerHTML = 'ออก BIB & บันทึก <i class="fa-solid fa-check-circle"></i>';
+        } else {
+          document.getElementById('adminRegBadge').classList.add('hidden');
+          document.getElementById('paymentDetailsArea').style.display = 'block';
+          document.getElementById('submitBtn').innerHTML = 'ยืนยันสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
+        }
+      } else {
+        document.getElementById('btnNext').style.display = 'flex';
+        document.getElementById('submitBtn').style.display = 'none';
+      }
+    }
+
+    function validateStep(step) {
+      if(step === 1) {
+        return document.getElementById('idCard').value.trim() && document.getElementById('fullName').value.trim() && 
+               document.getElementById('birthDate').value && document.querySelector('input[name="gender"]:checked') && document.querySelector('input[name="blood"]:checked');
+      }
+      if(step === 2) {
+        return document.getElementById('phone').value.trim() && document.getElementById('medical').value.trim() && 
+               document.getElementById('emName').value.trim() && document.getElementById('emPhone').value.trim();
+      }
+      if(step === 3) return document.querySelector('input[name="distance"]:checked') && document.querySelector('input[name="shirtSize"]:checked');
+      return true;
+    }
+
+    function nextStep() {
+      if(validateStep(currentStep)) { currentStep++; updateStepUI(); window.scrollTo({top: 0, behavior: 'smooth'}); } 
+      else { Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', text: 'กรุณากรอกข้อมูลสำคัญ (*) ให้ครบถ้วน', confirmButtonColor: '#e11d48' }); }
+    }
+    function prevStep() { if(currentStep > 1) { currentStep--; updateStepUI(); window.scrollTo({top: 0, behavior: 'smooth'}); } }
+
+    function generateBibNumber(gender, gCode, records, distance) {
+      let pfx = "";
+      if(distance === 'VIP') pfx = "V" + (gender === 'ชาย' ? 'M' : 'F') + (gCode || 'X');
+      else pfx = (gender === 'ชาย' ? 'M' : 'F') + (gCode || 'X');
+      const count = records.filter(r => r.bibNumber && r.bibNumber.startsWith(pfx)).length;
+      return pfx + String(count + 1).padStart(4, '0');
+    }
 
     document.getElementById('regForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      if(!validateStep(3)) return;
+      if(!validateStep(3)) return; 
+      if(!isStaff && !slipBase64) { Swal.fire({ icon: 'warning', title: 'ขาดสลิปโอนเงิน', confirmButtonColor: '#e11d48' }); return; }
 
-      if(!window.isStaff && !slipBase64) {
-        Swal.fire({ icon: 'warning', title: 'ขาดหลักฐานโอนเงิน', text: 'กรุณาแนบสลิปโอนเงิน', confirmButtonColor: '#14b8a6' });
-        return;
-      }
-
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...';
-
+      const btn = document.getElementById('submitBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> รอสักครู่...';
+      
       const dist = document.querySelector('input[name="distance"]:checked').value;
       let p = dist === '5' ? config.price5 : dist === '10' ? config.price10 : config.priceVIP;
       const recId = 'TP' + Date.now().toString(36).toUpperCase();
-      
-      if(window.isStaff) await loadAllRecords();
 
-      let isVerified = window.isStaff ? true : false;
-      let finalSlip = window.isStaff ? "AUTO_APPROVED" : slipBase64;
-      let newBib = window.isStaff ? generateBibNumber(document.querySelector('input[name="gender"]:checked').value, document.getElementById('ageGroupLabel').dataset.code || 'X', recordsCache) : null;
+      if(isStaff) await loadAllRecords(); // Ensure latest records for BIB generation
+      let isVerified = isStaff ? true : false;
+      let finalSlip = isStaff ? "AUTO_APPROVED" : slipBase64;
+      let newBib = isStaff ? generateBibNumber(document.querySelector('input[name="gender"]:checked').value, document.getElementById('ageGroupLabel').dataset.code, recordsCache, dist) : null;
 
       const rec = {
         id: recId, ts: new Date().toISOString(), 
-        idCard: document.getElementById('idCard').value.trim(), fullName: document.getElementById('fullName').value.trim(), 
-        email: document.getElementById('email').value.trim(), dob: document.getElementById('birthDate').value, 
-        age: document.getElementById('age').value, ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
+        idCard: document.getElementById('idCard').value.trim(), fullName: document.getElementById('fullName').value.trim(), email: document.getElementById('email').value.trim(),
+        dob: document.getElementById('birthDate').value, age: document.getElementById('age').value, ageGroupCode: document.getElementById('ageGroupLabel').dataset.code || 'X',
         gender: document.querySelector('input[name="gender"]:checked').value, blood: document.querySelector('input[name="blood"]:checked').value, 
-        phone: document.getElementById('phone').value.trim(), med: document.getElementById('medical').value.trim(), 
-        referrer: document.getElementById('referrer').value.trim(), emName: document.getElementById('emName').value.trim(), 
-        emPhone: document.getElementById('emPhone').value.trim(), distance: dist, shirt: document.querySelector('input[name="shirtSize"]:checked').value, 
-        amount: p, slip: finalSlip,
-        verified: isVerified, vTs: isVerified ? new Date().toISOString() : null, 
-        bibNumber: newBib, 
+        phone: document.getElementById('phone').value.trim(), med: document.getElementById('medical').value.trim(), referrer: document.getElementById('referrer').value.trim(), 
+        emName: document.getElementById('emName').value.trim(), emPhone: document.getElementById('emPhone').value.trim(),
+        distance: dist, shirt: document.querySelector('input[name="shirtSize"]:checked').value, amount: p, slip: finalSlip,
+        verified: isVerified, vTs: isVerified ? new Date().toISOString() : null, bibNumber: newBib, 
         shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
       };
 
       await saveRecord(rec);
+      btn.disabled = false;
       
-      this.reset();
-      slipBase64 = null;
-      document.getElementById('slipUploadPrompt').classList.remove('hidden'); 
-      document.getElementById('slipPreviewContainer').classList.add('hidden');
-      document.getElementById('slipPreviewContainer').classList.remove('flex');
-      document.getElementById('age').value = ''; document.getElementById('ageGroupLabel').value = ''; 
-      document.getElementById('totalAmount').textContent = '0';
-      if(!window.isStaff) document.getElementById('paymentStatusText').innerText = 'ยอดที่ต้องชำระ (กรุณาเลือกระยะทางวิ่งก่อน)';
-      
-      btn.disabled = false; btn.innerHTML = 'ยืนยันการสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
-      
-      currentStep = 1;
-
-      document.getElementById('successRefId').textContent = rec.id;
-      document.getElementById('successName').textContent = rec.fullName;
-      document.getElementById('successDist').textContent = rec.distance === 'VIP' ? 'VIP' : rec.distance + ' KM';
-      document.getElementById('successShirt').textContent = rec.shirt;
-      document.getElementById('successTotal').textContent = rec.amount + ' บาท';
-      
-      if(window.isStaff) {
-         document.getElementById('successSubtitle').innerHTML = `ลงทะเบียนและยืนยันสำเร็จแล้ว<br>ระบบได้ออกหมายเลข BIB ให้อัตโนมัติ: <strong class="text-brand-600 font-black font-display text-xl">${rec.bibNumber}</strong>`;
+      if(isStaff) {
+        Swal.fire({ icon: 'success', title: 'ออก BIB สำเร็จ', html: `ผู้สมัคร: ${rec.fullName}<br>เลข BIB: <b>${rec.bibNumber}</b>`, confirmButtonColor: '#e11d48' });
+        document.getElementById('regForm').reset(); currentStep = 1; updateStepUI();
       } else {
-         document.getElementById('successSubtitle').innerHTML = `ระบบได้รับข้อมูลของท่านเรียบร้อยแล้ว<br>กรุณารอเจ้าหน้าที่ตรวจสอบสลิป 1-2 วันทำการ`;
+        document.getElementById('successRefId').textContent = rec.id;
+        document.getElementById('successName').textContent = rec.fullName;
+        document.getElementById('successDist').textContent = rec.distance === 'VIP' ? 'VIP' : rec.distance + ' KM';
+        document.getElementById('successShirt').textContent = rec.shirt;
+        document.getElementById('successTotal').textContent = rec.amount + ' บาท';
+        showView('success');
       }
-      
-      showView('success');
     });
 
     function copyToClipboard(text) { navigator.clipboard.writeText(text).then(()=>showToast('คัดลอกเลขบัญชีแล้ว')); }
 
-    /* ================= STATUS CHECK ================= */
+    /* ================= STATUS & CANVAS ================= */
     document.getElementById('lkBtn').addEventListener('click', async () => {
-      const id = document.getElementById('lkId').value.trim();
-      const ph = document.getElementById('lkPhone').value.trim();
+      const id = document.getElementById('lkId').value.trim(); const ph = document.getElementById('lkPhone').value.trim();
       if(!id || !ph) { showToast('กรุณากรอกเลขบัตรและเบอร์โทร', 'error'); return; }
-      
       const records = await loadAllRecords();
       const rec = records.find(r => r.idCard === id && r.phone === ph);
-      const res = document.getElementById('statusResult');
-      res.classList.remove('hidden');
-      
-      if(!rec) {
-        res.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-50 rounded-[1.5rem] border border-slate-100 font-bold"><i class="fa-solid fa-triangle-exclamation text-3xl text-slate-300 mb-3 block"></i>ไม่พบข้อมูลการสมัคร โปรดตรวจสอบความถูกต้อง</div>`;
-        return;
-      }
+      const res = document.getElementById('statusResult'); res.classList.remove('hidden');
+      if(!rec) { res.innerHTML = `<div class="p-8 text-center text-slate-500 bg-slate-50 rounded-[1.5rem] font-bold"><i class="fa-solid fa-triangle-exclamation text-3xl text-slate-300 mb-3 block"></i>ไม่พบข้อมูล</div>`; return; }
 
       const step = (done, icon, title, sub, date) => `
         <div class="flex gap-5 relative">
@@ -1617,46 +1563,27 @@
           </div>
         </div>
       `;
-
       res.innerHTML = `
-        <div class="bg-gradient-to-r from-brand-50 to-emerald-50 p-8 rounded-[1.5rem] border border-brand-100 mb-8 flex justify-between items-center shadow-sm">
-          <div>
-            <div class="font-display font-black text-2xl text-brand-900">${rec.fullName}</div>
+        <div class="bg-gradient-to-r from-brand-50 to-emerald-50 p-8 rounded-[1.5rem] border border-brand-100 mb-8 flex flex-col sm:flex-row justify-between items-center shadow-sm gap-4">
+          <div class="text-center sm:text-left">
+            <div class="font-black text-2xl text-brand-900">${rec.fullName}</div>
             <div class="text-brand-700 font-bold mt-2"><i class="fa-solid fa-person-running"></i> ${rec.distance==='VIP'?'VIP':rec.distance+' KM'} &nbsp;|&nbsp; <i class="fa-solid fa-shirt"></i> ไซส์ ${rec.shirt}</div>
           </div>
-          ${rec.bibNumber ? `<div class="text-right"><div class="text-xs text-brand-600 uppercase font-black tracking-widest">BIB Number</div><div class="text-4xl font-display font-black text-brand-600">${rec.bibNumber}</div></div>` : ''}
+          ${rec.bibNumber ? `<div class="text-center sm:text-right"><div class="text-xs text-brand-600 uppercase font-black tracking-widest">BIB Number</div><div class="text-4xl font-black text-brand-600">${rec.bibNumber}</div></div>` : ''}
         </div>
-        
-        <div class="flex flex-col md:flex-row gap-8 mb-8">
-           <div class="flex-1 relative pl-3">
-             <div class="absolute left-8 top-5 bottom-12 w-0.5 bg-slate-200"></div>
-             ${step(true, 'fa-check', 'ส่งข้อมูลสำเร็จ', 'ระบบได้รับฟอร์มสมัครแล้ว', rec.ts)}
-             ${step(rec.verified, 'fa-money-check', 'ยืนยันการชำระเงิน', 'แอดมินตรวจสอบสลิปและสร้างหมายเลขวิ่ง', rec.vTs)}
-             ${step(rec.shirtGet, 'fa-shirt', 'รับเสื้อที่ระลึก', 'รับเสื้อไซส์ ' + rec.shirt, rec.sTs)}
-             ${step(rec.checkin, 'fa-map-pin', 'เช็คอินวันแข่ง', 'ยืนยันตัวตนเข้าร่วมงาน', rec.cTs)}
-             ${step(rec.certGet, 'fa-certificate', 'รับเกียรติบัตร', 'ผ่านเส้นชัยและรับเกียรติบัตร', rec.ceTs)}
-           </div>
-           
-           <div class="w-full md:w-64 flex flex-col items-center justify-start">
-             <div class="bg-white p-4 rounded-3xl shadow-lg border border-slate-100 w-full text-center">
-               <div class="text-sm font-bold text-slate-500 mb-4">คิวอาร์โค้ด / บาร์โค้ด ประจำตัว</div>
-               <div id="qrStatusBox" class="flex justify-center mb-4"></div>
-               <div class="text-xs font-mono font-bold text-slate-400 break-all">${rec.id}</div>
-             </div>
-           </div>
+        <div class="relative pl-3">
+          <div class="absolute left-8 top-5 bottom-12 w-0.5 bg-slate-200"></div>
+          ${step(true, 'fa-check', 'ส่งข้อมูลสำเร็จ', 'ระบบได้รับฟอร์มสมัครแล้ว', rec.ts)}
+          ${step(rec.verified, 'fa-money-check', 'ยืนยันการชำระเงิน', 'ตรวจสอบสลิปและสร้างหมายเลขวิ่ง', rec.vTs)}
+          ${step(rec.shirtGet, 'fa-shirt', 'รับเสื้อที่ระลึก', 'รับเสื้อไซส์ ' + rec.shirt, rec.sTs)}
+          ${step(rec.checkin, 'fa-map-pin', 'เช็คอินวันแข่ง', 'ยืนยันตัวตนเข้าร่วมงาน', rec.cTs)}
+          ${step(rec.certGet, 'fa-certificate', 'รับเกียรติบัตร', 'ผ่านเส้นชัยและรับเกียรติบัตร', rec.ceTs)}
         </div>
-        
-        <div class="flex flex-col sm:flex-row gap-4">
-          ${rec.bibNumber ? `<button onclick="downloadImage('${rec.id}', 'bib')" class="flex-1 py-4 rounded-2xl bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 border border-blue-200 transition-colors flex justify-center items-center gap-2"><i class="fa-solid fa-download"></i> ดาวน์โหลด e-BIB</button>` : ''}
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          ${rec.bibNumber ? `<button onclick="downloadImage('${rec.id}', 'bib${rec.distance}')" class="flex-1 py-4 rounded-2xl bg-blue-50 text-blue-600 font-bold hover:bg-blue-100 border border-blue-200 transition-colors flex justify-center items-center gap-2"><i class="fa-solid fa-download"></i> ดาวน์โหลด e-BIB</button>` : ''}
           ${rec.certGet ? `<button onclick="downloadImage('${rec.id}', 'cert')" class="flex-1 py-4 rounded-2xl bg-amber-50 text-amber-600 font-bold hover:bg-amber-100 border border-amber-200 transition-colors flex justify-center items-center gap-2"><i class="fa-solid fa-download"></i> ดาวน์โหลดเกียรติบัตร</button>` : ''}
         </div>
       `;
-      
-      // Generate QR Code on Status Page
-      document.getElementById('qrStatusBox').innerHTML = "";
-      new QRCode(document.getElementById('qrStatusBox'), {
-         text: rec.id, width: 160, height: 160, colorDark: "#1e293b", colorLight: "#ffffff", correctLevel : QRCode.CorrectLevel.H
-      });
     });
 
     async function downloadImage(id, type) {
@@ -1668,65 +1595,46 @@
 
     async function generateCanvasImg(record, type) {
       return new Promise((resolve) => {
-        const c = config.designs[type];
-        if(!c || !c.bg) { showToast('ยังไม่ได้ตั้งค่าภาพพื้นหลัง', 'error'); resolve(null); return; }
+        let editorKey = type;
+        if(type === 'bibVIP') editorKey = 'bibVIP';
+        else if(type === 'bib10') editorKey = 'bib10';
+        else if(type === 'bib5') editorKey = 'bib5';
+        else editorKey = 'cert';
+
+        const c = config.designs[editorKey];
+        if(!c || !c.bg) { showToast('ไม่มีภาพพื้นหลัง', 'error'); resolve(null); return; }
         
         const img = new Image();
         img.onload = () => {
           const cvs = document.createElement('canvas'); cvs.width = img.width; cvs.height = img.height;
           const ctx = cvs.getContext('2d'); ctx.drawImage(img, 0, 0);
           ctx.textAlign = "center"; ctx.textBaseline = "middle";
-          
-          ctx.fillStyle = c.c; ctx.font = `bold ${c.s}px "Kanit", sans-serif`;
+          ctx.fillStyle = c.c; 
+          ctx.font = `bold ${c.s}px "Sarabun", sans-serif`;
           
           if(c.sName) ctx.fillText(record.fullName || 'ชื่อ นามสกุล', (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
-          if(type === 'bib') {
+          if(editorKey.startsWith('bib')) {
             if(c.sBib) ctx.fillText(record.bibNumber || 'XX9999', (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
             if(c.sGen) {
-               ctx.font = `bold ${Math.floor(c.s*0.6)}px "Kanit", sans-serif`;
-               const genTxt = `${record.gender||'ชาย'} | ${record.ageGroupCode||'X'}`;
-               ctx.fillText(genTxt, (c.bx/100)*cvs.width, ((c.by/100)*cvs.height) + c.s);
+               ctx.font = `bold ${Math.floor(c.s*0.8)}px "Sarabun", sans-serif`;
+               ctx.fillText(`${record.distance==='VIP'?'VIP':record.distance+'KM'} | ${record.gender} | ${record.ageGroupCode}`, (c.gx/100)*cvs.width, (c.gy/100)*cvs.height);
             }
-            
-            // Draw QR Code if enabled
-            if(c.showQR && record.id) {
-               const qrDiv = document.createElement('div');
-               new QRCode(qrDiv, { text: record.id, width: c.qrs, height: c.qrs, colorDark: "#000", colorLight: "#fff", correctLevel: QRCode.CorrectLevel.L });
-               setTimeout(() => {
-                 const qrImg = qrDiv.querySelector('img');
-                 if(qrImg && qrImg.src) {
-                    const qImg = new Image();
-                    qImg.onload = () => {
-                       ctx.drawImage(qImg, ((c.qrx/100)*cvs.width) - (c.qrs/2), ((c.qry/100)*cvs.height) - (c.qrs/2), c.qrs, c.qrs);
-                       resolve(cvs.toDataURL('image/png'));
-                    };
-                    qImg.src = qrImg.src;
-                 } else { resolve(cvs.toDataURL('image/png')); }
-               }, 100);
-               return; // Wait for QR to render
+            if(c.sQR) {
+              const qrSize = cvs.width * 0.15;
+              ctx.fillStyle = "white"; ctx.fillRect((c.qx/100)*cvs.width - qrSize/2, (c.qy/100)*cvs.height - qrSize/2, qrSize, qrSize);
+              ctx.fillStyle = "black"; ctx.font = `${Math.floor(qrSize/6)}px sans-serif`;
+              ctx.fillText("QR: " + record.id, (c.qx/100)*cvs.width, (c.qy/100)*cvs.height);
             }
           }
           resolve(cvs.toDataURL('image/png'));
         };
-        img.onerror = () => { showToast('โหลดภาพพื้นหลังล้มเหลว', 'error'); resolve(null); };
+        img.onerror = () => { resolve(null); };
         img.src = c.bg;
       });
     }
 
-    /* ================= ADMIN LOGIC ================= */
-    document.getElementById('staffSectionSelect').addEventListener('change', function() {
-      document.querySelectorAll('.staff-panel').forEach(el => el.classList.add('hidden'));
-      const panel = document.getElementById('panel-' + this.value);
-      panel.classList.remove('hidden'); panel.classList.add('animate-[fadeIn_0.3s_ease-out]');
-      
-      if(this.value === 'overview') renderAdminOverview();
-      if(this.value === 'payment') renderAdminPayment();
-      if(this.value === 'all') renderAdminAll();
-      if(this.value === 'settings') fillAdminSettings();
-      if(this.value === 'scanner') { document.getElementById('scanInput').focus(); }
-    });
-
     function showImg(src) {
+      if(src === 'AUTO_APPROVED') { showToast('อัปเดตโดยเจ้าหน้าที่ (ไม่มีสลิป)'); return; }
       document.getElementById('imgModalSrc').src = src; const m = document.getElementById('imgModal'); m.classList.remove('hidden');
       setTimeout(() => { m.classList.remove('opacity-0'); document.getElementById('imgModalSrc').classList.remove('scale-95'); }, 10);
     }
@@ -1735,25 +1643,29 @@
       setTimeout(() => m.classList.add('hidden'), 300);
     }
 
-    function generateBibNumber(gender, gCode, records) {
-      const pfx = (gender === 'ชาย' ? 'M' : 'F') + (gCode || 'X');
-      const count = records.filter(r => r.bibNumber && r.bibNumber.startsWith(pfx)).length;
-      return pfx + String(count + 1).padStart(4, '0');
-    }
+    /* ================= ADMIN LOGIC ================= */
+    document.getElementById('staffSectionSelect').addEventListener('change', function() {
+      document.querySelectorAll('.staff-panel').forEach(el => el.classList.add('hidden'));
+      const panel = document.getElementById('panel-' + this.value);
+      panel.classList.remove('hidden'); panel.classList.add('animate-[fadeIn_0.3s_ease-out]');
+      if(this.value === 'overview') renderAdminOverview();
+      if(this.value === 'payment') renderAdminPayment();
+      if(this.value === 'all') renderAdminAll();
+      if(this.value === 'settings') fillAdminSettings();
+      if(this.value === 'unified-scanner') setTimeout(()=>document.getElementById('scanInput').focus(), 100);
+    });
 
     async function renderAdminOverview() {
       const records = await loadAllRecords();
       const verified = records.filter(r=>r.verified).length;
       const rev = records.filter(r=>r.verified).reduce((s,r)=>s+Number(r.amount),0);
-      
       document.getElementById('statGrid').innerHTML = `
-        <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100"><div class="text-blue-500 font-bold mb-2"><i class="fa-solid fa-users"></i> ผู้สมัครทั้งหมด</div><div class="text-4xl font-display font-black text-blue-900">${records.length}</div></div>
-        <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100"><div class="text-emerald-500 font-bold mb-2"><i class="fa-solid fa-check-circle"></i> ยืนยันแล้ว</div><div class="text-4xl font-display font-black text-emerald-900">${verified}</div></div>
-        <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100"><div class="text-amber-500 font-bold mb-2"><i class="fa-solid fa-clock"></i> รอตรวจสลิป</div><div class="text-4xl font-display font-black text-amber-900">${records.length-verified}</div></div>
-        <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100"><div class="text-indigo-500 font-bold mb-2"><i class="fa-solid fa-coins"></i> ยอดรวม (บาท)</div><div class="text-4xl font-display font-black text-indigo-900">${rev.toLocaleString()}</div></div>
+        <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100"><div class="text-blue-500 font-bold mb-2"><i class="fa-solid fa-users"></i> ผู้สมัครทั้งหมด</div><div class="text-4xl font-black text-blue-900">${records.length}</div></div>
+        <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100"><div class="text-emerald-500 font-bold mb-2"><i class="fa-solid fa-check-circle"></i> ยืนยันแล้ว</div><div class="text-4xl font-black text-emerald-900">${verified}</div></div>
+        <div class="bg-amber-50 p-6 rounded-2xl border border-amber-100"><div class="text-amber-500 font-bold mb-2"><i class="fa-solid fa-clock"></i> รอตรวจสลิป</div><div class="text-4xl font-black text-amber-900">${records.length-verified}</div></div>
+        <div class="bg-brand-50 p-6 rounded-2xl border border-brand-100"><div class="text-brand-500 font-bold mb-2"><i class="fa-solid fa-coins"></i> ยอดรวม (บาท)</div><div class="text-4xl font-black text-brand-900">${rev.toLocaleString()}</div></div>
       `;
-      const counts = {"5":0, "10":0, "VIP":0};
-      records.forEach(r => counts[r.distance] = (counts[r.distance]||0)+1);
+      const counts = {"5":0, "10":0, "VIP":0}; records.forEach(r => counts[r.distance] = (counts[r.distance]||0)+1);
       document.getElementById('distBreakdown').innerHTML = `
         <div class="px-5 py-2.5 bg-slate-50 rounded-xl font-bold text-slate-700 border border-slate-200 shadow-sm"><i class="fa-solid fa-person-walking"></i> 5KM: ${counts["5"]} คน</div>
         <div class="px-5 py-2.5 bg-slate-50 rounded-xl font-bold text-slate-700 border border-slate-200 shadow-sm"><i class="fa-solid fa-person-running"></i> 10KM: ${counts["10"]} คน</div>
@@ -1765,33 +1677,88 @@
       const records = (await loadAllRecords()).filter(r => !r.verified);
       const tb = document.getElementById('tbPayment'); tb.innerHTML = '';
       if(!records.length) { tb.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-slate-400 font-bold"><i class="fa-solid fa-inbox text-3xl block mb-2"></i> ไม่มีรายการรอตรวจสอบ</td></tr>'; return; }
-      
       records.forEach(r => {
         tb.innerHTML += `
           <tr class="hover:bg-slate-50/50 transition-colors">
             <td class="p-5">${formatDT(r.ts)}</td><td class="p-5 font-bold text-slate-800">${r.fullName}</td>
-            <td class="p-5">${r.distance}</td><td class="p-5 font-display font-black text-emerald-600">${r.amount}</td>
-            <td class="p-5">${r.slip === "AUTO_APPROVED" ? '<span class="text-emerald-500 font-bold"><i class="fa-solid fa-bolt"></i> แอดมินกรอก</span>' : `<button onclick="showImg('${r.slip}')" class="text-blue-500 hover:text-blue-700 font-bold bg-blue-50 px-3 py-1 rounded-lg transition-colors"><i class="fa-solid fa-image"></i> ดูสลิป</button>`}</td>
-            <td class="p-5"><button onclick="verifyPayment('${r.id}')" class="px-5 py-2 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 shadow-sm transition-colors flex items-center gap-2"><i class="fa-solid fa-check"></i> ยืนยัน</button></td>
-          </tr>
-        `;
+            <td class="p-5">${r.distance}</td><td class="p-5 font-black text-emerald-600">${r.amount}</td>
+            <td class="p-5"><button onclick="showImg('${r.slip}')" class="text-blue-500 font-bold bg-blue-50 px-3 py-1 rounded-lg"><i class="fa-solid fa-image"></i> ดูสลิป</button></td>
+            <td class="p-5 text-center"><button onclick="verifyPayment('${r.id}')" class="px-5 py-2 bg-emerald-500 text-white rounded-xl font-bold"><i class="fa-solid fa-check"></i> ยืนยัน</button></td>
+          </tr>`;
       });
     }
 
     async function verifyPayment(id) {
-      Swal.fire({
-        title: 'ยืนยันการชำระเงิน?', text: "ระบบจะสร้างหมายเลข BIB ให้อัตโนมัติ", icon: 'question',
-        showCancelButton: true, confirmButtonColor: '#14b8a6', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ใช่, ยืนยัน', cancelButtonText: 'ยกเลิก'
-      }).then(async (result) => {
+      Swal.fire({ title: 'ยืนยันการชำระเงิน?', text: "ระบบจะสร้างหมายเลข BIB ให้อัตโนมัติ", icon: 'question', showCancelButton: true, confirmButtonColor: '#10b981' })
+      .then(async (result) => {
         if (result.isConfirmed) {
           const r = recordsCache.find(x => x.id === id); if(!r) return;
           r.verified = true; r.vTs = new Date().toISOString();
-          r.bibNumber = generateBibNumber(r.gender, r.ageGroupCode, recordsCache);
-          await saveRecord(r);
-          Swal.fire({ icon: 'success', title: 'ยืนยันสำเร็จ', text: `สร้าง BIB: ${r.bibNumber} แล้ว`, timer: 2000, showConfirmButton: false });
-          renderAdminPayment();
+          r.bibNumber = generateBibNumber(r.gender, r.ageGroupCode, recordsCache, r.distance);
+          await saveRecord(r); showToast(`สร้าง BIB: ${r.bibNumber} แล้ว`); renderAdminPayment();
         }
       })
+    }
+
+    /* UNIFIED SCANNER */
+    async function unifiedScan() {
+      const input = document.getElementById('scanInput'); const q = input.value.trim().toLowerCase();
+      const mode = document.querySelector('input[name="scanMode"]:checked').value;
+      const res = document.getElementById('scanResult');
+      if(!q) return; input.value = ''; input.focus();
+      if(!recordsCache.length) await loadAllRecords();
+      
+      const r = recordsCache.find(x => x.id.toLowerCase() === q || (x.bibNumber && x.bibNumber.toLowerCase() === q) || x.idCard === q || x.phone === q);
+      if(!r) { res.innerHTML = `<div class="bg-red-50 text-red-600 p-6 rounded-2xl text-center font-bold text-xl border border-red-200"><i class="fa-solid fa-xmark-circle text-4xl mb-2 block"></i> ไม่พบข้อมูลผู้สมัคร!</div>`; return; }
+
+      let actionHtml = ''; let statusHtml = '';
+      if(mode === 'shirtGet') {
+        if(r.shirtGet) statusHtml = `<div class="text-amber-600 bg-amber-50 px-4 py-2 rounded-xl font-bold text-center mb-4"><i class="fa-solid fa-circle-check"></i> แจกเสื้อไปแล้วเมื่อ ${formatDT(r.sTs)}</div>`;
+        else {
+          r.shirtGet = true; r.sTs = new Date().toISOString(); saveRecord(r);
+          statusHtml = `<div class="text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl font-bold text-center mb-4"><i class="fa-solid fa-check"></i> บันทึกแจกเสื้อสำเร็จ!</div>`;
+        }
+      } else if (mode === 'checkin') {
+        if(r.checkin) statusHtml = `<div class="text-amber-600 bg-amber-50 px-4 py-2 rounded-xl font-bold text-center mb-4"><i class="fa-solid fa-circle-check"></i> เช็คอินไปแล้วเมื่อ ${formatDT(r.cTs)}</div>`;
+        else {
+          r.checkin = true; r.cTs = new Date().toISOString(); saveRecord(r);
+          statusHtml = `<div class="text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl font-bold text-center mb-4"><i class="fa-solid fa-check"></i> บันทึกเช็คอินสำเร็จ!</div>`;
+        }
+      } else if (mode === 'certGet') {
+        if(r.certGet) statusHtml = `<div class="text-amber-600 bg-amber-50 px-4 py-2 rounded-xl font-bold text-center mb-4"><i class="fa-solid fa-circle-check"></i> แจกเกียรติบัตรไปแล้วเมื่อ ${formatDT(r.ceTs)}</div>`;
+        else {
+          r.certGet = true; r.ceTs = new Date().toISOString(); saveRecord(r);
+          statusHtml = `<div class="text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl font-bold text-center mb-4"><i class="fa-solid fa-check"></i> บันทึกแจกเกียรติบัตรสำเร็จ!</div>`;
+        }
+      }
+
+      const medWarning = (r.med && r.med !== '-' && r.med !== 'ไม่มี' && r.med.toLowerCase() !== 'none') ? `<div class="bg-red-600 text-white p-3 rounded-xl font-bold text-center mb-4 text-lg animate-pulse"><i class="fa-solid fa-notes-medical"></i> ระวัง! โรคประจำตัว: ${r.med}</div>` : '';
+
+      res.innerHTML = `
+        ${statusHtml} ${medWarning}
+        <div class="bg-white border-2 border-slate-200 rounded-[2rem] p-8 shadow-lg flex flex-col md:flex-row items-center gap-8">
+          <div class="text-center md:text-left flex-grow">
+            <div class="text-xs font-black tracking-widest text-slate-400 uppercase mb-1">ชื่อผู้สมัคร (ID: ${r.id})</div>
+            <div class="text-3xl font-black text-slate-800 mb-4">${r.fullName}</div>
+            <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+              <div class="px-4 py-2 bg-slate-100 rounded-xl font-bold text-slate-600"><i class="fa-solid fa-id-card"></i> ${r.idCard}</div>
+              <div class="px-4 py-2 bg-slate-100 rounded-xl font-bold text-slate-600"><i class="fa-solid fa-phone"></i> ${r.phone}</div>
+              <div class="px-4 py-2 bg-slate-100 rounded-xl font-bold text-slate-600"><i class="fa-solid fa-droplet text-red-500"></i> เลือด ${r.blood}</div>
+            </div>
+          </div>
+          <div class="flex gap-4 shrink-0">
+            <div class="w-32 h-32 bg-brand-50 rounded-3xl flex flex-col items-center justify-center border-2 border-brand-200">
+              <span class="text-sm font-bold text-brand-500 mb-1">ระยะ/BIB</span>
+              <span class="text-3xl font-black text-brand-700 leading-none">${r.distance}K</span>
+              <span class="text-sm font-bold text-slate-700 mt-1">${r.bibNumber||'-'}</span>
+            </div>
+            <div class="w-32 h-32 bg-blue-50 rounded-3xl flex flex-col items-center justify-center border-2 border-blue-200">
+              <span class="text-sm font-bold text-blue-500 mb-1">ไซส์เสื้อ</span>
+              <span class="text-3xl font-black text-blue-700 leading-none">${r.shirt.split(' ')[0]}</span>
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     async function renderAdminAll() {
@@ -1800,72 +1767,65 @@
       records.forEach((r, i) => {
         tb.innerHTML += `
           <tr class="hover:bg-slate-50/50 transition-colors">
-            <td class="p-5 text-slate-400 font-bold">${i+1}</td><td class="p-5 font-bold text-slate-800">${r.fullName}</td>
-            <td class="p-5"><span class="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-600">${r.ageGroupCode}</span> / ${r.distance}</td>
-            <td class="p-5 font-display font-black text-brand-600">${r.bibNumber || '-'}</td>
-            <td class="p-5 text-center"><button onclick="showDetail('${r.id}')" class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 hover:bg-brand-50 hover:text-brand-600 font-bold transition-colors shadow-sm"><i class="fa-solid fa-eye"></i></button></td>
-          </tr>
-        `;
+            <td class="p-4 text-slate-400 font-bold border-b border-slate-100">${i+1}</td>
+            <td class="p-4 font-mono text-xs border-b border-slate-100">${r.id}</td>
+            <td class="p-4 text-xs border-b border-slate-100">${formatDT(r.ts)}</td>
+            <td class="p-4 border-b border-slate-100">${r.idCard}</td>
+            <td class="p-4 font-bold text-slate-800 border-b border-slate-100">${r.fullName}</td>
+            <td class="p-4 border-b border-slate-100">${r.gender}/${r.age}</td>
+            <td class="p-4 font-bold border-b border-slate-100"><span class="bg-slate-100 px-2 py-1 rounded text-xs">${r.ageGroupCode}</span></td>
+            <td class="p-4 border-b border-slate-100">${r.phone}</td>
+            <td class="p-4 font-bold text-brand-600 border-b border-slate-100">${r.distance}K</td>
+            <td class="p-4 border-b border-slate-100">${r.shirt}</td>
+            <td class="p-4 font-bold border-b border-slate-100">${r.amount}</td>
+            <td class="p-4 font-black text-blue-600 border-b border-slate-100">${r.bibNumber || '-'}</td>
+            <td class="p-4 border-b border-slate-100">${r.verified ? '<i class="fa-solid fa-check text-emerald-500"></i>' : '<i class="fa-solid fa-clock text-amber-500"></i>'}</td>
+            <td class="p-4 text-center border-b border-slate-100 sticky right-0 bg-white shadow-[-5px_0_10px_rgba(0,0,0,0.02)] z-10 flex justify-center gap-2">
+              <button onclick="showDetail('${r.id}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold"><i class="fa-solid fa-eye"></i></button>
+              <button onclick="deleteRecord('${r.id}')" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-bold"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>`;
       });
     }
 
-    async function adminSearch(type, forceQuery = null) {
-      const q = forceQuery || document.getElementById('srch' + type.charAt(0).toUpperCase() + type.slice(1)).value.trim().toLowerCase();
-      const res = document.getElementById('res' + type.charAt(0).toUpperCase() + type.slice(1));
-      if(!q) return;
-      const matches = recordsCache.filter(r => r.fullName.toLowerCase().includes(q) || r.idCard.includes(q) || r.phone.includes(q) || r.id.toLowerCase() === q);
-      if(!matches.length) { res.innerHTML = '<div class="text-slate-400 mt-4 font-bold"><i class="fa-solid fa-circle-exclamation"></i> ไม่พบข้อมูล</div>'; return; }
-      
-      let map = {
-        'shirt': { key: 'shirtGet', ts: 'sTs', label: 'แจกเสื้อ', icon: 'fa-shirt', extra: r => `ไซส์: ${r.shirt}` },
-        'checkin': { key: 'checkin', ts: 'cTs', label: 'เช็คอิน', icon: 'fa-map-pin', extra: r => `BIB: ${r.bibNumber||'-'}` },
-        'cert': { key: 'certGet', ts: 'ceTs', label: 'แจกเกียรติบัตร', icon: 'fa-certificate', extra: r => `BIB: ${r.bibNumber||'-'}` }
-      };
-      let cfg = map[type];
-      
-      res.innerHTML = matches.map(r => `
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 mt-4 flex justify-between items-center shadow-sm">
-          <div><div class="font-display font-black text-slate-800 text-lg">${r.fullName}</div><div class="font-medium text-slate-500">${cfg.extra(r)} | โทร: ${r.phone}</div></div>
-          ${r[cfg.key] ? `<div class="font-bold text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl flex items-center gap-2"><i class="fa-solid fa-check-circle"></i> ${cfg.label}แล้ว</div>` : 
-            `<button onclick="actionUpdate('${r.id}','${cfg.key}','${cfg.ts}')" class="px-5 py-2.5 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-900 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid ${cfg.icon}"></i> ยืนยัน${cfg.label}</button>`}
-        </div>
-      `).join('');
-    }
-
-    async function actionUpdate(id, key, tsKey) {
-      const r = recordsCache.find(x => x.id === id); if(!r) return;
-      Swal.fire({
-        title: 'ยืนยันการทำรายการ?', icon: 'question', showCancelButton: true, confirmButtonColor: '#1e293b', cancelButtonColor: '#cbd5e1', confirmButtonText: 'ยืนยัน', cancelButtonText: 'ยกเลิก'
-      }).then(async (result) => {
-        if(result.isConfirmed) {
-          r[key] = true; r[tsKey] = new Date().toISOString(); await saveRecord(r); showToast('อัปเดตข้อมูลสำเร็จ');
-          document.querySelectorAll('[id^="srch"]').forEach(el => { if(el.value) el.nextElementSibling.click(); });
+    async function deleteRecord(id) {
+      Swal.fire({ title: 'ลบข้อมูลนี้?', text: "ไม่สามารถกู้คืนได้!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#e11d48' })
+      .then(async (result) => {
+        if(result.isConfirmed && window.db) {
+          try { await window.deleteDoc(window.doc(window.db, "tp_run_db", "all_records", "registrations", id)); showToast('ลบข้อมูลแล้ว'); renderAdminAll(); } 
+          catch(e) { showToast('ลบข้อมูลไม่สำเร็จ', 'error'); }
         }
       });
     }
 
     function showDetail(id) {
       const r = recordsCache.find(x => x.id === id); if(!r) return;
-      const kv = (k, v) => `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-50"><span class="text-xs font-bold text-slate-400 block uppercase tracking-wider mb-1">${k}</span><span class="font-display font-black text-slate-700">${v||'-'}</span></div>`;
+      const kv = (k, v) => `<div class="mb-4 bg-white p-3 rounded-xl border border-slate-100 shadow-sm"><span class="text-xs font-bold text-slate-400 block uppercase tracking-wider mb-1">${k}</span><span class="font-black text-slate-700">${v||'-'}</span></div>`;
       
       document.getElementById('detailContent').innerHTML = `
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-50 p-6 rounded-2xl border border-slate-100">
           ${kv('ID อ้างอิง', r.id)} ${kv('วันที่สมัคร', formatDT(r.ts))} ${kv('BIB Number', r.bibNumber)}
-          ${kv('ชื่อ-นามสกุล', r.fullName)} ${kv('เลขบัตร', r.idCard)} ${kv('เบอร์โทร', r.phone)}
-          ${kv('เพศ', r.gender)} ${kv('อายุ / รุ่น', r.age + ' / ' + r.ageGroupCode)} ${kv('กรุ๊ปเลือด', r.blood)}
-          ${kv('ระยะวิ่ง', r.distance)} ${kv('ไซส์เสื้อ', r.shirt)} ${kv('ยอดเงิน', r.amount + ' บ.')}
-          ${kv('โรคประจำตัว', r.med)} ${kv('ผู้แนะนำ', r.referrer)} ${kv('เบอร์ฉุกเฉิน', r.emPhone)}
+          ${kv('ชื่อ-นามสกุล', r.fullName)} ${kv('เลขบัตร ปชช.', r.idCard)} ${kv('วันเกิด', r.dob)}
+          ${kv('เพศ/อายุ', r.gender + '/' + r.age)} ${kv('รุ่นอายุ', r.ageGroupCode)} ${kv('กรุ๊ปเลือด', r.blood)}
+          ${kv('เบอร์โทร', r.phone)} ${kv('อีเมล', r.email)} ${kv('ระยะวิ่ง', r.distance + 'K')} 
+          ${kv('ไซส์เสื้อ', r.shirt)} ${kv('ยอดเงิน', r.amount + ' บ.')} ${kv('ผู้แนะนำ', r.referrer)}
+          <div class="col-span-2 sm:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            ${kv('<i class="fa-solid fa-notes-medical text-red-500"></i> โรคประจำตัว', r.med)}
+            ${kv('<i class="fa-solid fa-phone text-blue-500"></i> ผู้ติดต่อฉุกเฉิน', r.emName)}
+            ${kv('เบอร์ฉุกเฉิน', r.emPhone)}
+          </div>
         </div>
       `;
       
       document.getElementById('detailActions').innerHTML = `
-        ${r.slip === "AUTO_APPROVED" ? '' : `<button onclick="showImg('${r.slip}')" class="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-300 transition-colors flex items-center gap-2"><i class="fa-solid fa-image"></i> ดูสลิป</button>`}
-        ${r.bibNumber ? `<button onclick="downloadImage('${r.id}','bib')" class="px-5 py-2.5 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid fa-print"></i> พิมพ์ BIB</button>` : ''}
+        <button onclick="showImg('${r.slip}')" class="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-300 transition-colors flex items-center gap-2"><i class="fa-solid fa-image"></i> ดูสลิป</button>
+        ${r.bibNumber ? `<button onclick="downloadImage('${r.id}','bib${r.distance}')" class="px-5 py-2.5 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid fa-print"></i> พิมพ์ BIB</button>` : ''}
         ${r.certGet ? `<button onclick="downloadImage('${r.id}','cert')" class="px-5 py-2.5 bg-amber-500 text-white rounded-xl font-bold hover:bg-amber-600 transition-colors shadow-sm flex items-center gap-2"><i class="fa-solid fa-award"></i> พิมพ์เกียรติบัตร</button>` : ''}
       `;
       const m = document.getElementById('detailModal'); const mc = document.getElementById('detailModalContent');
       m.classList.remove('hidden'); setTimeout(() => { m.classList.remove('opacity-0'); mc.classList.remove('scale-95'); }, 10);
     }
+    
     function closeDetailModal() {
       const m = document.getElementById('detailModal'); const mc = document.getElementById('detailModalContent');
       m.classList.add('opacity-0'); mc.classList.add('scale-95'); setTimeout(() => m.classList.add('hidden'), 300);
@@ -1881,51 +1841,30 @@
       a.download = `TP_RUN_DATA_${Date.now()}.csv`; a.click();
     }
 
-    /* === SCANNER LOGIC === */
-    function setupScanner() {
-       document.getElementById('scanInput').addEventListener('keypress', function (e) {
-          if (e.key === 'Enter') {
-             const qrCode = this.value.trim();
-             this.value = ''; // Clear input immediately
-             if(!qrCode) return;
-             
-             const mode = document.querySelector('input[name="scanMode"]:checked').value;
-             const rec = recordsCache.find(r => r.id === qrCode || r.bibNumber === qrCode || r.idCard === qrCode);
-             
-             if(!rec) { Swal.fire({ icon: 'error', title: 'ไม่พบข้อมูล', text: 'ไม่พบรหัส: ' + qrCode }); return; }
-             
-             if(mode === 'view') { showDetail(rec.id); }
-             else {
-                document.getElementById('staffSectionSelect').value = mode;
-                document.getElementById('staffSectionSelect').dispatchEvent(new Event('change'));
-                document.getElementById('srch' + mode.charAt(0).toUpperCase() + mode.slice(1)).value = rec.id;
-                setTimeout(() => adminSearch(mode, rec.id), 200);
-             }
-          }
-       });
-    }
-
     /* === SETTINGS & LIVE EDITOR === */
     function switchEditor(type) {
       currentEditor = type;
-      document.getElementById('tabBib').className = type === 'bib' ? "px-6 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors" : "px-6 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors";
-      document.getElementById('tabCert').className = type === 'cert' ? "px-6 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors" : "px-6 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors";
-      document.getElementById('ctrlBibOnly').style.display = type === 'bib' ? 'grid' : 'none';
-      document.querySelectorAll('.bib-only-opt').forEach(el => el.style.display = type === 'bib' ? 'flex' : 'none');
+      ['tabBib5', 'tabBib10', 'tabBibVIP', 'tabCert'].forEach(id => {
+        document.getElementById(id).className = "flex-1 min-w-[80px] px-3 py-2 rounded-lg font-bold text-sm text-slate-400 hover:text-white transition-colors";
+      });
+      document.getElementById('tab' + type.charAt(0).toUpperCase() + type.slice(1)).className = "flex-1 min-w-[80px] px-3 py-2 rounded-lg font-bold text-sm bg-brand-500 text-white transition-colors";
+      document.getElementById('ctrlBibOnly').style.display = type.startsWith('bib') ? 'grid' : 'none';
       loadEditorValues();
     }
 
     function loadEditorValues() {
       if (!config.designs || !config.designs[currentEditor]) return;
       const c = config.designs[currentEditor];
-      document.getElementById('cBNX').value = c.nx || 50; document.getElementById('cBNY').value = c.ny || 40;
-      document.getElementById('cBC').value = c.c || '#000000'; document.getElementById('cBS').value = c.s || 60;
+      document.getElementById('cBNX').value = c.nx || 50; document.getElementById('cBNY').value = c.ny || 25;
+      document.getElementById('cBC').value = c.c || '#000000'; document.getElementById('cBS').value = c.s || 40;
       document.getElementById('showName').checked = c.sName !== false;
-      if(currentEditor === 'bib') {
-        document.getElementById('cBBX').value = c.bx || 50; document.getElementById('cBBY').value = c.by || 70;
-        document.getElementById('showBibNum').checked = c.sBib !== false; document.getElementById('showGenderAge').checked = c.sGen !== false;
-        document.getElementById('cQRX').value = c.qrx || 85; document.getElementById('cQRY').value = c.qry || 80;
-        document.getElementById('cQRS').value = c.qrs || 100; document.getElementById('showQR').checked = c.showQR !== false;
+      if(currentEditor.startsWith('bib')) {
+        document.getElementById('cBBX').value = c.bx || 50; document.getElementById('cBBY').value = c.by || 50;
+        document.getElementById('cBGX').value = c.gx || 50; document.getElementById('cBGY').value = c.gy || 70;
+        document.getElementById('cQRX').value = c.qx || 85; document.getElementById('cQRY').value = c.qy || 85;
+        document.getElementById('showBibNum').checked = c.sBib !== false; 
+        document.getElementById('showGenderAge').checked = c.sGen !== false;
+        document.getElementById('showQR').checked = c.sQR !== false;
       }
       updateLivePreview();
     }
@@ -1933,14 +1872,14 @@
     async function updateLivePreview() {
       if (!config.designs || !config.designs[currentEditor]) return;
       const c = config.designs[currentEditor];
-      c.nx = Number(document.getElementById('cBNX').value) || 50; c.ny = Number(document.getElementById('cBNY').value) || 40;
-      c.c = document.getElementById('cBC').value; c.s = Number(document.getElementById('cBS').value) || 60;
+      c.nx = Number(document.getElementById('cBNX').value) || 50; c.ny = Number(document.getElementById('cBNY').value) || 25;
+      c.c = document.getElementById('cBC').value; c.s = Number(document.getElementById('cBS').value) || 40;
       c.sName = document.getElementById('showName').checked;
-      if(currentEditor === 'bib') {
-        c.bx = Number(document.getElementById('cBBX').value) || 50; c.by = Number(document.getElementById('cBBY').value) || 70;
-        c.sBib = document.getElementById('showBibNum').checked; c.sGen = document.getElementById('showGenderAge').checked;
-        c.qrx = Number(document.getElementById('cQRX').value) || 85; c.qry = Number(document.getElementById('cQRY').value) || 80;
-        c.qrs = Number(document.getElementById('cQRS').value) || 100; c.showQR = document.getElementById('showQR').checked;
+      if(currentEditor.startsWith('bib')) {
+        c.bx = Number(document.getElementById('cBBX').value) || 50; c.by = Number(document.getElementById('cBBY').value) || 50;
+        c.gx = Number(document.getElementById('cBGX').value) || 50; c.gy = Number(document.getElementById('cBGY').value) || 70;
+        c.qx = Number(document.getElementById('cQRX').value) || 85; c.qy = Number(document.getElementById('cQRY').value) || 85;
+        c.sBib = document.getElementById('showBibNum').checked; c.sGen = document.getElementById('showGenderAge').checked; c.sQR = document.getElementById('showQR').checked;
       }
       
       const cvs = document.getElementById('liveCanvas'); const ctx = cvs.getContext('2d');
@@ -1952,28 +1891,19 @@
       img.onload = () => {
         cvs.width = img.width; cvs.height = img.height;
         ctx.drawImage(img, 0, 0); ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        ctx.fillStyle = c.c; ctx.font = `bold ${c.s}px "Kanit", sans-serif`;
-        
-        if(c.sName) ctx.fillText("สมชาย ใจดีรันเนอร์", (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
-        if(currentEditor === 'bib') {
+        ctx.fillStyle = c.c; ctx.font = `bold ${c.s}px "Sarabun", sans-serif`;
+        if(c.sName) ctx.fillText("สมชาย ใจดี", (c.nx/100)*cvs.width, (c.ny/100)*cvs.height);
+        if(currentEditor.startsWith('bib')) {
           if(c.sBib) ctx.fillText("MX9999", (c.bx/100)*cvs.width, (c.by/100)*cvs.height);
           if(c.sGen) {
-             ctx.font = `bold ${Math.floor(c.s*0.6)}px "Kanit", sans-serif`;
-             ctx.fillText("ชาย | C", (c.bx/100)*cvs.width, ((c.by/100)*cvs.height) + c.s);
+             ctx.font = `bold ${Math.floor(c.s*0.8)}px "Sarabun", sans-serif`;
+             ctx.fillText("10K | ชาย | C", (c.gx/100)*cvs.width, (c.gy/100)*cvs.height);
           }
-          if(c.showQR) {
-             const qrDiv = document.createElement('div');
-             new QRCode(qrDiv, { text: "SAMPLE-QR-CODE", width: c.qrs, height: c.qrs, colorDark: "#000", colorLight: "#fff", correctLevel: QRCode.CorrectLevel.L });
-             setTimeout(() => {
-                const qrImg = qrDiv.querySelector('img');
-                if(qrImg && qrImg.src) {
-                   const qImg = new Image();
-                   qImg.onload = () => {
-                      ctx.drawImage(qImg, ((c.qrx/100)*cvs.width) - (c.qrs/2), ((c.qry/100)*cvs.height) - (c.qrs/2), c.qrs, c.qrs);
-                   };
-                   qImg.src = qrImg.src;
-                }
-             }, 100);
+          if(c.sQR) {
+             const qrSize = cvs.width * 0.15;
+             ctx.fillStyle = "white"; ctx.fillRect((c.qx/100)*cvs.width - qrSize/2, (c.qy/100)*cvs.height - qrSize/2, qrSize, qrSize);
+             ctx.fillStyle = "black"; ctx.font = `${Math.floor(qrSize/6)}px sans-serif`;
+             ctx.fillText("QR Code", (c.qx/100)*cvs.width, (c.qy/100)*cvs.height);
           }
         }
       };
@@ -1983,10 +1913,12 @@
     async function previewUpload(input, key) {
       if(!input.files[0]) return;
       const b64 = await compressImage(input.files[0], 1200);
-      if(key === 'bibBg') config.designs.bib.bg = b64;
+      if(key === 'bib5Bg') config.designs.bib5.bg = b64;
+      if(key === 'bib10Bg') config.designs.bib10.bg = b64;
+      if(key === 'bibVIPBg') config.designs.bibVIP.bg = b64;
       if(key === 'certBg') config.designs.cert.bg = b64;
       if(currentEditor === key.replace('Bg','')) updateLivePreview();
-      showToast('อัปโหลดพื้นหลังจำลองแล้ว (ยังไม่บันทึก)');
+      showToast('อัปโหลดและพรีวิวสำเร็จ');
     }
 
     function fillAdminSettings() {
@@ -1996,8 +1928,6 @@
       document.getElementById('cfgP5').value = config.price5 || '';
       document.getElementById('cfgP10').value = config.price10 || '';
       document.getElementById('cfgPVIP').value = config.priceVIP || '';
-      document.getElementById('cfgPopBadge').value = config.popBadge || 'none';
-      
       if(config.footer) {
         document.getElementById('cfgOrgName').value = config.footer.orgName || '';
         document.getElementById('cfgAddress').value = config.footer.address || '';
@@ -2005,7 +1935,7 @@
         document.getElementById('cfgEmail').value = config.footer.email || '';
         document.getElementById('cfgFacebook').value = config.footer.facebook || '';
       }
-      switchEditor('bib');
+      switchEditor('bib5');
     }
 
     async function saveAdminConfig() {
@@ -2019,7 +1949,6 @@
       config.price5 = Number(document.getElementById('cfgP5').value) || 400;
       config.price10 = Number(document.getElementById('cfgP10').value) || 500;
       config.priceVIP = Number(document.getElementById('cfgPVIP').value) || 1000;
-      config.popBadge = document.getElementById('cfgPopBadge').value;
       
       config.footer = {
         orgName: document.getElementById('cfgOrgName').value.trim(),
@@ -2041,10 +1970,33 @@
 
       if(window.db) {
         try {
-          await window.setDoc(window.doc(window.db, "tp_run_db", "global_settings"), config);
-          showToast('บันทึกการตั้งค่าแล้ว');
+          const cleanConfig = JSON.parse(JSON.stringify(config));
+          cleanConfig.logoUrl = ""; cleanConfig.homeBgUrl = ""; cleanConfig.map5Url = ""; cleanConfig.map10Url = "";
+          if(cleanConfig.designs) {
+            if(cleanConfig.designs.bib5) cleanConfig.designs.bib5.bg = "";
+            if(cleanConfig.designs.bib10) cleanConfig.designs.bib10.bg = "";
+            if(cleanConfig.designs.bibVIP) cleanConfig.designs.bibVIP.bg = "";
+            if(cleanConfig.designs.cert) cleanConfig.designs.cert.bg = "";
+          }
+          await window.setDoc(window.doc(window.db, "tp_run_db", "global_settings"), cleanConfig);
+
+          const assets = [
+            { key: 'bib5', data: config.designs?.bib5?.bg },
+            { key: 'bib10', data: config.designs?.bib10?.bg },
+            { key: 'bibVIP', data: config.designs?.bibVIP?.bg },
+            { key: 'cert', data: config.designs?.cert?.bg },
+            { key: 'logo', data: config.logoUrl },
+            { key: 'homeBg', data: config.homeBgUrl },
+            { key: 'map5', data: config.map5Url },
+            { key: 'map10', data: config.map10Url }
+          ];
+
+          const savePromises = assets.filter(a => a.data && a.data.startsWith('data:image')).map(a => window.setDoc(window.doc(window.db, "tp_run_db", "asset_" + a.key), { data: a.data }));
+          await Promise.all(savePromises);
+          
+          showToast('บันทึกการตั้งค่าสำเร็จ');
         } catch(e) {
-          if(e.message.includes("permissions")) showToast('ตั้งค่าล้มเหลว: ติดสิทธิ์ Firebase Rules', 'error');
+          if(e.message.includes("permissions")) showToast('ตั้งค่าล้มเหลว: ติดสิทธิ์ Firebase', 'error');
           else showToast('เกิดข้อผิดพลาดในการบันทึก', 'error');
         }
       }
@@ -2052,47 +2004,12 @@
       btn.innerHTML = origHtml; btn.disabled = false;
     }
 
-    function doAdminLogin() {
-      window.isStaff = true;
-      localStorage.setItem('tpRunStaffLoggedIn', 'true');
-      document.getElementById('navStaffBtn').classList.add('text-emerald-500');
-      document.getElementById('staffPass').value = '';
-      showView('staffDash'); 
-      document.getElementById('staffSectionSelect').value = 'overview'; 
-      renderAdminOverview();
-      showToast('เข้าสู่ระบบเจ้าหน้าที่แล้ว');
-    }
-
-    function adminLogout() {
-      window.isStaff = false;
-      localStorage.removeItem('tpRunStaffLoggedIn');
-      document.getElementById('navStaffBtn').classList.remove('text-emerald-500');
-      showView('home');
-      showToast('ออกจากระบบเจ้าหน้าที่แล้ว');
-    }
-
-    setInterval(() => { document.getElementById('dashTime').textContent = new Date().toLocaleString('th-TH'); }, 1000);
+    setInterval(() => { if(document.getElementById('dashTime')) document.getElementById('dashTime').textContent = new Date().toLocaleString('th-TH'); }, 1000);
 
     window.onload = () => {
+      checkLoginStatus();
       if(window.checkFirebaseConnection) window.checkFirebaseConnection();
       loadConfigFromFirebase();
-      setupScanner();
-      
-      // Check persistent login
-      if(localStorage.getItem('tpRunStaffLoggedIn') === 'true') {
-         window.isStaff = true;
-         document.getElementById('navStaffBtn').classList.add('text-emerald-500');
-      }
-
-      document.getElementById('staffLoginBtn').addEventListener('click', () => {
-        if(document.getElementById('staffPass').value === STAFF_PASSCODE) {
-           doAdminLogin();
-        } else { showToast('รหัสผ่านไม่ถูกต้อง', 'error'); }
-      });
-      
-      const style = document.createElement('style');
-      style.innerHTML = `@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }`;
-      document.head.appendChild(style);
     };
   </script>
 </body>
