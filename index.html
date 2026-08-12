@@ -50,7 +50,7 @@
   </script>
   
   <style>
-    html { font-size: 70%; }
+    html { font-size: 70%; } /* ย่อขนาดเว็บ 70% ตามที่ต้องการแบบไม่ทำให้ Scrollbar พัง */
     body { background-color: #f8fafc; color: #334155; overflow-x: hidden; }
     h1, h2, h3, h4, h5, h6, .font-black { font-family: 'Kanit', sans-serif; }
     
@@ -564,6 +564,22 @@
                 </div>
               </div>
             </div>
+
+            <!-- Consent Area -->
+            <div id="consentArea" class="bg-slate-50 p-6 rounded-2xl border border-slate-200 mt-8 mb-8">
+              <label class="flex items-start gap-4 cursor-pointer group">
+                <div class="relative flex items-center justify-center mt-1">
+                  <input type="checkbox" id="acceptTerms" class="peer appearance-none w-6 h-6 border-2 border-slate-300 rounded-lg checked:bg-brand-500 checked:border-brand-500 transition-all cursor-pointer">
+                  <i class="fa-solid fa-check absolute text-white opacity-0 peer-checked:opacity-100 text-sm pointer-events-none transition-opacity"></i>
+                </div>
+                <div class="text-slate-600 font-medium leading-relaxed">
+                  ข้าพเจ้าขอยืนยันว่าข้อมูลข้างต้นเป็นความจริงทุกประการ และข้าพเจ้าได้อ่านและยอมรับ 
+                  <span class="text-brand-600 font-bold hover:underline" onclick="showPolicy('terms'); event.preventDefault();">เงื่อนไขการเข้าร่วม</span>, 
+                  <span class="text-brand-600 font-bold hover:underline" onclick="showPolicy('pdpa'); event.preventDefault();">นโยบายความเป็นส่วนตัว (PDPA)</span> และ 
+                  <span class="text-brand-600 font-bold hover:underline" onclick="showPolicy('refund'); event.preventDefault();">นโยบายการคืนเงิน</span> แล้ว
+                </div>
+              </label>
+            </div>
           </div>
 
           <!-- Form Navigation -->
@@ -853,6 +869,10 @@
                     <input type="text" id="cfgGas" placeholder="https://script.google.com/macros/s/.../exec">
                   </div>
                   <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">LINE Worker URL (API แจ้งเตือนแอดมิน)</label>
+                    <input type="text" id="cfgWorkerUrl" placeholder="https://tprun-2026.your-worker.workers.dev/api/notify">
+                  </div>
+                  <div>
                     <label class="block text-sm font-bold text-slate-600 mb-2">ชื่องาน (Event Title)</label>
                     <input type="text" id="cfgTitle">
                   </div>
@@ -1013,11 +1033,24 @@
         <!-- Contact -->
         <div>
           <h4 class="text-white font-bold text-lg mb-4">ติดต่อสอบถาม</h4>
-          <ul class="space-y-2 text-sm">
+          <ul class="space-y-3 text-sm mb-6">
             <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-slate-500"></i> <span id="ftPhone">055-123-456</span></li>
             <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-slate-500"></i> <span id="ftEmail">contact@tpschool.ac.th</span></li>
             <li class="flex items-center gap-3"><i class="fa-brands fa-facebook text-slate-500"></i> <a href="#" class="hover:text-brand-400 transition-colors"><span id="ftFacebook">TP RUN Official</span></a></li>
           </ul>
+          
+          <!-- LINE Official Add Friend -->
+          <div class="bg-white/5 border border-slate-700 p-4 rounded-2xl inline-block backdrop-blur-sm hover:bg-white/10 transition-colors">
+            <div class="flex items-center gap-3 mb-3 text-white font-bold text-sm">
+              <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center text-white text-lg shadow-lg shadow-[#06C755]/30">
+                <i class="fa-brands fa-line"></i>
+              </div>
+              เพิ่มเพื่อนสอบถามข้อมูล
+            </div>
+            <div class="bg-white p-2 rounded-xl shadow-inner inline-block">
+              <img src="https://qr-official.line.me/gs/M_307pdkej_BW.png?oat_content=qr" alt="LINE QR Code" class="w-28 h-28 object-contain">
+            </div>
+          </div>
         </div>
         <!-- Legal Policies -->
         <div>
@@ -1132,7 +1165,7 @@
     const STAFF_PASSCODE = "tprun2026";
     let recordsCache = [];
     let config = {
-      gasUrl: "", eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
+      gasUrl: "", workerUrl: "https://tprun-2026.teppitakvitayarun.workers.dev/api/notify", eventName: "TP RUN 2026", slogan: "“60 ปีแห่งความภาคภูมิใจ…ก้าวไปด้วยกัน”",
       price5: 400, price10: 500, priceVIP: 1000,
       logoUrl: "", homeBgUrl: "", map5Url: "", map10Url: "",
       footer: { orgName: "โรงเรียนเทพพิทักษ์วิทยา", address: "123 หมู่ 4 ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000", phone: "055-123-456", email: "contact@tpschool.ac.th", facebook: "TP RUN Official" },
@@ -1162,15 +1195,17 @@
           <p class="mb-4">คณะผู้จัดงานมีความจำเป็นต้องเก็บรวบรวมข้อมูลส่วนบุคคลของท่าน (เช่น ชื่อ-นามสกุล, เบอร์โทรศัพท์, เลขบัตรประชาชน, ข้อมูลสุขภาพ และกรุ๊ปเลือด) เพื่อใช้ในการยืนยันตัวตน, จัดเตรียมอุปกรณ์การแข่งขัน, ติดต่อสื่อสารเรื่องการจัดงาน และเพื่อประโยชน์ในการปฐมพยาบาลในวันแข่งขัน</p>
           <h4 class="font-bold text-slate-800 text-lg mb-2">2. การรักษาความปลอดภัยของข้อมูล</h4>
           <p class="mb-4">ข้อมูลของท่านจะถูกจัดเก็บอย่างปลอดภัย และจำกัดสิทธิ์การเข้าถึงเฉพาะเจ้าหน้าที่ที่เกี่ยวข้องกับการจัดงานเท่านั้น จะไม่มีการนำข้อมูลไปเปิดเผยแก่บุคคลที่สามเพื่อการค้าเด็ดขาด</p>
+          <h4 class="font-bold text-slate-800 text-lg mb-2">3. การยินยอมให้ใช้ภาพถ่าย</h4>
+          <p class="mb-4">ผู้สมัครยินยอมให้ผู้จัดงานและช่างภาพ บันทึกภาพถ่าย/วิดีโอเพื่อใช้ในการประชาสัมพันธ์กิจกรรมทั้งในปัจจุบันและอนาคต</p>
         `
       },
       terms: {
         title: "เงื่อนไขการเข้าร่วมและการแพทย์", icon: "fa-file-contract text-brand-500",
         content: `
           <ul class="list-disc pl-5 space-y-3">
-            <li><strong>ความพร้อมด้านสุขภาพ:</strong> ผู้สมัครรับรองว่าตนเองมีสุขภาพร่างกายแข็งแรงสมบูรณ์เพียงพอ และได้แจ้งโรคประจำตัวที่เป็นความจริงทุกประการ</li>
-            <li><strong>การรับความเสี่ยง:</strong> ผู้สมัครยอมรับความเสี่ยงที่อาจเกิดขึ้นจากการแข่งขัน โดยผู้จัดงานมีหน่วยแพทย์ปฐมพยาบาลเบื้องต้น หากมีความจำเป็นต้องส่งต่อโรงพยาบาล ผู้เข้าร่วมจะรับผิดชอบค่าใช้จ่ายส่วนเกินเอง</li>
-            <li><strong>กฎกติกา:</strong> ต้องติดหมายเลขวิ่ง (BIB) ให้เห็นชัดเจน ห้ามพับหรือตัดแปลง และห้ามโอนสิทธิ์ให้ผู้อื่นวิ่งแทนเด็ดขาด</li>
+            <li><strong>ความพร้อมด้านสุขภาพ:</strong> ผู้สมัครรับรองว่าตนเองมีสุขภาพร่างกายแข็งแรงสมบูรณ์เพียงพอ และได้แจ้งโรคประจำตัวที่เป็นความจริงทุกประการ ผู้จัดงานไม่รับผิดชอบต่อการบาดเจ็บหรือเสียชีวิตที่เกิดจากการปกปิดข้อมูลสุขภาพ</li>
+            <li><strong>การรับความเสี่ยงและการแพทย์:</strong> ผู้สมัครยอมรับความเสี่ยงที่อาจเกิดขึ้นจากการแข่งขัน โดยผู้จัดงานมีหน่วยแพทย์ปฐมพยาบาลเบื้องต้น หากมีความจำเป็นต้องส่งต่อโรงพยาบาล ผู้เข้าร่วมจะต้องรับผิดชอบค่าใช้จ่ายส่วนเกินจากที่ประกันอุบัติเหตุของงานครอบคลุม (ถ้ามี) ด้วยตนเอง</li>
+            <li><strong>กฎกติกาการแข่งขัน:</strong> ต้องติดหมายเลขวิ่ง (BIB) ให้เห็นชัดเจนด้านหน้า ห้ามพับหรือตัดแปลง และ <u>ห้ามโอนสิทธิ์ให้ผู้อื่นวิ่งแทนเด็ดขาด</u> หากตรวจพบจะถูกตัดสิทธิ์ทันที</li>
           </ul>
         `
       },
@@ -1182,8 +1217,8 @@
           </div>
           <ul class="list-disc pl-5 space-y-3">
             <li>ไม่อนุญาตให้มีการโอนสิทธิ์ (เปลี่ยนชื่อ) หรือมอบหมายเลขวิ่งให้ผู้อื่น เพื่อป้องกันความสับสนทางข้อมูลการแพทย์</li>
-            <li>ไม่สามารถเปลี่ยนระยะวิ่งหรือไซส์เสื้อได้ หลังจากระบบออกหมายเลข BIB แล้ว</li>
-            <li>กรณีเหตุสุดวิสัย (ภัยพิบัติ, โรคระบาด) ผู้จัดขอสงวนสิทธิ์ไม่คืนเงิน แต่ผู้สมัครจะได้รับเสื้อและของที่ระลึกตามปกติ</li>
+            <li>ไม่สามารถเปลี่ยนระยะวิ่งหรือไซส์เสื้อได้ หลังจากผู้สมัครได้กดยืนยันการชำระเงินและระบบบันทึกข้อมูลเรียบร้อยแล้ว</li>
+            <li>กรณีเหตุสุดวิสัย (Force Majeure) เช่น ภัยพิบัติทางธรรมชาติ, โรคระบาดร้ายแรง ที่ทำให้ต้องเลื่อนหรือยกเลิกการจัดงาน ผู้จัดขอสงวนสิทธิ์ไม่คืนเงินค่าสมัคร แต่ผู้สมัครจะยังคงได้รับเสื้อและของที่ระลึกตามปกติ</li>
           </ul>
         `
       }
@@ -1387,24 +1422,6 @@
       }
     }
 
-    // 🟢 ฟังก์ชันสำหรับสะกิดบอก LINE Bot ให้ส่งสลิปเข้ากลุ่มแอดมิน
-    async function notifyAdminViaLineBot(rec) {
-      try {
-        // URL ของ Worker ของคุณ
-        const workerUrl = "https://tprun-line-bot.nawaratk65.workers.dev/api"; 
-        await fetch(workerUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "notify_admin_new_reg",
-            data: rec
-          })
-        });
-      } catch (error) {
-        console.error("Line Notify error:", error);
-      }
-    }
-
     async function saveRecord(rec) {
       if(!window.db) return;
       try {
@@ -1477,10 +1494,12 @@
         if(isStaff) {
           document.getElementById('adminRegBadge').classList.remove('hidden');
           document.getElementById('paymentDetailsArea').style.display = 'none';
+          document.getElementById('consentArea').style.display = 'none';
           document.getElementById('submitBtn').innerHTML = 'ออก BIB & บันทึก <i class="fa-solid fa-check-circle"></i>';
         } else {
           document.getElementById('adminRegBadge').classList.add('hidden');
           document.getElementById('paymentDetailsArea').style.display = 'block';
+          document.getElementById('consentArea').style.display = 'block';
           document.getElementById('submitBtn').innerHTML = 'ยืนยันสมัครวิ่ง <i class="fa-solid fa-paper-plane"></i>';
         }
       } else {
@@ -1520,6 +1539,10 @@
       e.preventDefault();
       if(!validateStep(3)) return; 
       if(!isStaff && !slipBase64) { Swal.fire({ icon: 'warning', title: 'ขาดสลิปโอนเงิน', confirmButtonColor: '#e11d48' }); return; }
+      if(!isStaff && !document.getElementById('acceptTerms').checked) { 
+        Swal.fire({ icon: 'warning', title: 'กรุณายอมรับเงื่อนไข', text: 'คุณต้องติ๊กยอมรับเงื่อนไขและนโยบายในช่องสี่เหลี่ยม ก่อนกดยืนยันการสมัครวิ่ง', confirmButtonColor: '#e11d48' }); 
+        return; 
+      }
 
       const btn = document.getElementById('submitBtn'); btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> รอสักครู่...';
       
@@ -1541,15 +1564,51 @@
         emName: document.getElementById('emName').value.trim(), emPhone: document.getElementById('emPhone').value.trim(),
         distance: dist, shirt: document.querySelector('input[name="shirtSize"]:checked').value, amount: p, slip: finalSlip,
         verified: isVerified, vTs: isVerified ? new Date().toISOString() : null, bibNumber: newBib, 
-        shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null
+        shirtGet: false, sTs: null, checkin: false, cTs: null, certGet: false, ceTs: null,
+        source: 'web'
       };
 
       await saveRecord(rec);
       btn.disabled = false;
+      
+      // 🟢 เริ่มส่วนแจ้งเตือน LINE Bot (Cloudflare Worker)
+      if (!isStaff) {
+        // ให้ฟังก์ชันทำงานเบื้องหลัง (Background Task) เพื่อไม่ให้บล็อกการสมัครหาก API มีปัญหา
+        (async () => {
+          try {
+            let workerUrl = config.workerUrl ? config.workerUrl.trim() : "https://tprun-line-bot.nawaratk65.workers.dev/api/notify"; 
+            if (!workerUrl.endsWith('/api/notify')) {
+              workerUrl = workerUrl.replace(/\/$/, '') + '/api/notify';
+            }
+            
+            const notifyData = { ...rec };
+            delete notifyData.slip; 
 
-      if(!isStaff) { 
-        notifyAdminViaLineBot(rec); // สะกิดบอทให้ส่งเข้ากลุ่มเฉพาะตอนที่คนทั่วไปสมัคร
+            const response = await fetch(workerUrl, {
+              method: "POST",
+              mode: "cors",
+              headers: { 
+                "Content-Type": "application/json",
+                "X-Web-Secret": "tprun2026" 
+              },
+              body: JSON.stringify({
+                action: "notify_admin_new_reg",
+                data: notifyData
+              })
+            });
+
+            if (response.ok) {
+              console.log("ส่งแจ้งเตือนเข้ากลุ่มแอดมินสำเร็จ!");
+            } else {
+              console.warn("ส่งแจ้งเตือนไม่สำเร็จ (สถานะไม่ใช่ 200):", await response.text());
+            }
+          } catch (error) {
+            // เปลียนจาก error เป็น warn เพื่อไม่ให้ขึ้นแจ้งเตือนสีแดงตอนทดสอบในระบบ Preview
+            console.warn("Line Notify แจ้งเตือนไม่ได้ (อาจติด CORS ในหน้า Preview หรือ Worker ปิดอยู่):", error.message);
+          }
+        })();
       }
+      // 🔴 จบส่วนแจ้งเตือน
       
       if(isStaff) {
         Swal.fire({ icon: 'success', title: 'ออก BIB สำเร็จ', html: `ผู้สมัคร: ${rec.fullName}<br>เลข BIB: <b>${rec.bibNumber}</b>`, confirmButtonColor: '#e11d48' });
@@ -1945,6 +2004,7 @@
 
     function fillAdminSettings() {
       document.getElementById('cfgGas').value = config.gasUrl || '';
+      document.getElementById('cfgWorkerUrl').value = config.workerUrl || '';
       document.getElementById('cfgTitle').value = config.eventName || '';
       document.getElementById('cfgSlogan').value = config.slogan || '';
       document.getElementById('cfgP5').value = config.price5 || '';
@@ -1966,6 +2026,7 @@
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...'; btn.disabled = true;
 
       config.gasUrl = document.getElementById('cfgGas').value.trim();
+      config.workerUrl = document.getElementById('cfgWorkerUrl').value.trim();
       config.eventName = document.getElementById('cfgTitle').value.trim();
       config.slogan = document.getElementById('cfgSlogan').value.trim();
       config.price5 = Number(document.getElementById('cfgP5').value) || 400;
