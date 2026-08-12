@@ -1391,7 +1391,7 @@
     async function notifyAdminViaLineBot(rec) {
       try {
         // URL ของ Worker ของคุณ
-        const workerUrl = "https://tprun-line-bot.nawaratk65.workers.dev/api/notify"; 
+        const workerUrl = "https://tprun-line-bot.nawaratk65.workers.dev/api"; 
         await fetch(workerUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
