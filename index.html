@@ -1387,6 +1387,24 @@
       }
     }
 
+    // 🟢 ฟังก์ชันสำหรับสะกิดบอก LINE Bot ให้ส่งสลิปเข้ากลุ่มแอดมิน
+    async function notifyAdminViaLineBot(rec) {
+      try {
+        // URL ของ Worker ของคุณ
+        const workerUrl = "https://tprun-line-bot.nawaratk65.workers.dev/api/notify"; 
+        await fetch(workerUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "notify_admin_new_reg",
+            data: rec
+          })
+        });
+      } catch (error) {
+        console.error("Line Notify error:", error);
+      }
+    }
+
     async function saveRecord(rec) {
       if(!window.db) return;
       try {
@@ -1528,6 +1546,10 @@
 
       await saveRecord(rec);
       btn.disabled = false;
+
+      if(!isStaff) { 
+        notifyAdminViaLineBot(rec); // สะกิดบอทให้ส่งเข้ากลุ่มเฉพาะตอนที่คนทั่วไปสมัคร
+      }
       
       if(isStaff) {
         Swal.fire({ icon: 'success', title: 'ออก BIB สำเร็จ', html: `ผู้สมัคร: ${rec.fullName}<br>เลข BIB: <b>${rec.bibNumber}</b>`, confirmButtonColor: '#e11d48' });
